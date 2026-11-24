@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Purpose, scope, architecture, crates, terms and fixed decisions.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Specification, part 1: Overview | Pupitre">
+<meta property="og:description" content="Purpose, scope, architecture, crates, terms and fixed decisions.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/spec-01.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Specification, part 1: Overview | Pupitre">
+<meta name="twitter:description" content="Purpose, scope, architecture, crates, terms and fixed decisions.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/spec-01.html">
+<title>Specification, part 1: Overview | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html" aria-current="true">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> Part 1 of the specification</p><h1>Specification, part 1: Overview</h1><p class="lede">Purpose, scope, architecture, crates, terms and fixed decisions.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#1-overview">1. Overview</a></li><li><a href="#11-what-pupitre-is">1.1 What Pupitre is</a></li><li><a href="#12-what-pupitre-does-not-do">1.2 What Pupitre does not do</a></li><li><a href="#13-the-two-choices">1.3 The two choices</a></li><li><a href="#14-architecture">1.4 Architecture</a></li><li><a href="#15-crates">1.5 Crates</a></li><li><a href="#16-terms">1.6 Terms</a></li><li><a href="#17-fixed-decisions">1.7 Fixed decisions</a></li><li><a href="#18-sizes-that-the-design-supports">1.8 Sizes that the design supports</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/01-overview.md"><code>docs/01-overview.md</code></a> in the repository.</p><p>Version 0.1, 2026-11-24. This document uses ASD-STE100 Simplified Technical English.</p>
+<p>The key words MUST, MUST NOT, SHOULD and MAY are as RFC 2119 and RFC 8174 define them. This applies when they are in capital letters.</p>
+<p>The specification has eight files in <code>docs/</code>:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">File</th><th scope="col">Part</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>01-overview.md</code></th><td data-label="Part">1 Overview</td><td data-label="Content">Purpose, scope, architecture, crates, terms, fixed decisions</td></tr><tr><th scope="row"><code>02-model-and-storage.md</code></th><td data-label="Part">2 Model and storage</td><td data-label="Content">Ids, documents, canonical form, schemas, layers, the <code>Store</code> contract, the backends <code>files</code> and <code>postgres</code>, secrets, the catalog</td></tr><tr><th scope="row"><code>03-access.md</code></th><td data-label="Part">3 Access</td><td data-label="Content">The modes <code>open</code> and <code>authzen</code>, the resource tree, the actions, the questions of each route, the action document, the options route</td></tr><tr><th scope="row"><code>04-runner-and-commands.md</code></th><td data-label="Part">4 Runner and commands</td><td data-label="Content">Runs, the queue, the snapshot, the child process, events, the guard, commands</td></tr><tr><th scope="row"><code>05-api.md</code></th><td data-label="Part">5 API and page</td><td data-label="Content">The listeners, the routes, the bodies, the errors, the pages</td></tr><tr><th scope="row"><code>06-configuration.md</code></th><td data-label="Part">6 Configuration</td><td data-label="Content">The file, the blocks, the checks, the contradictions, the command line, the logs and the metrics</td></tr><tr><th scope="row"><code>07-security-and-limits.md</code></th><td data-label="Part">7 Security and limits</td><td data-label="Content">Threats, controls, headers, the limits and what Pupitre does not protect</td></tr><tr><th scope="row"><code>08-delivery.md</code></th><td data-label="Part">8 Delivery</td><td data-label="Content">The build, the tests, the CI, the dependencies and the release</td></tr></tbody></table></div>
+<p>The file <code>configuration-reference.md</code> is part of section 6. The command <code>pupitre print-reference --format markdown</code> generates it from the table of keys in the code.</p>
+<p>Rules of this document:</p>
+<ul><li>A numbered paragraph <code>N.M</code> keeps its number in all later versions. A paragraph that leaves the document keeps its number with the word "Unused". A new paragraph between two others gets a letter, for example 2.13a.</li><li>A cross-reference gives a paragraph number, for example "2.13" or "P 4.3". "P" means the ProcurAuth protocol, version 1.1.</li><li>A code span holds an exact name: a key, a member, a route, a type, a status or a command.</li><li>Each item is a rule. When the code and this document disagree, the document wins, and the code changes.</li></ul>
+<h2 id="1-overview"><a class="self" href="#1-overview">1. Overview</a></h2>
+<h3 id="11-what-pupitre-is">1.1 What Pupitre is</h3>
+<p>Pupitre is a web console in Rust. It is one static binary, <code>pupitre</code>. The binary serves a web page and an HTTP API, and it holds the command line tools.</p>
+<p>Pupitre does three things:</p>
+<ol><li>It keeps the configuration values of services in layers: the schema default, the environment, the unit and the host (2.13). The page shows the value that applies and the layer that gives it.</li><li>It starts Ansible runs on a snapshot of these values: a check run first, then an apply run (section 4). An apply needs a check run with the status <code>passed</code> and the same snapshot hash (4.24).</li><li>It starts named commands that a person launches by hand (4.32). A command has typed parameters.</li></ol>
+<p>Pupitre has no scheduler. No run starts by itself. Each run starts from one HTTP request of a subject.</p>
+<h3 id="12-what-pupitre-does-not-do">1.2 What Pupitre does not do</h3>
+<ul><li>Pupitre never writes Ansible code. The playbooks and the roles stay in a Git repository outside Pupitre, with their own review.</li><li>Pupitre never runs a playbook that the configuration file does not list (4.2). No document of the store names a program, a path or a command.</li><li>Pupitre has no cron, no schedule, no periodic run and no automatic run after another run.</li><li>Pupitre decides no rollback. The roles do it.</li><li>Pupitre has no login of its own. A reverse proxy guards the page in the mode <code>open</code>. ProcurAuth decides in the mode <code>authzen</code> (section 3).</li><li>Pupitre makes no request to the internet. It connects only to the hosts of the configuration: the PDP, the PostgreSQL server, the OTLP collector, and the managed hosts through <code>ansible-playbook</code>.</li><li>Pupitre has no MCP binding in this version. A key of an agent uses the HTTP API like a person (3.19).</li></ul>
+<h3 id="13-the-two-choices">1.3 The two choices</h3>
+<p>The configuration file sets two independent choices: the store and the access mode. Each of the four pairs is valid.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col"></th><th scope="col"><code>storage.backend = "files"</code></th><th scope="col"><code>storage.backend = "postgres"</code></th></tr></thead><tbody><tr><th scope="row"><code>access.mode = "open"</code></th><td data-label="storage.backend = &quot;files&quot;">One instance. A reverse proxy guards the page.</td><td data-label="storage.backend = &quot;postgres&quot;">Two or more instances behind a proxy. Valid, but a folder is simpler.</td></tr><tr><th scope="row"><code>access.mode = "authzen"</code></th><td data-label="storage.backend = &quot;files&quot;">One instance. The folder can be a Git checkout. ProcurAuth decides.</td><td data-label="storage.backend = &quot;postgres&quot;">Two or more instances. One instance is the runner node. ProcurAuth decides.</td></tr></tbody></table></div>
+<ul><li>The backend <code>files</code> keeps the documents in a folder. One process holds a lock on the folder (2.32).</li><li>The backend <code>postgres</code> keeps the documents in PostgreSQL. Two or more instances share the database. Exactly one instance executes the runs: the runner node (4.1, 4.8).</li></ul>
+<h3 id="14-architecture">1.4 Architecture</h3>
+<div class="code-wrap"><span class="label">text</span><pre data-copy tabindex="0" aria-label="Code example: text"><code>            Browser (plain HTML, CSS and JavaScript of the binary)
+               |
+            Edge or proxy  -------- PDP (mode authzen only)
+               |                     ^
+   +-----------v---------------------|-------------------------------------+
+   | pupitre                         |                                     |
+   |  HTTP server --&gt; Access guard --+--&gt; Catalog --&gt; Store trait          |
+   |  (main and ops listeners)            (memory)     |          |        |
+   |                                                   files    postgres   |
+   |  Runner (runner node only) --&gt; Snapshot builder --&gt; ansible-playbook  |
+   +-----------------------------------------------------------|-----------+
+                                                               | SSH
+                                                             Hosts</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th scope="col">Part</th><th scope="col">Role</th></tr></thead><tbody><tr><th scope="row">HTTP server</th><td data-label="Role">The main listener serves the page, the API and the two ProcurAuth routes (section 5). The ops listener serves <code>/livez</code>, <code>/readyz</code> and <code>/metrics</code> (5.20).</td></tr><tr><th scope="row">Access guard</th><td data-label="Role">In the mode <code>authzen</code>, it checks the identity token, asks the PDP and applies the ceilings (section 3). In the mode <code>open</code>, it asks nothing.</td></tr><tr><th scope="row">Catalog</th><td data-label="Role">It keeps the current documents in memory, with their etags and versions. It builds the chain of each node from its own data (P 4.5). It polls the store (2.41).</td></tr><tr><th scope="row">Store</th><td data-label="Role">One trait with two backends, <code>files</code> and <code>postgres</code>. Both pass the same contract suite (2.43).</td></tr><tr><th scope="row">Runner</th><td data-label="Role">Only on the runner node. It takes the queued runs, builds the snapshots, starts <code>ansible-playbook</code> and reads its events (section 4).</td></tr><tr><th scope="row">Page</th><td data-label="Role">Plain HTML, CSS and JavaScript in the binary. No framework, no build step, no CDN (5.21).</td></tr></tbody></table></div>
+<h3 id="15-crates">1.5 Crates</h3>
+<p>The Cargo workspace has five crates:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Crate</th><th scope="col">Kind</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>pupitre-core</code></th><td data-label="Kind">library, no I/O</td><td data-label="Content">Ids, strict JSON and canonical form, etag, documents, unit schemas, value kinds, layer resolution, nodes and actions, command parameters, run records, the snapshot manifest and its hash</td></tr><tr><th scope="row"><code>pupitre-store</code></th><td data-label="Kind">library</td><td data-label="Content">The <code>Store</code> trait, the enum <code>AnyStore</code>, the backends <code>files</code> and <code>postgres</code>, the secret cipher and the fingerprint, the catalog, the transfer of <code>export</code> and <code>copy-store</code>, the contract suite</td></tr><tr><th scope="row"><code>pupitre-runner</code></th><td data-label="Kind">library</td><td data-label="Content">The executor loop, the snapshot builder, the process control, the event reader, the scrubber and the callback plugin</td></tr><tr><th scope="row"><code>pupitre</code></th><td data-label="Kind">binary</td><td data-label="Content">The command line, the configuration, the access guard, the HTTP server, the log, the metrics and the telemetry</td></tr><tr><th scope="row"><code>hclconf</code></th><td data-label="Kind">library</td><td data-label="Content">The strict HCL engine and the table of keys (6.1)</td></tr></tbody></table></div>
+<p>The dependency order is <code>hclconf</code>, <code>pupitre-core</code>, <code>pupitre-store</code>, <code>pupitre-runner</code>, then <code>pupitre</code>. No crate depends on a crate after it in this order. <code>pupitre-core</code> uses the value kinds of <code>hclconf</code> (2.12). Dispatch uses enums, not <code>dyn</code> trait objects.</p>
+<h3 id="16-terms">1.6 Terms</h3>
+<div class="tablewrap"><table><thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead><tbody><tr><th scope="row">Environment</th><td data-label="Meaning">A set of hosts and units, for example <code>production</code>. The top node of the resource tree under the service (3.7).</td></tr><tr><th scope="row">Host</th><td data-label="Meaning">A machine of one environment, with an address. The inventory name of Ansible is its id.</td></tr><tr><th scope="row">Unit</th><td data-label="Meaning">One deployed service of one environment, on a list of hosts. A unit names a schema and its playbooks.</td></tr><tr><th scope="row">Schema</th><td data-label="Meaning">A closed list of keys of a unit, with types. A file that the configuration names (2.11).</td></tr><tr><th scope="row">Layer</th><td data-label="Meaning">One source of values for a key: <code>default</code>, <code>environment</code>, <code>unit</code> or <code>host</code> (2.13).</td></tr><tr><th scope="row">Effective value</th><td data-label="Meaning">The value that applies to a key on a host after the layers (2.13).</td></tr><tr><th scope="row">Secret</th><td data-label="Meaning">A value of a secret key of a schema. Pupitre writes it and never returns it (2.24).</td></tr><tr><th scope="row">Catalog of capabilities</th><td data-label="Meaning">The schemas, the playbooks and the commands of the configuration file (4.2). It is not in the store.</td></tr><tr><th scope="row">Run</th><td data-label="Meaning">One start of <code>ansible-playbook</code> on one snapshot, for one node and a list of hosts (section 4).</td></tr><tr><th scope="row">Snapshot</th><td data-label="Meaning">An immutable folder that the runner builds for a run, with its hash (4.9 to 4.16).</td></tr><tr><th scope="row">Runner node</th><td data-label="Meaning">The one instance with <code>runner.execute = true</code> (4.1).</td></tr><tr><th scope="row">Subject</th><td data-label="Meaning">The <code>sub</code> of the identity token in the mode <code>authzen</code>, or <code>-</code> in the mode <code>open</code>.</td></tr></tbody></table></div>
+<h3 id="17-fixed-decisions">1.7 Fixed decisions</h3>
+<p>These decisions are part of the product. A change needs a new version of this document.</p>
+<ol><li>The repository is <code>ProcurAuth/pupitre</code>, public, under <code>MIT OR Apache-2.0</code>.</li><li>Both stores, <code>files</code> and <code>postgres</code>, are in the first version, with the encrypted secrets of <code>postgres</code>.</li><li>Pupitre has no schedule. A person launches each run and each command.</li><li>The commands are in the configuration file, never in the store (4.32). A person who can launch a command cannot add one.</li><li>The runner never runs a playbook that is not in the catalog of capabilities (4.2).</li><li>The schemas of the units are files that the configuration names (2.11). A person who edits values cannot add a key.</li><li>The access mode is <code>open</code> or <code>authzen</code>, and the block <code>access</code> has no default (3.2).</li><li>The build and the tests run in Docker. The release is static musl archives with <code>SHA256SUMS</code>. No container image is published (section 8).</li></ol>
+<h3 id="18-sizes-that-the-design-supports">1.8 Sizes that the design supports</h3>
+<p>The design MUST support 64 environments, 1,000 units and 1,000 hosts in one environment, and 100 hosts in one unit. The limits of 2.42 bound each list. The test fixtures of 8.12 use these sizes.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Image for the static Linux binary: the development image plus the C compiler for musl (ring has C code).
+# scripts/static.sh replaces the FROM line with the development image of the checkout. Never push this image.
+FROM pupitre-dev:1
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends musl-tools \
+ && rm -rf /var/lib/apt/lists/*

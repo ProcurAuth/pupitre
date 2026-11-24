@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# The deploy playbook of the unit relay. Pupitre runs it with --check --diff first, then without these flags.
+# The values of the unit are in the variable relay_config (4.12).
+- name: Deploy the relay configuration
+  hosts: relay_hosts
+  gather_facts: false
+  tasks:
+    - name: Create the folder of the configuration
+      ansible.builtin.file:
+        path: /tmp/pupitre-example
+        state: directory
+        mode: "0755"
+
+    - name: Write the configuration file
+      ansible.builtin.copy:
+        dest: /tmp/pupitre-example/relay.conf
+        mode: "0644"
+        content: |
+          max_clients = {{ relay_config.limits.max_clients }}
+          log_level = {{ relay_config.log.level }}
+          connect_timeout = {{ relay_config.timeouts.connect }}

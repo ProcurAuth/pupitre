@@ -1,0 +1,23 @@
+{
+  "ansible_host": "host-a.example.invalid",
+  "ansible_port": 22,
+  "ansible_ssh_common_args": "-o HostKeyAlias=production.host-a",
+  "pupitre_environment": "production",
+  "pupitre_secret_files": {
+    "relay": {
+      "storage.password": "{{ pupitre_secrets_dir }}/environments/production/units/relay/storage.password"
+    }
+  },
+  "pupitre_units": [
+    "relay"
+  ],
+  "relay_config": !unsafe {
+    "banner": "Say \"hi\" \\ caf\xe9 \U0001f600 {x} }}",
+    "limits": !unsafe {
+      "max_clients": 500
+    },
+    "log": !unsafe {
+      "level": "debug"
+    }
+  }
+}

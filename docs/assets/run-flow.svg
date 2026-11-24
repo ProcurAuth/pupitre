@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" width="1100" height="560" role="img" aria-label="The run flow: a request, the queue, the lease of the environment, the snapshot, the render phase and the check run, then the guard and the apply run">
+  <title>From a request to an apply</title>
+  <desc>A person starts a check run. The run waits in the queue. The runner node takes the lease of the environment and builds the snapshot with its hash. The render phase runs on the runner node. The main phase runs the playbook with check and diff. When the check run passed, the person starts an apply run. The guard checks the same hash, the age of the check and that no earlier apply used it. The apply runs the playbook on the hosts.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a5b4fc"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#34d399"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="560" rx="20" fill="#12142a"/>
+  <g font-family="Inter, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+    <text x="40" y="52" font-size="24" font-weight="700" fill="#ffffff" text-anchor="start">A check first, then an apply</text>
+    <text x="40" y="82" font-size="15" font-weight="400" fill="#9ca3d4" text-anchor="start">An apply needs a check run of the same snapshot hash. One check gives one apply at most.</text>
+    <text x="40" y="130" font-size="16" font-weight="700" fill="#a5b4fc" text-anchor="start">Check run</text>
+    <rect x="40" y="145" width="142" height="96" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="111.0" y="173" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Request</text>
+    <text x="111.0" y="195" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">one HTTP request</text>
+    <text x="111.0" y="212" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">status queued</text>
+    <rect x="226" y="145" width="142" height="96" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="297.0" y="173" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Queue</text>
+    <text x="297.0" y="195" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">waits for the</text>
+    <text x="297.0" y="212" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">runner node</text>
+    <rect x="412" y="145" width="142" height="96" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="483.0" y="173" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Lease</text>
+    <text x="483.0" y="195" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">one run at a time</text>
+    <text x="483.0" y="212" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">in the environment</text>
+    <rect x="598" y="145" width="142" height="96" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="669.0" y="173" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Snapshot</text>
+    <text x="669.0" y="195" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">inventory, variables</text>
+    <text x="669.0" y="212" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">manifest hash H</text>
+    <rect x="784" y="145" width="142" height="96" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="855.0" y="173" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Render and check</text>
+    <text x="855.0" y="195" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">render playbook, then</text>
+    <text x="855.0" y="212" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">--check --diff</text>
+    <path d="M182 193H224" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <path d="M368 193H410" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <path d="M554 193H596" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <path d="M740 193H782" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="972" y="145" width="88" height="96" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="1016.0" y="173" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Result</text>
+    <text x="1016.0" y="195" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">status</text>
+    <text x="1016.0" y="212" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">passed</text>
+    <path d="M926 193H970" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <text x="40" y="300" font-size="16" font-weight="700" fill="#34d399" text-anchor="start">Apply run</text>
+    <rect x="40" y="315" width="190" height="110" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="135.0" y="343" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Request</text>
+    <text x="135.0" y="365" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">names the check run</text>
+    <text x="135.0" y="382" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">no node, no hosts, no</text>
+    <text x="135.0" y="399" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">parameters in the request</text>
+    <rect x="270" y="315" width="430" height="110" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="485" y="343" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Guard</text>
+    <text x="288" y="368" font-size="12.5" font-weight="400" fill="#c7d2fe" text-anchor="start">1. the check run passed and is the same kind</text>
+    <text x="288" y="387" font-size="12.5" font-weight="400" fill="#c7d2fe" text-anchor="start">2. its snapshot hash is H, and it is not too old</text>
+    <text x="288" y="406" font-size="12.5" font-weight="400" fill="#c7d2fe" text-anchor="start">3. no earlier apply used it</text>
+    <rect x="740" y="315" width="150" height="110" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="815.0" y="343" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Start</text>
+    <text x="815.0" y="365" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">builds the snapshot again</text>
+    <text x="815.0" y="382" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">compares the hash</text>
+    <rect x="910" y="315" width="150" height="110" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="985.0" y="343" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Apply</text>
+    <text x="985.0" y="365" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">ansible-playbook</text>
+    <text x="985.0" y="382" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">on the hosts</text>
+    <path d="M230 370H268" stroke="#34d399" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+    <path d="M700 370H738" stroke="#34d399" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+    <path d="M890 370H908" stroke="#34d399" stroke-width="2" fill="none" marker-end="url(#ag)"/>
+    <path d="M1016 241V300H135V313" stroke="#34d399" stroke-width="2" fill="none" stroke-dasharray="5 4" marker-end="url(#ag)"/>
+    <text x="40" y="470" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">The guard runs at the request and again at the start of the apply. The time in the queue counts.</text>
+    <text x="40" y="492" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">A change of a value or a playbook after the check gives the reason snapshot_changed. An old check gives check_too_old.</text>
+    <text x="40" y="514" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">A cancel stops the child with SIGTERM, then SIGKILL. Pupitre decides no rollback.</text>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+---
+# Playbook of the command `slow-task` (4.32). It holds a run open for the cancel and adoption tests.
+- name: Hold the run open
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Sleep on the host
+      ansible.builtin.command:
+        argv: [sleep, "{{ pupitre_params.seconds | string }}"]
+      changed_when: false

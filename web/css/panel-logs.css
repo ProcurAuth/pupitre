@@ -1,0 +1,61 @@
+/* Copied from Hune, web/css/panel-logs.css, commit a55fff3. Edits: none. Pupitre uses the class .logs for the output of a run. */
+/* The logs panel (9.19h): the list of lines, the level colours, the details row and the glyph of the type list.
+   The sizes are the sizes that Grafana 12.4.2 draws in its new logs panel: a monospace text of 14 px on lines of 22 px, 6 px under each line,
+   12 px between the time, the level and the body. The level colours are the colours of Grafana; the other colours are tokens. */
+.logs {
+  --logs-time: color-mix(in srgb, var(--text) 61%, transparent);
+  --logs-error: #ff5286;
+  height: 100%; overflow: auto; overscroll-behavior: contain;
+  font-family: var(--font-mono); font-size: var(--fs-md); line-height: 22px; color: var(--text); letter-spacing: 0;
+}
+html[data-theme="light"] .logs { --logs-time: color-mix(in srgb, var(--text) 65%, transparent); --logs-error: #cf0e5b; }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .logs { --logs-time: color-mix(in srgb, var(--text) 65%, transparent); --logs-error: #cf0e5b; }
+}
+.logs:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: -2px; }
+
+/* One line: the columns side by side with no wrap, so a long body scrolls the list to the side. The line is as wide as its text, and as
+   wide as the list at least, so that its hover fill goes to the end of the text. A line off the screen skips its layout. */
+.logs__line {
+  display: flex; column-gap: 12px; box-sizing: border-box; width: max-content; min-width: 100%; padding: 0 0 6px;
+  white-space: pre; content-visibility: auto; contain-intrinsic-block-size: auto 28px;
+}
+.logs__line[role="button"] { cursor: pointer; }
+.logs__line:hover, .logs__line[aria-expanded="true"] { background: var(--row-hover); }
+.logs__line:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: -2px; }
+.logs__time { flex: none; width: 23ch; color: var(--logs-time); }
+.logs__level { flex: none; width: var(--logs-level, 5ch); overflow: hidden; font-weight: var(--fw-medium, 500); color: var(--muted); }
+/* A bidirectional control in a log text changes the order inside its own element only (T104). */
+.logs__time, .logs__level, .logs__body, .logs__details dd { unicode-bidi: isolate; }
+.logs__level--critical { color: #b877d9; }
+.logs__level--error { color: var(--logs-error); }
+.logs__level--warning { color: #fbad37; }
+.logs__level--info { color: #6ccf8e; }
+.logs__level--debug { color: #6e9fff; }
+
+/* The option wrap: the line is a block of text, the time and the level stay on its first line, and the text breaks at any character. */
+.logs--wrap .logs__line { display: block; width: auto; white-space: pre-wrap; word-break: break-all; }
+.logs--wrap .logs__time, .logs--wrap .logs__level { display: inline-block; padding-right: 12px; vertical-align: top; }
+
+/* The details row (Grafana: 8 px 16 px 12 px around a raised box with an edge). The text is the text of the page, not monospace. */
+.logs__details {
+  box-sizing: border-box; width: 100%; margin: 0; padding: 8px 16px 12px; white-space: normal;
+  font-family: var(--font-sans); font-size: var(--fs-md); line-height: 24px;
+}
+.logs__dhead { display: block; padding: 4px 8px; border: 1px solid var(--border); border-bottom: 0; border-radius: var(--r-md) var(--r-md) 0 0; background: var(--raised); font-weight: var(--fw-medium, 500); }
+.logs__details dl, .logs__dnone {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 16px; margin: 0; padding: 4px 8px 8px;
+  border: 1px solid var(--border); border-top: 0; border-radius: 0 0 var(--r-md) var(--r-md); background: var(--raised);
+}
+.logs__dnone { display: block; color: var(--muted); }
+.logs__details dt { color: var(--muted); }
+.logs__details dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.logs__note { margin: 0 0 4px; font-family: var(--font-sans); font-size: var(--fs-sm); line-height: 18px; color: var(--muted); white-space: normal; }
+
+/* The editor: the glyph of the logs type is four lines of text of different lengths. */
+.tglyph--logs { flex-direction: column; justify-content: center; gap: 3px; padding: 0 var(--space-6); }
+.tglyph--logs i { display: block; height: 3px; border-radius: 1px; background: currentColor; opacity: 0.75; }
+.tglyph--logs i:nth-child(1) { width: 90%; }
+.tglyph--logs i:nth-child(2) { width: 60%; }
+.tglyph--logs i:nth-child(3) { width: 75%; }
+.tglyph--logs i:nth-child(4) { width: 45%; }

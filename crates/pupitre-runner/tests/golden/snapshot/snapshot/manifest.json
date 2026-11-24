@@ -1,0 +1,39 @@
+{
+  "callback_plugin": "64cc2e7cc7aacdd33e07fb5fe3d9488d9b3eb015b821391f6034e224909cbbf2",
+  "environment": "production",
+  "files": {
+    "inventory/host_vars/host-a.yml": "ba3978419cbbc767fa8c12d926c8d3062500caaac10f6608798d1dc72a69e2f5",
+    "inventory/host_vars/host-b.yml": "d9ce2996b4a22b378ed1fddddb447af9e5878995bac9dbae5ebb3facb062a8d2",
+    "inventory/host_vars/host-c.yml": "badb5b519ac5897924f09d86ebf07eab81424609c30e5a79ee75701c9224e57c",
+    "inventory/hosts.yml": "2c09dd69fca53d90704a8e4761fc31ab4f2498e7a996ee2ae9c48e797de7e557",
+    "vars/run.json": "e8b9d90e76f194afa89e67bf0b735a3f5a515578b995d535916b58bc923cc42b"
+  },
+  "format": 1,
+  "kind": "deploy",
+  "playbooks": {
+    "deploy": {
+      "id": "deploy-relay",
+      "path": "/tmp/pupitre-golden-fixture/playbooks/deploy-relay.yml",
+      "sha256": "97a9dd7f9eb544d2e3130a5a30fb3fd6093e0892f6df55983c796cd7e57d92e2"
+    },
+    "render": {
+      "id": "render-relay",
+      "path": "/tmp/pupitre-golden-fixture/playbooks/render-relay.yml",
+      "sha256": "f8b23bf15a09e2c9d25aea3d6d44aeff983ca53ae715924b718db545f0a62482"
+    }
+  },
+  "secrets": {
+    "environment:production": {
+      "api.token": "2222222222222222"
+    },
+    "environment:production/unit:relay": {
+      "storage.password": "1111111111111111"
+    }
+  },
+  "settings": {
+    "forks": 5,
+    "known_hosts_sha256": "d2888ee6499deb752d482e23d7be239a0be75f74898d06257789a5d4ba85129d",
+    "ssh_key_file": "/tmp/pupitre-golden-fixture/ssh/id_ed25519",
+    "ssh_user": "deploy"
+  }
+}

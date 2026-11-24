@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The scripts, the checks, the dependencies and the steps of a release.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Development | Pupitre">
+<meta property="og:description" content="The scripts, the checks, the dependencies and the steps of a release.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/development.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Development | Pupitre">
+<meta name="twitter:description" content="The scripts, the checks, the dependencies and the steps of a release.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/development.html">
+<title>Development | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html" aria-current="true">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> Build, test and release</p><h1>Development</h1><p class="lede">The scripts, the checks, the dependencies and the steps of a release.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#the-repository">The repository</a></li><li><a href="#build-and-test">Build and test</a></li><li><a href="#the-checks">The checks</a></li><li><a href="#the-documents-and-the-site">The documents and the site</a></li><li><a href="#the-configuration-reference">The configuration reference</a></li><li><a href="#dependencies">Dependencies</a></li><li><a href="#the-ci">The CI</a></li><li><a href="#release">Release</a></li><li><a href="#versions">Versions</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/DEVELOPMENT.md"><code>docs/DEVELOPMENT.md</code></a> in the repository.</p><p>This page tells how to build, test and release Pupitre. Part 8 of the <a href="spec-08.html">specification</a> is the authority. Each build and each test runs in Docker. Nothing is installed on the host, except Docker, <code>git</code> and <code>python3</code> for the scripts of the documents.</p>
+<h2 id="the-repository"><a class="self" href="#the-repository">The repository</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Folder</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>crates/hclconf</code></th><td data-label="Content">The strict HCL engine, a copy of the engine of Hune</td></tr><tr><th scope="row"><code>crates/pupitre-core</code></th><td data-label="Content">Ids, the canonical form, the documents, the schemas, the layers and the snapshot manifest. It does no I/O.</td></tr><tr><th scope="row"><code>crates/pupitre-store</code></th><td data-label="Content">The <code>Store</code> trait, the backends <code>files</code> and <code>postgres</code>, the cipher and the catalog</td></tr><tr><th scope="row"><code>crates/pupitre-runner</code></th><td data-label="Content">The snapshot builder, the process control, the event reader and the scrubber</td></tr><tr><th scope="row"><code>crates/pupitre</code></th><td data-label="Content">The command line, the configuration, the access guard, the HTTP server and the page</td></tr><tr><th scope="row"><code>docs</code></th><td data-label="Content">The specification, the guides and the site</td></tr><tr><th scope="row"><code>examples</code></th><td data-label="Content">An example deployment with synthetic schemas and playbooks</td></tr><tr><th scope="row"><code>scripts</code></th><td data-label="Content">The build, the checks, the static build, the site builder and the documents check</td></tr><tr><th scope="row"><code>tools</code></th><td data-label="Content">The ASD-STE100 lint, the third-party notices, the changelog reader and the local release</td></tr><tr><th scope="row"><code>tests</code></th><td data-label="Content">The fixtures and the tests of the documents</td></tr></tbody></table></div>
+<h2 id="build-and-test"><a class="self" href="#build-and-test">Build and test</a></h2>
+<p>The script <code>scripts/cargo.sh</code> runs <code>cargo</code> in the development image. The image comes from <code>scripts/Dockerfile.dev</code>, and its base image is pinned by digest. The cargo registry and the target folder are named Docker volumes. A worktree has its own target volume.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>scripts/cargo.sh fmt --all -- --check
+scripts/cargo.sh clippy --workspace --all-targets --locked -- -D warnings
+scripts/cargo.sh test -p pupitre-core --locked
+scripts/cargo.sh test --workspace --locked
+scripts/cargo.sh test --workspace --all-features --locked
+scripts/static.sh</code></pre></div>
+<p><code>scripts/static.sh</code> builds the static musl binary for the architecture of the host. It checks that the file is static, that <code>ldd</code> finds no library, and that <code>pupitre --version</code> runs. It never crosses an architecture.</p>
+<h2 id="the-checks"><a class="self" href="#the-checks">The checks</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Script</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>scripts/check.sh</code></th><td data-label="Content">Format, lint, tests and the checks of the documents</td></tr><tr><th scope="row"><code>scripts/check.sh --rust</code></th><td data-label="Content">Format, lint and tests only</td></tr><tr><th scope="row"><code>scripts/check.sh --docs</code></th><td data-label="Content">The checks of the documents only</td></tr><tr><th scope="row"><code>python3 -I scripts/check-docs.py</code></th><td data-label="Content">The links, the site, ASD-STE100, the hygiene and the versions</td></tr><tr><th scope="row"><code>tools/check-examples.sh</code></th><td data-label="Content"><code>pupitre check-config</code> on each complete configuration of the documents and of <code>examples</code></td></tr><tr><th scope="row"><code>python3 -I tools/ste_lint.py &lt;file&gt;</code></th><td data-label="Content">The ASD-STE100 rules on a Markdown file</td></tr><tr><th scope="row"><code>tools/third-party.sh --check</code></th><td data-label="Content">The file <code>THIRD-PARTY-NOTICES.md</code> agrees with the crate graph</td></tr><tr><th scope="row"><code>tests/ci/store-pg.sh</code></th><td data-label="Content">The tests of the backend <code>postgres</code> on PostgreSQL 15 and 18, in a throwaway container</td></tr><tr><th scope="row"><code>tests/ci/acceptance.sh</code></th><td data-label="Content">The acceptance tests: a real Ansible and host containers. Docker is necessary.</td></tr><tr><th scope="row"><code>tests/conformance/run.sh</code></th><td data-label="Content">The series U of the ProcurAuth conformance suite. It needs a local checkout of <code>ProcurAuth/procurauth</code>.</td></tr></tbody></table></div>
+<p>Run <code>python3 -I scripts/check-docs.py links</code> to run one check. The option <code>--online</code> also asks each public URL with an HTTP request. Without it, the script makes no request and maps each public URL to a local file.</p>
+<h2 id="the-documents-and-the-site"><a class="self" href="#the-documents-and-the-site">The documents and the site</a></h2>
+<p>The Markdown files in <code>docs/</code> and the file <code>CHANGELOG.md</code> are the source of the website. The script <code>scripts/build-site.py</code> makes the HTML pages from them. The pages use no external request, and they work from <code>file://</code>. After you change a Markdown file, make the pages again:</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>python3 -I scripts/build-site.py
+python3 -I scripts/build-site.py --check</code></pre></div>
+<p>The second command changes nothing. It exits with the code 1 when a page differs from its source. The check of the documents runs it.</p>
+<p>Write all documents in ASD-STE100 Simplified Technical English. A procedural sentence has 20 words at most. A descriptive sentence has 25 words at most. A paragraph has six sentences at most. The rules are in the guide for contributors: <a href="https://github.com/ProcurAuth/pupitre/blob/main/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a>.</p>
+<p>The pictures of the site are in <code>docs/assets</code>. The schemas are SVG files with their own dark background, so they read well in both themes. The screenshots are WebP files in <code>docs/assets/img</code>. A page of the site shows a screenshot only when its file exists.</p>
+<h2 id="the-configuration-reference"><a class="self" href="#the-configuration-reference">The configuration reference</a></h2>
+<p>The table of keys in <code>crates/pupitre/src/config/keys.rs</code> is the source of the reference. The command <code>pupitre print-reference --format markdown</code> generates <code>docs/configuration-reference.md</code>. A test compares the file with the output. Do not edit the file by hand.</p>
+<h2 id="dependencies"><a class="self" href="#dependencies">Dependencies</a></h2>
+<p>Each direct dependency has an exact version, <code>default-features = false</code> where the crate permits it, and one line with its reason in the workspace <code>Cargo.toml</code>. A new dependency needs a written reason in the same commit. Code of the project is the first choice. <code>deny.toml</code> lists the permitted licences, the permitted sources and the forbidden crates.</p>
+<p>The file <code>THIRD-PARTY-NOTICES.md</code> lists each crate of the graph with its licence text. Make it again with <code>tools/third-party.sh</code> after a change of <code>Cargo.lock</code>. The script runs <code>cargo metadata</code> in Docker, with no network.</p>
+<h2 id="the-ci"><a class="self" href="#the-ci">The CI</a></h2>
+<p>Each job is short. The heavy checks run in the nightly workflow or in a local script.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Workflow</th><th scope="col">Job</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>ci.yaml</code></th><td data-label="Job"><code>no-image</code></td><td data-label="Content">The check that no script pushes an image</td></tr><tr><th scope="row"><code>ci.yaml</code></th><td data-label="Job"><code>rust</code></td><td data-label="Content"><code>scripts/check.sh --rust</code></td></tr><tr><th scope="row"><code>docs.yml</code></th><td data-label="Job"><code>docs</code></td><td data-label="Content"><code>scripts/check.sh --docs</code></td></tr><tr><th scope="row"><code>nightly.yaml</code></th><td data-label="Job"><code>static</code></td><td data-label="Content"><code>scripts/static.sh --archive</code> on amd64 and arm64</td></tr><tr><th scope="row"><code>release.yaml</code></th><td data-label="Job"><code>check</code>, <code>ci</code>, <code>build</code>, <code>release</code></td><td data-label="Content">The release of the next section</td></tr></tbody></table></div>
+<h2 id="release"><a class="self" href="#release">Release</a></h2>
+<p>The project publishes static Linux binaries only: one archive for amd64 and one for arm64, with a file <code>SHA256SUMS</code>. It never publishes a container image. Two builds of one commit give the same bytes.</p>
+<p>A release has these steps:</p>
+<ol><li>Set the version in <code>Cargo.toml</code>, and add the section <code>## x.y.z - YYYY-MM-DD</code> to <code>CHANGELOG.md</code>.</li><li>Run <code>scripts/check.sh</code> on the commit.</li><li>Start the workflow <code>release.yaml</code> by hand on <code>main</code> with the input <code>version</code>.</li></ol>
+<p>The workflow checks the version and the changelog, then runs <code>ci.yaml</code>. It builds the archives on a runner of each architecture and makes <code>SHA256SUMS</code>. It makes a draft release, checks the draft, and publishes it. A tag moves forward only. After a failed release, the next release uses the next patch version.</p>
+<p>When the hosted CI cannot run, the script <code>tools/release-local.sh</code> makes the same release from a local machine. It runs <code>scripts/check.sh</code>, builds the archive of its architecture with <code>scripts/static.sh --archive</code>, and checks the content and the checksum of each archive. It then makes the draft with <code>gh</code>, checks it and publishes it. The notes of such a release say that the hosted CI did not run.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>tools/release-local.sh 0.1.0 --dry-run
+tools/release-local.sh 0.1.0</code></pre></div>
+<p>The option <code>--dry-run</code> makes each step that needs no network and prints the commands that follow. The option <code>--amd64-only</code> releases the amd64 archive only. The option <code>--partial-gate TEXT</code> skips <code>scripts/check.sh</code>. The text then goes in the notes, and it must say which checks ran and which did not. The script pushes no commit, no tag and no image.</p>
+<h2 id="versions"><a class="self" href="#versions">Versions</a></h2>
+<p>The versions follow Semantic Versioning. Before 1.0, a minor version can change a key, a route or a format. A change that a user can see, or that breaks compatibility, is a minor version. A fix is a patch. <code>CHANGELOG.md</code> has the section <code>## Unreleased</code> and one section for each version, with the groups Added, Changed, Removed, Fixed and Security. A change of a contract adds its line and its test in the same commit.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

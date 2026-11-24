@@ -1,0 +1,16 @@
+---
+# Playbook of the command `restart-service` (4.32). The check is false.
+# The parameter `grace` is a number of milliseconds (4.14).
+- name: Restart the demo service
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Wait for the grace period
+      ansible.builtin.wait_for:
+        timeout: "{{ ((pupitre_params.grace | int) / 1000) | round(0, 'ceil') | int }}"
+
+    - name: Restart the service
+      ansible.builtin.systemd_service:
+        name: demo-service
+        state: restarted

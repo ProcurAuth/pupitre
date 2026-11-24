@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The build, the tests, the CI, the dependencies and the release.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Specification, part 8: Delivery | Pupitre">
+<meta property="og:description" content="The build, the tests, the CI, the dependencies and the release.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/spec-08.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Specification, part 8: Delivery | Pupitre">
+<meta name="twitter:description" content="The build, the tests, the CI, the dependencies and the release.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/spec-08.html">
+<title>Specification, part 8: Delivery | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html" aria-current="true">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> Part 8 of the specification</p><h1>Specification, part 8: Delivery</h1><p class="lede">The build, the tests, the CI, the dependencies and the release.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#8-delivery">8. Delivery</a></li><li><a href="#81-the-toolchain">8.1 The toolchain</a></li><li><a href="#82-the-build-in-docker">8.2 The build in Docker</a></li><li><a href="#83-the-static-binary">8.3 The static binary</a></li><li><a href="#84-the-archive">8.4 The archive</a></li><li><a href="#85-reproducible-builds">8.5 Reproducible builds</a></li><li><a href="#86-checksums">8.6 Checksums</a></li><li><a href="#87-no-container-image">8.7 No container image</a></li><li><a href="#88-the-ci">8.8 The CI</a></li><li><a href="#89-dependencies">8.9 Dependencies</a></li><li><a href="#810-the-release">8.10 The release</a></li><li><a href="#811-versions-and-the-changelog">8.11 Versions and the changelog</a></li><li><a href="#812-tests">8.12 Tests</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/08-delivery.md"><code>docs/08-delivery.md</code></a> in the repository.</p><p>This part uses ASD-STE100 Simplified Technical English. Part 1 gives the rules of the document.</p>
+<h2 id="8-delivery"><a class="self" href="#8-delivery">8. Delivery</a></h2>
+<h3 id="81-the-toolchain">8.1 The toolchain</h3>
+<ul><li>The file <code>rust-toolchain.toml</code> fixes the Rust version, the components <code>rustfmt</code> and <code>clippy</code>, and the targets <code>x86_64-unknown-linux-musl</code> and <code>aarch64-unknown-linux-musl</code>.</li><li>Each crate uses the edition 2024, except <code>hclconf</code>. <code>hclconf</code> uses the edition 2021, because its one reader of the environment calls <code>std::env::remove_var</code>. This function is <code>unsafe</code> from the edition 2024.</li><li>Each crate forbids <code>unsafe</code> code. Clippy runs with <code>-D warnings</code>. The workspace denies <code>dbg!</code>, <code>todo!</code> and <code>unimplemented!</code>.</li><li>The code of the program has no <code>panic!</code>, <code>unwrap</code> or <code>expect</code> on data of a request, a document, a file or a child. A test can use them.</li></ul>
+<h3 id="82-the-build-in-docker">8.2 The build in Docker</h3>
+<p>Each build and each test runs in Docker. Nothing is installed on the host.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Script</th><th scope="col">Role</th></tr></thead><tbody><tr><th scope="row"><code>scripts/cargo.sh &lt;args&gt;</code></th><td data-label="Role">Run <code>cargo &lt;args&gt;</code> in the development image, as the user of the host. The cargo registry and the target folder are named Docker volumes.</td></tr><tr><th scope="row"><code>scripts/check.sh</code></th><td data-label="Role">The checks of the CI jobs <code>rust</code> and <code>docs</code>: format, lint, tests, the ASD-STE100 check, <code>scripts/check-docs.py</code> and the tests of <code>tests/docs</code></td></tr><tr><th scope="row"><code>scripts/static.sh</code></th><td data-label="Role">The static build of 8.3</td></tr><tr><th scope="row"><code>scripts/check-docs.py</code></th><td data-label="Role">The checks of the documents and of the site: links, site, ste, hygiene, versions and examples</td></tr><tr><th scope="row"><code>scripts/build-site.py</code></th><td data-label="Role">The build of the static website in <code>docs/</code> from the Markdown files. With <code>--check</code>, it changes nothing.</td></tr><tr><th scope="row"><code>tools/check-examples.sh</code></th><td data-label="Role">The check that each complete configuration of the documents and of <code>examples/</code> passes <code>check-config</code> and <code>print-config</code></td></tr><tr><th scope="row"><code>tools/third-party.sh</code></th><td data-label="Role">The generation of <code>THIRD-PARTY-NOTICES.md</code> from the resolved crates</td></tr><tr><th scope="row"><code>tools/release-local.sh</code></th><td data-label="Role">The release from a local machine (8.10)</td></tr><tr><th scope="row"><code>scripts/docker-env.sh</code></th><td data-label="Role">The shared settings of the scripts</td></tr></tbody></table></div>
+<p>The development image comes from <code>scripts/Dockerfile.dev</code>. Its base image is pinned by digest. The tag of the image is the start of the SHA-256 of the recipe, so a changed recipe gives a new image. The image is local, and no script pushes it.</p>
+<h3 id="83-the-static-binary">8.3 The static binary</h3>
+<p><code>scripts/static.sh</code> builds <code>pupitre</code> for the musl target of the architecture of the host, in the image of <code>scripts/Dockerfile.static</code>. It never crosses an architecture: an amd64 runner builds amd64, and an arm64 runner builds arm64.</p>
+<p>The script checks the result: <code>file</code> tells that the binary is static, <code>ldd</code> finds no library, and <code>pupitre --version</code> runs. A failure stops the script with a status that is not zero.</p>
+<p><code>scripts/static.sh --out &lt;dir&gt;</code> builds the binary in the same way, then copies it to <code>&lt;dir&gt;/pupitre</code>. The acceptance tests use this option (8.12).</p>
+<h3 id="84-the-archive">8.4 The archive</h3>
+<p><code>scripts/static.sh --archive &lt;version&gt;</code> writes <code>dist/pupitre_&lt;version&gt;_linux_&lt;arch&gt;.tar.gz</code> and its <code>.sha256</code> file. The archive holds one folder <code>pupitre_&lt;version&gt;_linux_&lt;arch&gt;/</code> with:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">File</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>pupitre</code></th><td data-label="Content">The static binary, mode 0755</td></tr><tr><th scope="row"><code>LICENSE-MIT</code>, <code>LICENSE-APACHE</code></th><td data-label="Content">The two licence texts</td></tr><tr><th scope="row"><code>THIRD-PARTY-NOTICES.md</code></th><td data-label="Content">The notices of the copied code and of the crates</td></tr><tr><th scope="row"><code>README.md</code></th><td data-label="Content">The README of the repository</td></tr></tbody></table></div>
+<h3 id="85-reproducible-builds">8.5 Reproducible builds</h3>
+<p>Two builds of one commit give the same bytes.</p>
+<ul><li>The script sets <code>SOURCE_DATE_EPOCH</code> to the time of the last commit.</li><li><code>RUSTFLAGS</code> maps the paths of the build machine to fixed paths with <code>--remap-path-prefix</code>.</li><li>The release profile uses one codegen unit, <code>lto = "fat"</code>, no debug data and stripped symbols.</li><li>The archive has the files in name order, the time of the last commit, the owner 0 and no gzip time.</li><li><code>--archive</code> builds two times, in two target folders, and compares the two binaries. A difference stops the script.</li></ul>
+<h3 id="86-checksums">8.6 Checksums</h3>
+<p>The release has the file <code>SHA256SUMS</code>, with one line for each archive in the form of <code>sha256sum</code>. The release workflow downloads its own draft and checks each line before it publishes (8.10).</p>
+<h3 id="87-no-container-image">8.7 No container image</h3>
+<p>The project never publishes a container image. The CI job <code>no-image</code> and the first step of the release check the files of <code>.github</code> and <code>scripts</code>. They fail on a registry login, a push of an image, or the permission <code>packages: write</code>. The Dockerfiles of <code>scripts/</code> make local build images only.</p>
+<h3 id="88-the-ci">8.8 The CI</h3>
+<p>Each job is short: seconds to tens of seconds, and rarely more than one minute. The heavy checks run in the nightly workflow or in a local script.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Workflow</th><th scope="col">Job</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>ci.yaml</code></th><td data-label="Job"><code>no-image</code></td><td data-label="Content">The check of 8.7, with no Docker</td></tr><tr><th scope="row"><code>ci.yaml</code></th><td data-label="Job"><code>rust</code></td><td data-label="Content"><code>scripts/check.sh --rust</code></td></tr><tr><th scope="row"><code>docs.yml</code></th><td data-label="Job"><code>docs</code></td><td data-label="Content"><code>scripts/check.sh --docs</code></td></tr><tr><th scope="row"><code>nightly.yaml</code></th><td data-label="Job"><code>static</code></td><td data-label="Content"><code>scripts/static.sh --archive</code> on amd64 and arm64</td></tr><tr><th scope="row"><code>release.yaml</code></th><td data-label="Job"><code>check</code>, <code>ci</code>, <code>build</code>, <code>release</code></td><td data-label="Content">8.10</td></tr></tbody></table></div>
+<p>Each action is pinned to a full commit SHA with its version in a comment. Each checkout has <code>persist-credentials: false</code>. Each workflow has <code>contents: read</code>. Only the job <code>release</code> has <code>contents: write</code>.</p>
+<h3 id="89-dependencies">8.9 Dependencies</h3>
+<p>The workspace <code>Cargo.toml</code> lists each direct dependency with an exact version, <code>default-features = false</code> where the crate permits it, and one line with its reason. A new dependency needs a written reason in the same commit. Code of the project is the first choice.</p>
+<p>The ProcurAuth crates <code>procurauth-pep</code> and <code>procurauth-core</code> are git dependencies of <code>https://github.com/ProcurAuth/procurauth</code> at the commit <code>058563cfbc3536b9b850255d953568ef0a5cabbe</code>. This is the commit of Hune 0.1.1. A move of the commit needs a decision and a run of the conformance series U.</p>
+<p>The other direct dependencies are the dependencies of Hune 0.1.1 at the same versions, except <code>ring</code>. <code>ring</code> is already in the graph through <code>rustls</code>. Pupitre uses it directly for ChaCha20-Poly1305, HKDF and HMAC (2.26, 2.39).</p>
+<h3 id="810-the-release">8.10 The release</h3>
+<p>A person starts the workflow <code>release.yaml</code> by hand on <code>main</code>, with the input <code>version</code>.</p>
+<ol><li>The job <code>check</code> checks that <code>version</code> has the form <code>x.y.z</code>, that <code>Cargo.toml</code> has this version, and that <code>CHANGELOG.md</code> has a non-empty section <code>## x.y.z - YYYY-MM-DD</code>. It checks that the tag <code>vx.y.z</code> does not exist, and it runs the check of 8.7.</li><li>The job <code>ci</code> runs <code>ci.yaml</code> on the commit.</li><li>The job <code>build</code> runs <code>scripts/static.sh --archive</code> on an amd64 runner and on an arm64 runner. The input <code>arm64 = false</code> builds amd64 only.</li><li>The job <code>release</code> makes <code>SHA256SUMS</code>, makes a draft release with the section of the changelog as notes (<code>tools/changelog-section.sh</code>), downloads the draft, checks <code>SHA256SUMS</code>, and publishes.</li></ol>
+<p>A tag moves forward only. After a failed release, the next release uses the next patch version. When the hosted CI cannot run, the same scripts make the archives on a local machine. The notes of such a release tell which checks did not run.</p>
+<h3 id="811-versions-and-the-changelog">8.11 Versions and the changelog</h3>
+<ul><li>The versions follow Semantic Versioning. The first release is 0.1.0. Before 1.0, a minor version can change a key, a route or a format.</li><li>A change that a user can see, or that breaks compatibility, is a minor version. A fix is a patch.</li><li><code>CHANGELOG.md</code> has one section for each version, and the section <code>## Unreleased</code> for the changes that wait for a release. The groups are Added, Changed, Removed, Fixed, Security and Known limits. A change of a contract adds its line and its test in the same commit.</li><li><code>pupitre --version</code> prints <code>pupitre &lt;version&gt;</code> and the licence <code>MIT OR Apache-2.0</code>.</li></ul>
+<h3 id="812-tests">8.12 Tests</h3>
+<div class="tablewrap"><table><thead><tr><th scope="col">Level</th><th scope="col">Where</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row">Unit</th><td data-label="Where">The modules and the <code>tests/</code> folder of each crate</td><td data-label="Content">The rules of each paragraph, with the number of the paragraph in the name or the comment of the test</td></tr><tr><th scope="row">Configuration</th><td data-label="Where"><code>crates/pupitre/src/config/tests.rs</code> and <code>tests/fixtures/config/</code></td><td data-label="Content">Each rule of section 6 with a small file: each key, each contradiction, <code>print-config</code>, <code>print-reference</code></td></tr><tr><th scope="row">Store contract</th><td data-label="Where"><code>crates/pupitre-store/tests/contract_files.rs</code> and <code>contract_postgres.rs</code>, feature <code>conformance</code></td><td data-label="Content">The cases S01 to S20 of 2.43. The suite for <code>files</code> is <code>contract_files.rs</code>, and it runs with <code>cargo test --all-features</code>. The suite for <code>postgres</code> is <code>contract_postgres.rs</code>, and <code>tests/ci/store-pg.sh</code> runs it.</td></tr><tr><th scope="row">Store backends</th><td data-label="Where"><code>crates/pupitre-store/tests/</code></td><td data-label="Content">The tests of <code>files</code> (<code>files_*.rs</code>: the same cases with no feature, layout, outside changes, transfer, rights, size) and of <code>postgres</code> (<code>pg_*.rs</code> and <code>transfer_postgres.rs</code>). <code>tests/ci/store-pg.sh</code> runs the second group on PostgreSQL 15 and 18 in a throwaway container on <code>127.0.0.1</code>.</td></tr><tr><th scope="row">Commands</th><td data-label="Where"><code>crates/pupitre/tests/import_cli.rs</code> and <code>store_cmds_pg.rs</code></td><td data-label="Content">The command <code>import</code>, and the commands <code>migrate</code>, <code>export</code>, <code>import</code> and <code>copy-store</code></td></tr><tr><th scope="row">Access</th><td data-label="Where"><code>crates/pupitre/tests/access_*.rs</code> and <code>tests/conformance/</code></td><td data-label="Content">The rules of section 3 with a fake PDP. <code>tests/conformance/run.sh</code> runs the series U of the ProcurAuth conformance suite at the commit of 8.9.</td></tr><tr><th scope="row">Server</th><td data-label="Where"><code>crates/pupitre/tests/server_*.rs</code></td><td data-label="Content">The routes, the errors, the limits, the start and the ops listener. <code>server_docs.rs</code> compares the tables of sections 3 and 5 with the code.</td></tr><tr><th scope="row">Runner</th><td data-label="Where"><code>crates/pupitre-runner/tests/</code></td><td data-label="Content">The snapshot bytes and hash with golden files, the guard, the scrubber, the events reader, the cancel and the adoption with a fake <code>ProcessControl</code>. <code>crates/pupitre-runner/tests/ansible/run.sh</code> runs a real Ansible in Docker.</td></tr><tr><th scope="row">Acceptance</th><td data-label="Where"><code>tests/acceptance/</code>, started by <code>tests/ci/acceptance.sh</code></td><td data-label="Content">A real <code>ansible-playbook</code> in a container against a throwaway host container with systemd and SSH. A check, an apply, a command, a cancel and a restart of Pupitre during a run.</td></tr><tr><th scope="row">Two instances</th><td data-label="Where"><code>tests/acceptance/</code></td><td data-label="Content">Two instances on one PostgreSQL. The runner node restarts during a run. A second runner node stops at start.</td></tr><tr><th scope="row">Documents</th><td data-label="Where"><code>tools/ste_lint.py</code>, <code>scripts/check-docs.py</code> and <code>tests/docs/</code></td><td data-label="Content">The rules of ASD-STE100 on each Markdown file, the links, the site, the hygiene, the versions and the examples</td></tr></tbody></table></div>
+<p>The hosted CI runs only the jobs of 8.8. The <code>postgres</code> tests, the acceptance tests and the series U need Docker or a local checkout. A maintainer runs them with the scripts of the table.</p>
+<p>The fixtures are synthetic. The large fixture has one environment with 1,000 units, 1,000 hosts and 100 hosts in each unit, and 64 small environments. This is 65 environments, which is more than the default <code>limits.max_environments</code> of 64 (2.42). So the acceptance profile <code>large</code> sets <code>limits.max_environments</code> to 100. A test makes the fixture with a seeded generator, so no large file is in the repository.</p>
+<p>Each defect gets a test that fails on the old code. A test is never made weaker to pass.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

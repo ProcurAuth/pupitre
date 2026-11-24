@@ -1,0 +1,41 @@
+{
+  "_meta": {
+    "hostvars": {
+      "host-a": {
+        "ansible_host": "203.0.113.10",
+        "ansible_port": 22
+      },
+      "host-b": {
+        "ansible_host": "203.0.113.11",
+        "ansible_port": 22
+      }
+    }
+  },
+  "all": {
+    "children": [
+      "canary",
+      "relay_hosts"
+    ]
+  },
+  "canary": {
+    "hosts": [
+      "host-a"
+    ]
+  },
+  "relay_hosts": {
+    "hosts": [
+      "host-a",
+      "host-b"
+    ],
+    "vars": {
+      "relay_config": {
+        "limits": {
+          "max_clients": 200
+        },
+        "log": {
+          "level": "info"
+        }
+      }
+    }
+  }
+}

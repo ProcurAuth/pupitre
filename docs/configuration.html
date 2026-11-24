@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The rules, the blocks, the schemas, the playbooks and the commands of the configuration. A mistake stops the start, and the message names the key.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Configuration | Pupitre">
+<meta property="og:description" content="The rules, the blocks, the schemas, the playbooks and the commands of the configuration. A mistake stops the start, and the message names the key.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/configuration.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Configuration | Pupitre">
+<meta name="twitter:description" content="The rules, the blocks, the schemas, the playbooks and the commands of the configuration. A mistake stops the start, and the message names the key.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/configuration.html">
+<title>Configuration | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html" aria-current="page">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> One HCL file, a closed schema</p><h1>Configuration</h1><p class="lede">The rules, the blocks, the schemas, the playbooks and the commands of the configuration. A mistake stops the start, and the message names the key.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#the-nine-rules">The nine rules</a></li><li><a href="#syntax">Syntax</a></li><li><a href="#values-from-the-environment-or-from-a-file">Values from the environment or from a file</a></li><li><a href="#the-blocks">The blocks</a></li><li><a href="#the-profiles">The profiles</a></li><li><a href="#schemas-playbooks-and-commands">Schemas, playbooks and commands</a></li><li><a href="#the-checks">The checks</a></li><li><a href="#allowed-host-names">Allowed host names</a></li><li><a href="#contradictions">Contradictions</a></li><li><a href="#the-commands">The commands</a></li><li><a href="#read-the-effective-configuration">Read the effective configuration</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/CONFIGURATION.md"><code>docs/CONFIGURATION.md</code></a> in the repository.</p><p>Pupitre reads one HCL file. The file is the only source of the configuration. A mistake stops the start before Pupitre opens a port, and the message names the key. This page tells the rules. <a href="reference.html">The reference</a> lists each key. Part 6 of the <a href="spec-06.html">specification</a> is the authority.</p>
+<h2 id="the-nine-rules"><a class="self" href="#the-nine-rules">The nine rules</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Rule</th><th scope="col">What Pupitre does</th></tr></thead><tbody><tr><th scope="row">Closed schema</th><td data-label="What Pupitre does">An unknown block, an unknown attribute, a duplicate attribute and a duplicate label stop the start.</td></tr><tr><th scope="row">Fail-fast</th><td data-label="What Pupitre does">The error message names the key, the expected type or range, and the value.</td></tr><tr><th scope="row">No coercion</th><td data-label="What Pupitre does">Pupitre never changes a value. The text <code>"5"</code> is not the integer <code>5</code>.</td></tr><tr><th scope="row">Typed once</th><td data-label="What Pupitre does">Pupitre parses the file one time at start into one typed structure.</td></tr><tr><th scope="row">Single source</th><td data-label="What Pupitre does">Pupitre reads an environment variable only when the file names it. No <code>OTEL_*</code> variable has an effect.</td></tr><tr><th scope="row"><code>_env</code> and <code>_file</code></th><td data-label="What Pupitre does">A key can take its value from a variable or a file, but only when the file says so.</td></tr><tr><th scope="row">Documented defaults</th><td data-label="What Pupitre does">A key that has a default can be absent. Each other key that applies is necessary.</td></tr><tr><th scope="row">Effective configuration</th><td data-label="What Pupitre does"><code>print-config</code> prints the value and the source of each key. <code>serve</code> logs the same lines.</td></tr><tr><th scope="row">Contradictions</th><td data-label="What Pupitre does">Two keys that contradict each other stop the start (see "Contradictions").</td></tr></tbody></table></div>
+<h2 id="syntax"><a class="self" href="#syntax">Syntax</a></h2>
+<p>The file is a small subset of HCL. It has blocks, labelled blocks and attributes. A value is a literal: a text in double quotes, a whole number, <code>true</code>, <code>false</code> or a list in brackets. The engine refuses expressions, functions, variables, heredocs, objects and <code>null</code>.</p>
+<div class="code-wrap"><span class="label">hcl</span><pre data-copy tabindex="0" aria-label="Code example: hcl"><code># A comment
+log {
+  level = "info"
+}
+
+schema "relay" {
+  path = "/srv/ansible/schemas/relay.json"
+}</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th scope="col">Kind</th><th scope="col">Syntax</th><th scope="col">Examples</th><th scope="col">Refused</th></tr></thead><tbody><tr><th scope="row">Duration</th><td data-label="Syntax">A text with one whole number and one unit: <code>ms</code>, <code>s</code>, <code>m</code> or <code>h</code></td><td data-label="Examples"><code>"500ms"</code>, <code>"30s"</code>, <code>"5m"</code></td><td data-label="Refused"><code>"1m30s"</code>, <code>"1.5s"</code>, <code>30</code></td></tr><tr><th scope="row">Size</th><td data-label="Syntax">A whole number of bytes</td><td data-label="Examples"><code>1048576</code></td><td data-label="Refused"><code>"1MiB"</code></td></tr><tr><th scope="row">Integer</th><td data-label="Syntax">A whole number with no sign and no zero at the start</td><td data-label="Examples"><code>16</code></td><td data-label="Refused"><code>16.0</code>, <code>"16"</code></td></tr><tr><th scope="row">Boolean</th><td data-label="Syntax"><code>true</code> or <code>false</code></td><td data-label="Examples"><code>true</code></td><td data-label="Refused"><code>"true"</code>, <code>yes</code></td></tr><tr><th scope="row">Text</th><td data-label="Syntax">Double quotes</td><td data-label="Examples"><code>"deploy"</code></td><td data-label="Refused"><code>deploy</code></td></tr><tr><th scope="row">List</th><td data-label="Syntax">Texts in brackets</td><td data-label="Examples"><code>["soft", "hard"]</code></td><td data-label="Refused"></td></tr></tbody></table></div>
+<h2 id="values-from-the-environment-or-from-a-file"><a class="self" href="#values-from-the-environment-or-from-a-file">Values from the environment or from a file</a></h2>
+<p>A key that accepts the indirection has three forms. Give exactly one of them.</p>
+<div class="code-wrap"><span class="label">hcl</span><pre data-copy tabindex="0" aria-label="Code example: hcl"><code>storage {
+  backend         = "files"
+  secret_key_file = "/run/secrets/pupitre/store-key"
+}</code></pre></div>
+<ul><li><code>&lt;name&gt; = "..."</code>: the value is in the file.</li><li><code>&lt;name&gt;_env = "VAR"</code>: the value is in the environment variable <code>VAR</code>.</li><li><code>&lt;name&gt;_file = "/path"</code>: the value is the content of the file, without the last line end.</li></ul>
+<p>A variable that is not set, an empty value, or a file that Pupitre cannot read stops the start. The error gives the key and the variable or the path, never the value. A secret key accepts only <code>_env</code> and <code>_file</code>. A secret in clear text stops the start.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Key</th><th scope="col">Forms</th><th scope="col">Secret</th></tr></thead><tbody><tr><th scope="row"><code>storage.secret_key</code></th><td data-label="Forms"><code>_env</code>, <code>_file</code></td><td data-label="Secret">yes</td></tr><tr><th scope="row"><code>storage.postgres.password</code></th><td data-label="Forms"><code>_env</code>, <code>_file</code></td><td data-label="Secret">yes</td></tr><tr><th scope="row"><code>access.pdp.token</code></th><td data-label="Forms"><code>_env</code>, <code>_file</code></td><td data-label="Secret">yes</td></tr><tr><th scope="row"><code>storage.postgres.user</code>, <code>access.identity.public_keys</code>, <code>access.pdp.url</code>, <code>telemetry.otlp_endpoint</code></th><td data-label="Forms">value, <code>_env</code>, <code>_file</code></td><td data-label="Secret">no</td></tr></tbody></table></div>
+<p>Each other key accepts only the value in the file.</p>
+<h2 id="the-blocks"><a class="self" href="#the-blocks">The blocks</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Block</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>server</code></th><td data-label="Content">The two listeners, the base path, the allowed <code>Host</code> values and the limits of the HTTP server</td></tr><tr><th scope="row"><code>log</code></th><td data-label="Content">The lowest log level</td></tr><tr><th scope="row"><code>telemetry</code></th><td data-label="Content">The OTLP export of the spans. Pupitre sets each value from the file.</td></tr><tr><th scope="row"><code>storage</code></th><td data-label="Content">The backend <code>files</code> or <code>postgres</code>, the key of the store, and the block of the backend</td></tr><tr><th scope="row"><code>access</code></th><td data-label="Content">The mode <code>open</code> or <code>authzen</code>. The mode <code>authzen</code> needs the blocks <code>identity</code> and <code>pdp</code>.</td></tr><tr><th scope="row"><code>runner</code></th><td data-label="Content">The runs: the limits, and the keys of the runner node</td></tr><tr><th scope="row"><code>limits</code></th><td data-label="Content">The counts of the store and the size of a document. The block is optional.</td></tr><tr><th scope="row"><code>schema "&lt;id&gt;"</code></th><td data-label="Content">The path of the schema file of a unit</td></tr><tr><th scope="row"><code>playbook "&lt;id&gt;"</code></th><td data-label="Content">The kind and the path of a playbook</td></tr><tr><th scope="row"><code>command "&lt;id&gt;"</code></th><td data-label="Content">A named action with typed parameters (see "Commands")</td></tr></tbody></table></div>
+<p>The block <code>access</code> has no default mode. So no instance gets the mode <code>open</code> by error. A key that sets exposure, identity, storage, access or the power of the runner has no default.</p>
+<h2 id="the-profiles"><a class="self" href="#the-profiles">The profiles</a></h2>
+<p>The program writes a complete file for each profile. The file holds each key that applies, with a reference value.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>pupitre print-reference --format hcl --profile local
+pupitre print-reference --format hcl --profile distributed</code></pre></div>
+<ul><li>The profile <code>local</code> has the backend <code>files</code>, the mode <code>open</code>, the runner node, one schema and one playbook.</li><li>The profile <code>distributed</code> has the backend <code>postgres</code> with TLS, the mode <code>authzen</code>, the runner node, one schema and one playbook.</li></ul>
+<p>The reference values are examples, not defaults. The folder <code>examples/local</code> has a complete file with synthetic schemas and playbooks.</p>
+<h2 id="schemas-playbooks-and-commands"><a class="self" href="#schemas-playbooks-and-commands">Schemas, playbooks and commands</a></h2>
+<p>The configuration file holds the catalog of capabilities. The store never holds a part of it. A person who edits values cannot add a key, a playbook or a command.</p>
+<ul><li>A block <code>schema</code> names a schema file. The file lists the keys of a unit, their kinds and their ranges. It also names the Ansible variable and the inventory group of the unit.</li><li>A block <code>playbook</code> has the kind <code>deploy</code>, <code>render</code>, <code>status</code> or <code>command</code>, and the absolute path of the playbook file.</li><li>A block <code>command</code> has a <code>label</code>, a <code>playbook</code>, a <code>target</code> (<code>environment</code>, <code>unit</code> or <code>host</code>), <code>check</code>, and up to 16 blocks <code>param</code>.</li></ul>
+<div class="code-wrap"><span class="label">hcl</span><pre data-copy tabindex="0" aria-label="Code example: hcl"><code>command "restart-relay" {
+  label    = "Restart the relay"
+  playbook = "restart-relay"
+  target   = "unit"
+  check    = false
+
+  param "grace" {
+    label        = "Grace period"
+    type         = "duration"
+    required     = true
+    min_duration = "1s"
+    max_duration = "5m"
+  }
+}</code></pre></div>
+<p>A parameter has the type <code>text</code>, <code>integer</code>, <code>boolean</code>, <code>duration</code> or <code>choice</code>. The type decides the other keys of the block: <code>min</code> and <code>max</code>, <code>min_duration</code> and <code>max_duration</code>, or <code>choices</code>. A key that the type does not take stops the start. The playbook of a command has the kind <code>command</code>. A command never runs a program that is not the configured <code>ansible-playbook</code>.</p>
+<p>With <code>check = true</code>, an apply of the command needs a check run of the same snapshot. With <code>check = false</code>, the command runs after the person confirms it.</p>
+<h2 id="the-checks"><a class="self" href="#the-checks">The checks</a></h2>
+<p>The checks run in three stages. A stage runs only when the stage before it has no error.</p>
+<ol><li>Stage 1 checks the file against the table of keys: the blocks, the types, the ranges and the forms. It reads each <code>_env</code> and <code>_file</code> value.</li><li>Stage 2 checks the values: the paths, the URLs, the CA files, the schema files and the ids.</li><li>Stage 3 checks the contradictions.</li></ol>
+<p>The runner node runs more checks at the start of <code>serve</code>. They cover the SSH key file, the known hosts file, the folder of the secrets on <code>tmpfs</code> and the work folder. They also cover the program <code>ansible-playbook</code>, which MUST be ansible-core 2.19 or later. Each line of the known hosts file names a host by <code>&lt;environment&gt;.&lt;host&gt;</code>, for example <code>production.host-a</code>, not by its address.</p>
+<h2 id="allowed-host-names"><a class="self" href="#allowed-host-names">Allowed host names</a></h2>
+<p><code>server.allowed_hosts</code> lists the values of the header <code>Host</code> that the main listener serves. It stops an attack that points a name of the attacker to the listener. A request with another <code>Host</code> gets <code>421 misdirected_request</code>.</p>
+<ul><li>An entry is a host name, an IPv4 address or an IPv6 address in brackets, with an optional port. It has no wildcard. An entry with no port matches each port.</li><li>With a loopback <code>server.listen</code>, the key is optional. The default is <code>localhost</code>, <code>127.0.0.1</code>, <code>[::1]</code> and the address of <code>server.listen</code>. <code>print-config</code> shows it with the source <code>default</code>.</li><li>With any other address, the key is necessary. The absence of the key stops the start. List the public name of the service, for example <code>["pupitre.example.invalid"]</code>.</li><li>The reverse proxy MUST send the public name in <code>Host</code>.</li></ul>
+<h2 id="contradictions"><a class="self" href="#contradictions">Contradictions</a></h2>
+<p>These pairs stop the start:</p>
+<ul><li><code>server.ops_listen</code> has the port of <code>server.listen</code>.</li><li><code>storage.backend = "files"</code> with <code>runner.enabled = true</code> and <code>runner.execute = false</code>.</li><li>A block <code>playbook</code> or <code>command</code> with <code>runner.enabled = false</code>.</li><li>The <code>playbook</code> of a command is not a block <code>playbook</code> with the kind <code>command</code>.</li><li>Two blocks <code>playbook</code> with the same <code>path</code>.</li><li>A folder of the store or of the runner is inside another one.</li><li><code>access.pdp.plain_http</code> does not agree with the scheme of <code>access.pdp.url</code>.</li><li>Two schemas give one key path two kinds, or two schemas have the same <code>variable</code> or <code>group</code>.</li><li><code>access.options_max_questions</code> is below 8 with <code>runner.enabled = true</code>, or below 4 with <code>runner.enabled = false</code>, in the mode <code>authzen</code>.</li></ul>
+<p>Section 6.14 of the specification has the full list.</p>
+<h2 id="the-commands"><a class="self" href="#the-commands">The commands</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Command</th><th scope="col">Function</th></tr></thead><tbody><tr><th scope="row"><code>serve --config &lt;path&gt;</code></th><td data-label="Function">Start the server.</td></tr><tr><th scope="row"><code>check-config --config &lt;path&gt;</code></th><td data-label="Function">Run the three stages. It sends nothing on the network.</td></tr><tr><th scope="row"><code>print-config --config &lt;path&gt;</code></th><td data-label="Function">Print the effective configuration with the source of each value.</td></tr><tr><th scope="row"><code>print-reference --format hcl --profile local</code> or <code>--format markdown</code></th><td data-label="Function">Print a reference file or the reference document.</td></tr><tr><th scope="row"><code>migrate --config &lt;path&gt;</code></th><td data-label="Function">Make or change the store schema. It never runs at start.</td></tr><tr><th scope="row"><code>import --config &lt;path&gt; --inventory-json &lt;path&gt; --environment &lt;id&gt; [--write]</code></th><td data-label="Function">Make the documents of a new environment from an Ansible inventory.</td></tr><tr><th scope="row"><code>export --config &lt;path&gt; --to &lt;folder&gt;</code></th><td data-label="Function">Write the documents and their versions into an empty folder.</td></tr><tr><th scope="row"><code>copy-store --from &lt;path&gt; --to &lt;path&gt;</code></th><td data-label="Function">Copy a store to an empty store. Each option names a configuration file.</td></tr><tr><th scope="row"><code>version</code>, <code>help</code></th><td data-label="Function">Print the version or the usage.</td></tr></tbody></table></div>
+<p>Each path of an option is absolute. A relative path, an unknown option and an unknown command give the exit code 2. A configuration error or a failure gives the exit code 1.</p>
+<h2 id="read-the-effective-configuration"><a class="self" href="#read-the-effective-configuration">Read the effective configuration</a></h2>
+<p><code>print-config</code> prints one line for each key that has a value:</p>
+<div class="code-wrap"><span class="label">text</span><pre data-copy tabindex="0" aria-label="Code example: text"><code>server.listen = "127.0.0.1:8080"  # file
+server.max_connections = 1024  # default
+storage.secret_key = &lt;hidden&gt;  # file:/run/secrets/pupitre/store-key</code></pre></div>
+<p><code>serve</code> writes the same values in the log line <code>server.config</code>, with the secrets hidden. A change of the file has an effect only after a restart.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

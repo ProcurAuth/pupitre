@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 540" width="1100" height="540" role="img" aria-label="The resource tree of Pupitre: service, environment, unit and host, with the eight actions and the ceiling max_hosts">
+  <title>The access model</title>
+  <desc>The tree has four levels: the service, the environment, the unit and the host. A grant on a node covers each node below it. Pupitre sends a question with the subject, the action and the resource with its ancestors to the PDP. The PDP answers true or false. A run action can carry the ceiling max_hosts.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a5b4fc"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#34d399"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="540" rx="20" fill="#12142a"/>
+  <g font-family="Inter, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+    <text x="40" y="52" font-size="24" font-weight="700" fill="#ffffff" text-anchor="start">The resource tree and the question to the PDP</text>
+    <text x="40" y="82" font-size="15" font-weight="400" fill="#9ca3d4" text-anchor="start">A grant on a node covers each node below it, also a node that a person adds later.</text>
+    <rect x="40" y="120" width="250" height="62" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="165.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">service</text>
+    <text x="165.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">the audience of the token</text>
+    <path d="M80 182V200" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="70" y="202" width="250" height="62" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="195.0" y="230" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">environment</text>
+    <text x="195.0" y="252" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">production</text>
+    <path d="M110 264V282" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="100" y="284" width="250" height="62" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="225.0" y="312" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">unit</text>
+    <text x="225.0" y="334" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">relay</text>
+    <path d="M140 346V364" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="130" y="366" width="250" height="62" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="255.0" y="394" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">host</text>
+    <text x="255.0" y="416" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">host-a</text>
+    <text x="40" y="470" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">A grant of run.apply on environment:production covers each unit and each host of production.</text>
+    <rect x="430" y="120" width="300" height="160" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="580.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Question</text>
+    <text x="580.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">subject (sub of the token)</text>
+    <text x="580.0" y="187" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">action, for example run.apply</text>
+    <text x="580.0" y="204" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">resource: type, id and the</text>
+    <text x="580.0" y="221" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">chain of ancestors</text>
+    <text x="580.0" y="238" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">from the catalog of Pupitre</text>
+    <rect x="800" y="120" width="260" height="110" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="930.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">PDP answer</text>
+    <text x="930.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">true or false</text>
+    <text x="930.0" y="187" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">optional ceiling max_hosts</text>
+    <path d="M730 160H798" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+    <path d="M800 190H732" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+    <rect x="800" y="270" width="260" height="90" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="930.0" y="298" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Configuration actions</text>
+    <text x="930.0" y="320" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">config.read, config.write</text>
+    <text x="930.0" y="337" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">secret.write, inventory.write</text>
+    <rect x="800" y="380" width="260" height="90" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="930.0" y="408" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">Run actions</text>
+    <text x="930.0" y="430" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">run.read, run.check, run.apply, command.run</text>
+    <text x="930.0" y="447" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">max_hosts on the last three</text>
+    <text x="430" y="320" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">Unknown and forbidden give the same 403.</text>
+    <text x="430" y="340" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">A failure of the PDP gives 503, never a grant.</text>
+    <text x="430" y="360" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">Pupitre builds the chain from its own catalog.</text>
+  </g>
+</svg>

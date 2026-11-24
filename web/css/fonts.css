@@ -1,0 +1,13 @@
+/* Copied from Hune, web/css/fonts.css, commit a55fff3. Edits: none. */
+/* Hune: embedded fonts.
+   Inter, the variable file with the weights 100 to 900 (fonts/inter/LICENSE: SIL Open Font License 1.1).
+   This file is at static/<build>/css/, so the font URL goes one level up. The CSP allows it (font-src 'self').
+   font-display block hides the text until the file arrives (at most 3 s), so no text shows in the system font and then moves.
+   The shell preloads the file and holds its first paint until the font is ready (9.6), so the block period is not seen. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url("../fonts/inter/InterVariable.woff2") format("woff2");
+}

@@ -1,0 +1,14 @@
+---
+# Playbook of the command `rotate-banner` (4.32). The check is true: an apply needs a check of the same snapshot.
+- name: Write the banner of the demo service
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Write the banner file
+      ansible.builtin.copy:
+        content: "{{ pupitre_params.banner }}\n"
+        dest: /etc/demo-service/banner
+        owner: root
+        mode: "0644"
+      diff: true

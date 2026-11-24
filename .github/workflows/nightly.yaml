@@ -1,0 +1,30 @@
+# Nightly job of 8.8: the static build of the release recipe, two times, with the comparison of the two files.
+# It never pushes an image and never logs in to a registry (8.7).
+# Each step pins its action to a full commit SHA and gives the version in a comment. Dependabot proposes the updates.
+# Each checkout keeps no credentials in the work tree (persist-credentials: false).
+name: nightly
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64, arm64]
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Build two times and compare
+        run: |
+          v=$(sed -n '/^\[workspace\.package\]/,/^\[/{s/^version *= *"\(.*\)"/\1/p}' Cargo.toml)
+          scripts/static.sh --archive "$v"

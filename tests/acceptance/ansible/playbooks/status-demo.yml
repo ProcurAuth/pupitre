@@ -1,0 +1,23 @@
+---
+# Playbook of the kind `status` for the schema `demo` (4.26). It only reads the hosts.
+- name: Read the state of the demo service
+  hosts: demo_hosts
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Ask systemd for the state of the service
+      ansible.builtin.command:
+        argv: [systemctl, is-active, demo-service]
+      register: demo_state
+      changed_when: false
+      failed_when: false
+
+    - name: Read the configuration of the service
+      ansible.builtin.slurp:
+        src: /etc/demo-service/config.json
+      register: demo_file
+      failed_when: false
+
+    - name: Print the state
+      ansible.builtin.debug:
+        msg: "demo-service is {{ demo_state.stdout | default('unknown') }} on {{ inventory_hostname }}"

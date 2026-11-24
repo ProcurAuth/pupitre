@@ -1,0 +1,53 @@
+{
+  "format": 1,
+  "group": "demo_hosts",
+  "keys": [
+    {
+      "description": "The token of the synthetic API.",
+      "kind": "text",
+      "max": 128,
+      "min": 8,
+      "path": "api.token",
+      "rule": "any",
+      "secret": true
+    },
+    {
+      "description": "The banner of the synthetic service.",
+      "kind": "text",
+      "max": 200,
+      "min": 1,
+      "path": "banner",
+      "rule": "no_control"
+    },
+    {
+      "default": 100,
+      "description": "The most clients at one time.",
+      "kind": "integer",
+      "max": 100000,
+      "min": 1,
+      "path": "limits.max_clients"
+    },
+    {
+      "default": "info",
+      "description": "The lowest level of the log.",
+      "kind": "enum",
+      "path": "log.level",
+      "values": [
+        "error",
+        "warn",
+        "info",
+        "debug"
+      ]
+    },
+    {
+      "description": "The password of the synthetic service.",
+      "kind": "text",
+      "max": 128,
+      "min": 8,
+      "path": "storage.password",
+      "rule": "printable_ascii",
+      "secret": true
+    }
+  ],
+  "variable": "demo_config"
+}

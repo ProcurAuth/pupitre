@@ -1,0 +1,213 @@
+/* Copied from Hune, web/css/list.css, commit a55fff3. Edits: none yet; the Pupitre rules are in css/pupitre.css. */
+/* The list page (9.7): head, search, filters, the table of folders and dashboards, the invalid entry and the empty states.
+   Grafana 12.4.2 "Dashboards" page, measured with getComputedStyle. Tokens only (css/tokens.css,
+   css/vendor/chdash/00-tokens.css); the shared parts (buttons, badges, menus) are in components.css. Sizes in px are measured values. */
+
+/* The page has the surface of the panels (Grafana: the browse page is not on the canvas colour) and a 32 px padding. */
+html:has(.list-page), body:has(.list-page) { background: var(--surface-panel); }
+#app-main:has(> .list-page) { padding: 0; background: var(--surface-panel); }
+.list-page { width: 100%; padding: var(--space-32); }
+
+/* Head: the title (28/32, weight 400) and its hint. The search, the filters and the actions of the page are in the header (9.6, 9.7). */
+.list-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-16); margin-bottom: var(--space-16); }
+.list-head__text { min-width: 0; }
+.list-head .page-title { margin: 0; font-size: 28px; font-weight: var(--fw-regular); line-height: 32px; letter-spacing: -0.25px; }
+.list-subtitle { margin: var(--space-8) 0 0; color: var(--muted); }
+.list-toolbar__actions { display: flex; flex: none; align-items: center; gap: var(--space-8); }
+.list-toolbar__actions:empty { display: none; }
+
+/* Search, in the header: one field of 240 px that shrinks to 96 px when the row is narrow (the header is one row), 32 px high, an icon at the
+   left and "Clear" at the right when it has text. */
+.list-search { position: relative; flex: 0 1 240px; min-width: 96px; }
+.list-search__icon { position: absolute; top: 0; bottom: 0; left: var(--space-8); display: flex; align-items: center; color: var(--muted); pointer-events: none; }
+.list-search__input {
+  display: block; width: 100%; height: var(--control-h); padding: 0 var(--space-24) 0 28px;
+  border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--input-bg); color: var(--text);
+  font-size: var(--fs-md); line-height: 22px; letter-spacing: normal;
+}
+.list-search__input::placeholder { color: var(--muted); opacity: 1; }
+.list-search__input:hover { border-color: var(--control-border-hover); }
+.list-search__input:focus-visible { border-color: var(--accent-fill); outline-offset: 0; }
+.list-search__input::-webkit-search-cancel-button, .list-search__input::-webkit-search-decoration { display: none; -webkit-appearance: none; }
+.list-search__input:not(:placeholder-shown) { padding-right: 72px; }
+.list-search__clear {
+  position: absolute; top: 1px; right: var(--space-8); bottom: 1px; display: inline-flex; align-items: center; gap: var(--space-8);
+  padding: 0 var(--space-8); border: 0; background: none; color: var(--accent-text); font-size: var(--fs-xs); font-weight: var(--fw-medium); cursor: pointer;
+}
+.list-search__clear:hover { text-decoration: underline; }
+.list-search__clear:focus-visible { outline-offset: -2px; }
+
+/* Filters, in the header: the tag filter, the view control and the sort. */
+.list-filters { display: flex; flex: none; align-items: center; gap: var(--space-8); }
+.list-select {
+  display: flex; align-items: center; gap: 0; height: var(--control-h); padding: 0 var(--space-8);
+  border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--input-bg); color: var(--muted);
+  font-size: var(--fs-md); line-height: 22px; text-align: left; cursor: pointer;
+}
+.list-select:hover:not(:disabled) { border-color: var(--control-border-hover); }
+.list-select[aria-expanded="true"] { border-color: var(--accent-fill); }
+.list-select:disabled { opacity: 0.6; cursor: default; }
+.list-select:focus-visible { outline-offset: 0; }
+.list-select--tags { width: 150px; }
+.list-select--sort { width: 150px; }
+.list-select__text { flex: 1; min-width: 0; margin: 0 var(--space-4) 0 var(--space-6); overflow: hidden; color: var(--text); text-overflow: ellipsis; white-space: nowrap; }
+.list-select__text--placeholder { color: var(--muted); }
+.list-select > .icon:last-child { margin-left: auto; }
+
+.list-seg { display: inline-flex; padding: var(--space-2); border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface-panel); }
+.list-seg__item {
+  display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 26px; padding: 0;
+  border: 0; border-radius: 3px; background: none; color: var(--muted); cursor: pointer;
+}
+.list-seg__item:hover { color: var(--text); }
+.list-seg__item[aria-pressed="true"] { background: var(--tb-bg); color: var(--text); }
+.list-seg__item:focus-visible { outline-offset: -2px; }
+
+/* The tag chip: the colour comes from the name (--tag-bg), 12/500 white text, 24 px high. */
+.list-tag {
+  display: inline-flex; align-items: center; height: 24px; margin: 0; padding: 3px var(--space-6); border: 0; border-radius: var(--space-4);
+  background: var(--tag-bg); color: var(--on-primary); font-size: var(--fs-xs); font-weight: var(--fw-medium); line-height: 18px; white-space: nowrap;
+}
+button.list-tag { cursor: pointer; }
+button.list-tag:hover { color: var(--on-primary); filter: brightness(1.12); }
+button.list-tag:focus-visible { outline-offset: 1px; }
+
+/* The popup of the tag filter: the menu surface, one chip and its count on each line, a scroll after eight lines. */
+.list-tagmenu { position: fixed; display: block; max-height: 304px; padding: var(--space-4); overflow-y: auto; }
+.list-tagmenu__item {
+  display: flex; align-items: center; gap: var(--space-8); width: 100%; height: 34px; padding: 0 var(--space-6);
+  border: 0; border-radius: var(--r-sm); background: none; color: var(--text); font-size: var(--fs-xs); text-align: left; cursor: pointer;
+}
+.list-tagmenu__item:hover, .list-tagmenu__item:focus-visible { background: var(--menu-item-hover); }
+.list-tagmenu__item[aria-selected="true"] { background: var(--selected-bg); box-shadow: inset 0 0 0 1px var(--selected-edge); }
+.list-tagmenu__item:focus-visible { outline-offset: -2px; }
+.list-tagmenu__count { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.list-skeleton { display: grid; gap: var(--space-8); }
+.list-skeleton .skeleton { height: 36px; border-radius: var(--r-md); }
+
+/* The table is one block: a head row (36 px, the raised fill) and then the folders with their rows. The columns are one grid
+   for the head and for each row, so that they line up: title, tags, last change, menu (the list view adds the folder). */
+.list-page { --list-cols: minmax(0, 1fr) 26% 220px 40px; }
+.list-page[data-layout="list"] { --list-cols: minmax(0, 1.4fr) minmax(0, 1fr) 26% 220px 40px; }
+.list-colhead { display: grid; grid-template-columns: var(--list-cols); column-gap: var(--space-8); align-items: center; height: 36px; background: var(--thead-bg); }
+.list-colhead__cell { min-width: 0; padding: 0 var(--space-8); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list-colhead__title { padding-left: 32px; }
+.list-page[data-layout="list"] .list-colhead__title { padding-left: var(--space-8); }
+
+/* A folder: its row is the toggle (chevron, folder icon, title) and the menu of the folder. */
+.group { margin: 0; }
+.group__head { position: relative; display: flex; align-items: center; margin: 0; font-size: var(--fs-md); font-weight: var(--fw-regular); line-height: 22px; }
+.group__head:hover, .group__head:focus-within { background: var(--menu-item-hover); }
+.group__toggle {
+  display: flex; flex: 1; align-items: center; gap: var(--space-8); min-width: 0; height: 36px; padding: 0 var(--space-8);
+  border: 0; background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer;
+}
+.group__toggle:focus-visible { outline-offset: -2px; }
+.group__toggle > .icon:first-child { margin-right: 0; }
+.group__title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.group__menu { flex: none; width: 28px; min-height: 24px; height: 24px; margin-right: var(--space-8); }
+.group__empty { padding: 0 var(--space-8) 0 56px; font-size: var(--fs-md); line-height: 36px; }
+
+.list-table, .list-table tbody { display: block; width: 100%; }
+.list-table colgroup { display: none; }
+.list-table tbody tr {
+  display: grid; grid-template-columns: var(--list-cols); column-gap: var(--space-8); align-items: center; min-height: 36px;
+}
+.list-table tbody tr:hover, .list-table tbody tr:focus-within { background: var(--menu-item-hover); }
+.list-table td { min-width: 0; padding: var(--space-6) var(--space-8); }
+/* A dashboard in a folder: the icon sits 24 px right of the folder icon (the chevron slot, then 24 px of indent). */
+.list-table:not(.list-table--flat) .cell-title { padding-left: 56px; }
+.cell-title__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6) var(--space-8); min-height: 24px; }
+.cell-title__inner > .icon { flex: none; color: var(--text); }
+tr:not([data-state="invalid"]) .cell-title__inner { flex-wrap: nowrap; }
+.cell-title__link { min-width: 0; overflow: hidden; color: var(--text); text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
+.cell-title__link:hover { color: var(--text); text-decoration: underline; }
+.cell-title__link:focus-visible { outline-offset: 2px; }
+.cell-title__uid { padding: 0 var(--space-4); border-radius: var(--r-sm); background: var(--hover-tint); font-size: var(--fs-sm); overflow-wrap: anywhere; }
+.cell-folder__inner { display: flex; align-items: center; gap: var(--space-8); color: var(--muted); }
+.cell-folder__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cell-tags__list { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); }
+.cell-tags .tag { margin: 0; }
+.cell-changed { overflow: hidden; color: var(--muted); font-size: var(--fs-sm); text-overflow: ellipsis; white-space: nowrap; }
+.cell-menu { display: flex; justify-content: flex-end; padding-right: var(--space-8); }
+.cell-menu .btn { width: 28px; min-height: 24px; height: 24px; vertical-align: middle; }
+/* The row menus show on hover or focus with a pointer, and always on a touch screen. */
+@media (hover: hover) {
+  .list-table tbody tr:not(:hover):not(:focus-within) .cell-menu .btn,
+  .group__head:not(:hover):not(:focus-within) .group__menu { opacity: 0; }
+}
+
+/* An entry that is not valid: a red edge and tint on the row, the toggle of the errors, then the errors in a box that spans
+   the whole row (the title cell has display: contents here, so that its box can use the columns of the row). */
+.list-table tbody tr[data-state="invalid"], .list-table tbody tr[data-state="invalid"]:hover { align-items: start; background: var(--danger-bg); box-shadow: inset 3px 0 0 var(--danger); }
+.cell-title__inner > .icon { flex: none; }
+tr[data-state="invalid"] .cell-title__inner > .icon { color: var(--danger); }
+.errors-toggle { color: var(--accent-text); }
+.errors-toggle:hover { text-decoration: underline; }
+.errors-toggle__chevron { display: inline-flex; }
+.errors-toggle[aria-expanded="true"] .errors-toggle__chevron { transform: rotate(180deg); }
+.invalid-detail { margin-top: var(--space-6); padding: var(--space-8) var(--space-12); border: 1px solid var(--danger); border-radius: var(--r-md); background: var(--surface-panel); font-size: var(--fs-sm); }
+.invalid-detail .error-list { margin: 0; }
+.invalid-detail .error-list li { margin: var(--space-4) 0; overflow-wrap: anywhere; }
+.list-table tbody tr[data-state="invalid"] .cell-title { display: contents; }
+.list-table tbody tr[data-state="invalid"] .cell-title__inner { grid-column: 1; grid-row: 1; padding: var(--space-6) var(--space-8); }
+.list-table:not(.list-table--flat) tbody tr[data-state="invalid"] .cell-title__inner { padding-left: 56px; }
+.list-table tbody tr[data-state="invalid"] .cell-folder,
+.list-table tbody tr[data-state="invalid"] .cell-tags,
+.list-table tbody tr[data-state="invalid"] .cell-changed,
+.list-table tbody tr[data-state="invalid"] .cell-menu { grid-row: 1; }
+.list-table tbody tr[data-state="invalid"] .invalid-detail { grid-column: 1 / -1; grid-row: 2; margin: 0 var(--space-12) var(--space-12) 56px; }
+.list-table--flat tbody tr[data-state="invalid"] .invalid-detail { margin-left: var(--space-8); }
+.list-table tbody tr[data-state="invalid"] .cell-changed { padding-top: calc(var(--space-6) + 5px); }
+
+/* Empty states (no dashboard, no match): a picture of 300 x 200, a title of 18 px, a hint and the actions, centred, 32 px apart. */
+.list-empty { display: flex; flex-direction: column; align-items: center; gap: var(--space-32); max-width: 520px; margin: 0 auto; padding: var(--space-32) 0; text-align: center; }
+.list-empty__art { max-width: 100%; height: auto; }
+.list-empty__title { margin: 0; font-size: 18px; letter-spacing: 0.25px; line-height: 22px; }
+.list-empty__text { margin: calc(-1 * var(--space-16)) 0 0; color: var(--muted); }
+.list-empty__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-8); }
+.il-blob { fill: var(--tb-bg); }
+.il-card { fill: var(--surface-panel); stroke: var(--muted); stroke-width: 2; }
+.il-bar { fill: var(--muted); }
+.il-line, .il-glass, .il-accent { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.il-line { stroke: var(--muted); stroke-width: 2.5; }
+.il-glass { stroke: var(--text); }
+.il-accent { stroke: var(--accent-text); }
+
+/* Narrow windows. The header stays one row (9.6, 9.7). Up to 1180 px the tag filter and the sort show their icon only. Up to 900 px the
+   header shows one button "New" with a menu (the three actions are in it). Up to 480 px the controls are 32 px high and the search keeps
+   the room that is left. The page keeps the title, and the table has the columns Name and Tags up to 768 px (the last change hides). */
+.list-new { display: none; }
+@media (max-width: 1180px) {
+  .list-select--tags, .list-select--sort { width: var(--tb-icon-w, 36px); padding: 0; justify-content: center; }
+  .list-select--tags .list-select__text, .list-select--sort .list-select__text, .list-select > .icon:last-child { display: none; }
+}
+@media (max-width: 900px) {
+  .list-toolbar__actions { display: none; }
+  .list-new { display: inline-flex; flex: none; }
+}
+@media (max-width: 768px) {
+  .list-page { padding: var(--space-16); --list-cols: minmax(0, 1fr) clamp(112px, 36%, 280px) 40px; }
+  .list-page[data-layout="list"] { --list-cols: minmax(0, 1.2fr) minmax(0, 0.8fr) clamp(112px, 30%, 240px) 40px; }
+  .list-table tbody tr[data-state="invalid"] .cell-title__inner { grid-column: 1 / -2; }
+  .list-head { flex-wrap: nowrap; }
+  .list-colhead__changed, .cell-changed { display: none; }
+  .cell-changed__by { display: none; }
+  .cell-tags__list { flex-wrap: nowrap; overflow: hidden; }
+}
+@media (max-width: 480px) {
+  .list-filters { gap: var(--space-4); }
+  .list-seg__item { width: 28px; }
+  .list-search { flex-basis: 0; flex-grow: 1; }
+  .list-new { padding: 0 var(--space-6); gap: var(--space-2); }
+  .list-table:not(.list-table--flat) .cell-title { padding-left: var(--space-40); }
+  .list-colhead__title { padding-left: var(--space-24); }
+  .group__empty { padding-left: var(--space-24); }
+  .list-table tbody tr[data-state="invalid"] .cell-title__inner { padding-left: var(--space-24); }
+  .list-table:not(.list-table--flat) tbody tr[data-state="invalid"] .cell-title__inner { padding-left: var(--space-40); }
+  .list-table:not(.list-table--flat) tbody tr[data-state="invalid"] .invalid-detail { margin-left: var(--space-40); }
+}
+
+/* The sort menu has the width of its button and Grafana's line height of 30 px. */
+[data-testid="list-sort-menu"] .menu__item { min-height: 30px; }

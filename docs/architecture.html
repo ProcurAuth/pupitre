@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The documents, the layers, the two stores, the runner, the snapshot and the guard of an apply.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Architecture | Pupitre">
+<meta property="og:description" content="The documents, the layers, the two stores, the runner, the snapshot and the guard of an apply.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/architecture.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Architecture | Pupitre">
+<meta name="twitter:description" content="The documents, the layers, the two stores, the runner, the snapshot and the guard of an apply.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/architecture.html">
+<title>Architecture | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html" aria-current="page">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> How the single binary works</p><h1>Architecture</h1><p class="lede">The documents, the layers, the two stores, the runner, the snapshot and the guard of an apply.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#the-single-binary">The single binary</a></li><li><a href="#the-documents-and-the-layers">The documents and the layers</a></li><li><a href="#the-two-stores">The two stores</a></li><li><a href="#the-runner">The runner</a></li><li><a href="#commands">Commands</a></li><li><a href="#status-cancel-and-restart">Status, cancel and restart</a></li><li><a href="#the-limits">The limits</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/ARCHITECTURE.md"><code>docs/ARCHITECTURE.md</code></a> in the repository.</p><p>Pupitre is one static binary with the page inside. It keeps the values of services in layers, and it starts Ansible runs on a snapshot of these values. This page tells how the parts work together. The <a href="specification.html">specification</a> has the rules.</p>
+<h2 id="the-single-binary"><a class="self" href="#the-single-binary">The single binary</a></h2>
+<p>The binary <code>pupitre</code> has the HTTP server, the access guard, the catalog, the store, the runner and the page. The workspace has five crates. The crate <code>pupitre-core</code> does no I/O. It holds the formats and the rules of the values.</p>
+<p><img src="assets/architecture.svg" width="1100" height="640" alt="The single binary of Pupitre: the browser and the edge, the HTTP server, the access guard, the catalog, the store, the runner and the hosts" loading="lazy"></p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Part</th><th scope="col">Role</th></tr></thead><tbody><tr><th scope="row">HTTP server</th><td data-label="Role">The main listener serves the page, the API and the two ProcurAuth routes. The ops listener serves <code>/livez</code>, <code>/readyz</code> and <code>/metrics</code>.</td></tr><tr><th scope="row">Access guard</th><td data-label="Role">In the mode <code>authzen</code>, it checks the identity token and asks the PDP. In the mode <code>open</code>, it asks nothing.</td></tr><tr><th scope="row">Catalog</th><td data-label="Role">It keeps the current documents in memory, with their etags. It reads the store again at a fixed period.</td></tr><tr><th scope="row">Store</th><td data-label="Role">One trait with two backends: a folder (<code>files</code>) and PostgreSQL (<code>postgres</code>). Both pass the same contract suite.</td></tr><tr><th scope="row">Runner</th><td data-label="Role">It exists on the runner node only. It builds snapshots, starts <code>ansible-playbook</code> and reads its events.</td></tr><tr><th scope="row">Page</th><td data-label="Role">Plain HTML, CSS and JavaScript in the binary. No framework, no build step and no request to another origin.</td></tr></tbody></table></div>
+<p>Pupitre has no scheduler. No run starts by itself. Each run starts from one HTTP request of a subject. Pupitre makes no request to the internet. It connects only to the hosts of the configuration: the PDP, the PostgreSQL server, the OTLP collector and the managed hosts.</p>
+<h2 id="the-documents-and-the-layers"><a class="self" href="#the-documents-and-the-layers">The documents and the layers</a></h2>
+<p>The store keeps six kinds of document, each one a JSON object in one canonical form. The form has sorted members, two spaces of indent and no float. It is also valid YAML. A file of the backend <code>files</code> is thus easy to read in a review of Git.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Kind</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>environment</code></th><td data-label="Content">The label of an environment</td></tr><tr><th scope="row"><code>common</code></th><td data-label="Content">The values of the layer <code>environment</code></td></tr><tr><th scope="row"><code>host</code></th><td data-label="Content">The address, the port and the labels of a host</td></tr><tr><th scope="row"><code>unit</code></th><td data-label="Content">The label, the schema, the playbooks and the hosts of a unit</td></tr><tr><th scope="row"><code>unit_values</code></th><td data-label="Content">The values of the layer <code>unit</code></td></tr><tr><th scope="row"><code>host_values</code></th><td data-label="Content">The values of the layer <code>host</code> for one unit on one host</td></tr></tbody></table></div>
+<p>The effective value of a key on a host comes from four layers. The last layer that gives a value wins. The page shows the value and the layer that gives it.</p>
+<p><img src="assets/layers.svg" width="1100" height="470" alt="The four layers: the schema default, the environment, the unit and the host. The last layer that gives a value wins." loading="lazy"></p>
+<p>A secret key has two layers: the environment and the unit. The unit wins. A secret has no default and no host layer. No route returns the value of a secret. The page shows a fingerprint: the start of an HMAC with a key of the server.</p>
+<p>The schema of a unit is a file that the configuration names. It lists the keys, their kinds (<code>text</code>, <code>integer</code>, <code>duration</code>, <code>enum</code> and others) and their ranges. So a person who edits values cannot add a key, and Pupitre never changes a value to make it fit.</p>
+<h2 id="the-two-stores"><a class="self" href="#the-two-stores">The two stores</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col"></th><th scope="col"><code>files</code></th><th scope="col"><code>postgres</code></th></tr></thead><tbody><tr><th scope="row">Where</th><td data-label="files">Three folders: the documents, the secrets and the runs</td><td data-label="postgres">Nine tables in one database</td></tr><tr><th scope="row">Instances</th><td data-label="files">One. A lock on each folder stops a second process.</td><td data-label="postgres">One or more</td></tr><tr><th scope="row">Secrets</th><td data-label="files">Files with the mode 0600, in clear text</td><td data-label="postgres">Encrypted with ChaCha20-Poly1305. The key is not in the database.</td></tr><tr><th scope="row">History</th><td data-label="files">A folder <code>.history</code> with each version</td><td data-label="postgres">A table of versions</td></tr><tr><th scope="row">Outside changes</th><td data-label="files">The documents folder can be a Git checkout. A rescan reads a <code>git pull</code>.</td><td data-label="postgres">None</td></tr></tbody></table></div>
+<p>Each write checks a precondition. A save needs the etag of the version that the person read. Two writers with one base etag cannot both succeed. The second gets <code>409 conflict</code>, and no data is lost. Each key keeps a list of versions with no gap. The history is the audit.</p>
+<p>The commands <code>export</code> and <code>copy-store</code> move documents and versions between stores. <code>export</code> writes a folder for a review in Git. It never writes a secret.</p>
+<h2 id="the-runner"><a class="self" href="#the-runner">The runner</a></h2>
+<p>Each instance can accept a run request. It writes the request in the store with the status <code>queued</code>. Only one instance, the runner node, builds snapshots and starts <code>ansible-playbook</code>. A restart of the runner node keeps its role.</p>
+<p><img src="assets/run-flow.svg" width="1100" height="560" alt="The run flow: a request, the queue, the lease of the environment, the snapshot, the check run, the guard and the apply run" loading="lazy"></p>
+<ol><li>A person starts a check run for a unit and a list of hosts. The request is <code>queued</code>.</li><li>The runner node takes the lease of the environment. One run at a time runs in an environment.</li><li>The runner builds the snapshot: a folder with the inventory, the variables of each host, the limit file, the variable files and a callback plugin. It computes the hash of the manifest.</li><li>The render phase runs the render playbook on the runner node. It checks the configuration files and connects to no host.</li><li>The main phase runs the deploy playbook with <code>--check --diff</code>. The callback plugin writes events. The runner scrubs the output and the events before it stores them.</li><li>The check run gets the status <code>passed</code> or <code>failed</code>.</li></ol>
+<p>An apply run names a check run. The guard of the apply holds when four rules hold. The check run has the status <code>passed</code> and the same snapshot hash. It is not older than <code>runner.check_max_age</code>. No earlier apply used it. The guard runs at the request and again at the start of the apply.</p>
+<p>One check gives one apply at most.</p>
+<p>The secrets reach the playbooks as files in a private folder on <code>tmpfs</code>. The inventory names each file in the variable <code>pupitre_secret_files</code>. No secret is in a variable file or on a command line. The runner removes the folder at the end of the run.</p>
+<h2 id="commands"><a class="self" href="#commands">Commands</a></h2>
+<p>A command is a named action of the configuration file with typed parameters. A person launches it by hand on chosen hosts. The parameters go in a variable file, never on a command line. A command with <code>check = true</code> follows the check and apply flow. A command with <code>check = false</code> runs after the person confirms it.</p>
+<h2 id="status-cancel-and-restart"><a class="self" href="#status-cancel-and-restart">Status, cancel and restart</a></h2>
+<p>A status run starts the status playbook of the unit. It never starts by itself. A cancel sends <code>SIGTERM</code> to the process group of the run, waits <code>runner.cancel_grace</code>, then sends <code>SIGKILL</code>. Pupitre decides no rollback. The playbook decides what a half run leaves on the hosts.</p>
+<p>After a restart of Pupitre, the runner node adopts a child that still lives. It compares the start time of the process and the boot id. Else the run becomes <code>lost</code>. Adoption needs a service manager that does not kill the children. <a href="operations.html">Operations</a> tells how to set this.</p>
+<h2 id="the-limits"><a class="self" href="#the-limits">The limits</a></h2>
+<p>Each list, queue, cache and wait has a bound. Most bounds are keys of the configuration, with a default. At a bound, Pupitre refuses with a documented code. It never cuts or rounds a value. The design supports 64 environments, 1,000 units and 1,000 hosts in one environment, and 100 hosts in one unit. Part 7 of the specification lists each limit.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

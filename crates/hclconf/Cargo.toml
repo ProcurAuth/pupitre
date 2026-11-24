@@ -1,0 +1,17 @@
+[package]
+name = "hclconf"
+description = "Strict HCL configuration engine: closed schema, key table, _env and _file indirection, generated reference."
+version.workspace = true
+# Pinned to edition 2021: src/env.rs calls std::env::remove_var, which is unsafe in edition 2024.
+edition = "2021"
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

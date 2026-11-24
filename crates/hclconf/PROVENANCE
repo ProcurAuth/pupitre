@@ -1,0 +1,30 @@
+Provenance of the crate hclconf
+
+Source: a copy of the crate hclconf of Hune (https://github.com/ProcurAuth/hune), version 0.1.1, with its tests.
+Hune and Pupitre are projects of the same organisation and have the same licence (MIT OR Apache-2.0).
+
+Changes in this copy:
+
+1. The paragraph numbers in the comments are the paragraphs of section 6 of the Pupitre specification
+   (docs/06-configuration.md). Section 6 keeps the numbers of the engine paragraphs of Hune: 6.3 is the HCL subset,
+   6.5 the forms, 6.14 the errors, 6.18 the read modes, 6.23 the environment, 6.25 the limits.
+2. A labelled block can hold one level of labelled blocks, for example `command "restart" { param "grace" { } }`
+   (6.12). In Hune, a labelled block must be at the top of the file. A deeper level is still refused.
+   `ResolvedKey` and `BlockInstance` have the new member `sub_label`. `Checked` has the new functions `get_in_sub`,
+   `block_in_sub` and `sub_labels`. The reference writes `command "<id>".param "<name>".type`.
+   The test file tests/nested_labels.rs covers the change.
+3. A test value names no other product.
+
+The crate has its own parser of the HCL subset of 6.3. It has no dependency.
+
+Edition: 2021. The crate stays on the edition 2021 because src/env.rs calls std::env::remove_var.
+This function is unsafe from the edition 2024, and each crate of the workspace forbids unsafe code.
+
+The three behaviours of 6.1 are built in:
+
+1. A duration has exactly one integer and one unit (ms, s, m or h). The text "1m 30s", the unit
+   us and the unit ns are not valid.
+2. A block can depend on a mode key, as an attribute can.
+3. A boolean key can be a mode key.
+
+Only src/env.rs reads the environment (6.23). The tests of the crate are in src/ and in tests/.

@@ -1,0 +1,65 @@
+---
+# Synthetic role of the acceptance tests. It installs a small service and its configuration on a host.
+# The values come from the variable `demo_config` of the schema `demo` (4.12).
+- name: Check the values of the unit
+  ansible.builtin.assert:
+    that:
+      - demo_config is defined
+      - demo_config.banner is defined
+      - demo_config.limits.max_clients is defined
+    fail_msg: "The unit has no value for the key banner."
+    quiet: true
+
+- name: Make the folder of the service
+  ansible.builtin.file:
+    path: /etc/demo-service
+    state: directory
+    owner: root
+    mode: "0755"
+
+- name: Install the program of the service
+  ansible.builtin.copy:
+    src: demo-service
+    dest: /usr/local/bin/demo-service
+    owner: root
+    mode: "0755"
+  notify: Restart the service
+
+- name: Install the unit of the service
+  ansible.builtin.copy:
+    src: demo-service.service
+    dest: /etc/systemd/system/demo-service.service
+    owner: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+    - Restart the service
+
+- name: Write the configuration of the service
+  ansible.builtin.copy:
+    content: "{{ demo_config | to_nice_json(indent=2, sort_keys=True) }}\n"
+    dest: /etc/demo-service/config.json
+    owner: root
+    mode: "0644"
+  diff: true
+  notify: Restart the service
+
+- name: Write the password of the service
+  ansible.builtin.copy:
+    src: "{{ demo_secret_files['storage.password'] }}"
+    dest: /etc/demo-service/password
+    owner: root
+    mode: "0600"
+  when: "'storage.password' in demo_secret_files"
+  no_log: true
+  notify: Restart the service
+
+- name: Flush the handlers before the start
+  ansible.builtin.meta: flush_handlers
+
+- name: Start the service
+  ansible.builtin.systemd_service:
+    name: demo-service
+    state: started
+    enabled: true
+  when: not ansible_check_mode

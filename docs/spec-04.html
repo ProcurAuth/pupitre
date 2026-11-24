@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Runs, the snapshot, the child process, the guard of an apply and the commands.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Specification, part 4: Runner and commands | Pupitre">
+<meta property="og:description" content="Runs, the snapshot, the child process, the guard of an apply and the commands.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/spec-04.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Specification, part 4: Runner and commands | Pupitre">
+<meta name="twitter:description" content="Runs, the snapshot, the child process, the guard of an apply and the commands.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/spec-04.html">
+<title>Specification, part 4: Runner and commands | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html" aria-current="true">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> Part 4 of the specification</p><h1>Specification, part 4: Runner and commands</h1><p class="lede">Runs, the snapshot, the child process, the guard of an apply and the commands.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#4-runner-and-commands">4. Runner and commands</a></li><li><a href="#41-the-two-roles-of-an-instance">4.1 The two roles of an instance</a></li><li><a href="#42-the-catalog-of-capabilities">4.2 The catalog of capabilities</a></li><li><a href="#43-kinds-and-modes-of-a-run">4.3 Kinds and modes of a run</a></li><li><a href="#44-the-run-request">4.4 The run request</a></li><li><a href="#45-the-queue">4.5 The queue</a></li><li><a href="#46-the-loop-of-the-runner-node">4.6 The loop of the runner node</a></li><li><a href="#47-the-lease-of-an-environment">4.7 The lease of an environment</a></li><li><a href="#48-the-lease-of-the-runner">4.8 The lease of the runner</a></li><li><a href="#49-the-snapshot-inputs">4.9 The snapshot: inputs</a></li><li><a href="#410-the-snapshot-the-folders">4.10 The snapshot: the folders</a></li><li><a href="#411-the-inventory">4.11 The inventory</a></li><li><a href="#412-the-variables-of-a-host">4.12 The variables of a host</a></li><li><a href="#412a-the-yaml-form-of-the-variable-files">4.12a The YAML form of the variable files</a></li><li><a href="#413-the-private-folder-of-the-secrets">4.13 The private folder of the secrets</a></li><li><a href="#414-the-variable-files">4.14 The variable files</a></li><li><a href="#415-the-file-ansiblecfg">4.15 The file ansible.cfg</a></li><li><a href="#416-the-manifest-and-the-hash">4.16 The manifest and the hash</a></li><li><a href="#417-the-command-line">4.17 The command line</a></li><li><a href="#418-the-environment-of-the-child">4.18 The environment of the child</a></li><li><a href="#419-the-child-process">4.19 The child process</a></li><li><a href="#420-the-callback-plugin-and-the-events">4.20 The callback plugin and the events</a></li><li><a href="#421-the-scrubber">4.21 The scrubber</a></li><li><a href="#422-the-output-and-the-events-in-the-store">4.22 The output and the events in the store</a></li><li><a href="#423-the-end-of-a-run">4.23 The end of a run</a></li><li><a href="#424-the-guard-of-an-apply">4.24 The guard of an apply</a></li><li><a href="#425-the-render-phase">4.25 The render phase</a></li><li><a href="#426-status-runs">4.26 Status runs</a></li><li><a href="#427-cancel">4.27 Cancel</a></li><li><a href="#428-the-timeout">4.28 The timeout</a></li><li><a href="#429-adoption-after-a-restart">4.29 Adoption after a restart</a></li><li><a href="#430-runs-of-another-runner-node">4.30 Runs of another runner node</a></li><li><a href="#431-cleanup">4.31 Cleanup</a></li><li><a href="#432-commands">4.32 Commands</a></li><li><a href="#433-the-parameters-of-a-command">4.33 The parameters of a command</a></li><li><a href="#434-the-canonical-form-of-the-parameters">4.34 The canonical form of the parameters</a></li><li><a href="#435-the-flow-of-a-command">4.35 The flow of a command</a></li><li><a href="#436-what-the-runner-never-does">4.36 What the runner never does</a></li><li><a href="#437-the-interface-in-the-code">4.37 The interface in the code</a></li><li><a href="#438-the-run-record">4.38 The run record</a></li><li><a href="#439-the-status-transitions">4.39 The status transitions</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/04-runner-and-commands.md"><code>docs/04-runner-and-commands.md</code></a> in the repository.</p><p>This part uses ASD-STE100 Simplified Technical English. Part 1 gives the rules of the document.</p>
+<h2 id="4-runner-and-commands"><a class="self" href="#4-runner-and-commands">4. Runner and commands</a></h2>
+<h3 id="41-the-two-roles-of-an-instance">4.1 The two roles of an instance</h3>
+<p>Each instance serves the API. With <code>runner.enabled = true</code>, each instance accepts run requests and writes them in the store with the status <code>queued</code> (4.5). The one instance with <code>runner.execute = true</code> is the runner node. Only the runner node builds snapshots and starts <code>ansible-playbook</code>.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Backend</th><th scope="col">Instances</th><th scope="col">Runner node</th></tr></thead><tbody><tr><th scope="row"><code>files</code></th><td data-label="Instances">One</td><td data-label="Runner node">The one instance. <code>runner.enabled = true</code> needs <code>runner.execute = true</code> (6.14).</td></tr><tr><th scope="row"><code>postgres</code></th><td data-label="Instances">One or more</td><td data-label="Runner node">The instance that holds the lease <code>runner</code> (4.8). A second instance with <code>runner.execute = true</code> stops at start.</td></tr></tbody></table></div>
+<p>With <code>runner.enabled = false</code>, no instance runs anything. The run routes give <code>404 not_found</code> (3.3), and the file has no block <code>playbook</code> and no block <code>command</code> (6.14).</p>
+<p>A run that waits for a runner node stays <code>queued</code>. Pupitre never refuses a run because no runner node is up. The page shows the age of the oldest queued run, and the metric <code>pupitre_runs_queued</code> counts them (6.28).</p>
+<h3 id="42-the-catalog-of-capabilities">4.2 The catalog of capabilities</h3>
+<p>The configuration file holds the catalog of capabilities. The store never holds a part of it.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Block</th><th scope="col">Content</th><th scope="col">Rule</th></tr></thead><tbody><tr><th scope="row"><code>schema "&lt;id&gt;"</code></th><td data-label="Content">The path of a schema file (2.11)</td><td data-label="Rule">Read at start on each instance.</td></tr><tr><th scope="row"><code>playbook "&lt;id&gt;"</code></th><td data-label="Content"><code>kind</code> (<code>deploy</code>, <code>render</code>, <code>status</code> or <code>command</code>) and the absolute <code>path</code> of a playbook file</td><td data-label="Rule">Only with <code>runner.enabled = true</code>. The runner node reads each file at start and at each run.</td></tr><tr><th scope="row"><code>command "&lt;id&gt;"</code></th><td data-label="Content"><code>label</code>, <code>playbook</code>, <code>target</code>, <code>check</code> and 0 to 16 blocks <code>param</code> (4.32)</td><td data-label="Rule">Only with <code>runner.enabled = true</code>.</td></tr></tbody></table></div>
+<p>The catalog stays the same for the life of the process. A change needs a restart. Two blocks <code>playbook</code> MUST NOT have the same <code>path</code> (6.14).</p>
+<p>The folder of a playbook MUST NOT hold an entry <code>group_vars</code> or <code>host_vars</code> (4.12, 7.8). Else the runner node stops at start with the error <code>playbook "&lt;id&gt;".path</code>, the expected state and the entry found. Ansible reads these entries next to the playbook, and they win over the variables of Pupitre. Put the variables in a role, or in the playbook, or in a folder that is not next to a playbook.</p>
+<p>The runner runs only a playbook of the catalog. The path of each run comes from the block <code>playbook</code> of its id, never from a document or a request. A document <code>unit</code> names playbook ids (2.9), and a request names a command id. The server checks each id against the catalog.</p>
+<h3 id="43-kinds-and-modes-of-a-run">4.3 Kinds and modes of a run</h3>
+<p>A run has a kind and a mode. The mode <code>check</code> adds <code>--check --diff</code> to the command line. The mode <code>apply</code> runs the playbook with no such flag.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Kind</th><th scope="col">Mode</th><th scope="col">Playbook</th><th scope="col">Node</th><th scope="col">Use action (3.12)</th><th scope="col">Needs a check run</th></tr></thead><tbody><tr><th scope="row"><code>deploy</code></th><td data-label="Mode"><code>check</code></td><td data-label="Playbook"><code>render</code> of the unit (4.25), then <code>deploy</code> of the unit</td><td data-label="Node">unit or host</td><td data-label="Use action (3.12)"><code>run.check</code></td><td data-label="Needs a check run">No</td></tr><tr><th scope="row"><code>deploy</code></th><td data-label="Mode"><code>apply</code></td><td data-label="Playbook"><code>deploy</code> of the unit</td><td data-label="Node">from the check run</td><td data-label="Use action (3.12)"><code>run.apply</code></td><td data-label="Needs a check run">Yes (4.24)</td></tr><tr><th scope="row"><code>status</code></th><td data-label="Mode"><code>apply</code></td><td data-label="Playbook"><code>status</code> of the unit</td><td data-label="Node">unit or host</td><td data-label="Use action (3.12)"><code>run.check</code></td><td data-label="Needs a check run">No</td></tr><tr><th scope="row"><code>command</code></th><td data-label="Mode"><code>check</code></td><td data-label="Playbook">the playbook of the command</td><td data-label="Node">the type of <code>target</code></td><td data-label="Use action (3.12)"><code>command.run</code></td><td data-label="Needs a check run">No</td></tr><tr><th scope="row"><code>command</code></th><td data-label="Mode"><code>apply</code></td><td data-label="Playbook">the playbook of the command</td><td data-label="Node">the type of <code>target</code></td><td data-label="Use action (3.12)"><code>command.run</code></td><td data-label="Needs a check run">Only for a command with <code>check = true</code></td></tr></tbody></table></div>
+<ul><li>A status playbook MUST only read the hosts. It runs in the mode <code>apply</code> so that a task that reads a state can run. Pupitre cannot check that the playbook only reads (7.11).</li><li>A command with <code>check = false</code> accepts the mode <code>apply</code> only. A request of the mode <code>check</code> for it gives <code>422 invalid_run_request</code>.</li><li>A request to cancel a run asks the use action of the kind and the mode of that run.</li></ul>
+<h3 id="44-the-run-request">4.4 The run request</h3>
+<p><code>POST /api/runs</code> (5.16) takes one JSON object. The members depend on the kind and the mode. No other member is valid.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Kind and mode</th><th scope="col">Members</th></tr></thead><tbody><tr><th scope="row"><code>deploy</code>, <code>check</code></th><td data-label="Members"><code>kind</code>, <code>mode</code>, <code>node</code>, <code>hosts</code>, optional <code>message</code></td></tr><tr><th scope="row"><code>deploy</code>, <code>apply</code></th><td data-label="Members"><code>kind</code>, <code>mode</code>, <code>check_run</code>, optional <code>message</code></td></tr><tr><th scope="row"><code>status</code>, <code>apply</code></th><td data-label="Members"><code>kind</code>, <code>mode</code>, <code>node</code>, <code>hosts</code>, optional <code>message</code></td></tr><tr><th scope="row"><code>command</code>, <code>check</code></th><td data-label="Members"><code>kind</code>, <code>mode</code>, <code>command</code>, <code>node</code>, <code>hosts</code>, <code>params</code>, optional <code>message</code></td></tr><tr><th scope="row"><code>command</code>, <code>apply</code>, with a check</th><td data-label="Members"><code>kind</code>, <code>mode</code>, <code>check_run</code>, optional <code>message</code></td></tr><tr><th scope="row"><code>command</code>, <code>apply</code>, with <code>check = false</code></th><td data-label="Members"><code>kind</code>, <code>mode</code>, <code>command</code>, <code>node</code>, <code>hosts</code>, <code>params</code>, optional <code>message</code></td></tr></tbody></table></div>
+<p>The server checks the request in the order of 3.13. The checks of step 10:</p>
+<ol><li><code>node</code> is a node path of 3.8 whose type the table of 4.3 permits. For a command, its type equals <code>target</code> of the command.</li><li>The unit of the node is valid in the catalog (2.41). For <code>deploy</code>, it has <code>playbooks.deploy</code>. For <code>status</code>, it has <code>playbooks.status</code>. Each named playbook is in the catalog of capabilities with the right kind.</li><li><code>hosts</code> has 1 or more host ids, in byte order, each one time. For a unit node, each host is in <code>hosts</code> of the unit. For a host node, <code>hosts</code> is exactly the host of the node. For an environment node, each host has a document <code>host</code> in the environment.</li><li>The count of <code>hosts</code> is not above the effective <code>max_hosts</code> (3.10).</li><li><code>params</code> passes the checks of 4.33. It is an object, and it can be empty.</li><li><code>message</code> is a text of 0 to 500 characters with no control character except U+000A and no format character (2.1). It never reaches Ansible.</li><li>For a request with <code>check_run</code>, the guard of 4.24 holds at the time of the request.</li></ol>
+<p>A refusal of rules 1 to 6 gives <code>422 invalid_run_request</code>, with one error for each problem. A refusal of rule 7 gives the code of 4.24.</p>
+<p>The answer of a success is <code>201</code> with the run record (4.38). The run then has the status <code>queued</code>, the subject of the request and the time of the instance.</p>
+<h3 id="45-the-queue">4.5 The queue</h3>
+<p>The queue is the set of runs with the status <code>queued</code> in the store. Its order is the order of the run ids, which is the order of time (2.1).</p>
+<ul><li><code>create_run</code> refuses a run when <code>runner.max_queued_runs</code> runs are queued (2.27). The server then answers <code>503 run_queue_full</code> with <code>Retry-After: 5</code>.</li><li>A queued run waits for the runner node and for the lease of its environment (4.7).</li><li>A person can cancel a queued run (4.27).</li></ul>
+<h3 id="46-the-loop-of-the-runner-node">4.6 The loop of the runner node</h3>
+<p>The runner node repeats these steps. It starts them at once after a run request of its own instance, and else at the period of the poll of its backend (6.10).</p>
+<ol><li>Read the cancel requests of its runs, and send the signals (4.27).</li><li>When fewer than <code>runner.max_parallel_runs</code> runs are active, call <code>next_queued</code> with the environments that it holds.</li><li>For each run that it gets, take the lease of its environment (4.7). With the lease, change the status to <code>running</code> (4.39). Without it, leave the run <code>queued</code>.</li><li>For each run with the status <code>running</code>, build the snapshot (4.9 to 4.16) and check the guard again (4.24). Then start the child (4.17 to 4.19) and follow it (4.20 to 4.23).</li><li>Renew each lease at one third of <code>runner.lease_ttl</code>.</li></ol>
+<p>A run never starts before it holds the lease of its environment. An error of the store in a step leaves the run in its status. The runner writes the log line <code>runner.store_error</code> and tries again at the next period.</p>
+<h3 id="47-the-lease-of-an-environment">4.7 The lease of an environment</h3>
+<p>The lease <code>environment:&lt;env&gt;</code> permits one run at a time in an environment, of any kind and mode. So a check never runs at the same time as an apply of the same environment.</p>
+<ul><li>The holder is the text <code>&lt;node id&gt;/&lt;run id&gt;</code>. The time to live is <code>runner.lease_ttl</code>.</li><li>The runner node renews the lease while the run is <code>running</code>. It releases the lease after the end of the run.</li><li>A lease that nobody renews ends after <code>runner.lease_ttl</code>. Another run can then start.</li></ul>
+<h3 id="48-the-lease-of-the-runner">4.8 The lease of the runner</h3>
+<p>With the backend <code>postgres</code>, the lease <code>runner</code> names the runner node.</p>
+<ul><li>At start, an instance with <code>runner.execute = true</code> takes the lease <code>runner</code> with its node id. When another node holds it, the instance stops at start with exit code 1 and the message <code>another runner node holds the lease until &lt;time&gt;</code>.</li><li>The same node id can take the lease again at once. So a restart of the runner node keeps its role.</li><li>The runner node renews the lease at one third of <code>runner.lease_ttl</code>. When a renewal gives <code>Lost</code>, or when no renewal succeeds for <code>runner.lease_ttl</code>, the runner node stops each child (4.27). Then it writes the log line <code>runner.lease_lost</code> and the process exits with code 1.</li></ul>
+<p>The node id is a UUID that the runner node writes one time in the file <code>&lt;runner.work_dir&gt;/node-id</code>, with the mode 0600. It keeps the same id after a restart.</p>
+<p>With the backend <code>files</code>, the lock of 2.32 makes the one process the runner node. The leases are in memory (2.29).</p>
+<h3 id="49-the-snapshot-inputs">4.9 The snapshot: inputs</h3>
+<p>The runner builds one snapshot for each run. Its inputs are:</p>
+<ul><li>the documents of the environment, from <code>read_environment</code> (2.23);</li><li>the catalog of capabilities (4.2): the schemas, the playbook ids, kinds and paths, and the command;</li><li>the bytes of each playbook file of the run, and of the file <code>runner.known_hosts_file</code>;</li><li>the run record: the kind, the node, the hosts and the parameters;</li><li>the secret values of the units of the run (4.13), from <code>read_secrets</code> (2.24).</li></ul>
+<p>Before it writes a file, the runner checks the inputs. An error stops the run. The errors are a unit of the run that is not valid, a value that fails 2.13, and a broken reference of 2.16. The status is then <code>failed</code> with the reason <code>invalid_values</code>, and no process starts. The output of the run holds the list of the errors.</p>
+<h3 id="410-the-snapshot-the-folders">4.10 The snapshot: the folders</h3>
+<div class="code-wrap"><span class="label">text</span><pre data-copy tabindex="0" aria-label="Code example: text"><code>&lt;runner.work_dir&gt;/runs/&lt;run id&gt;/
+  snapshot/                          immutable: mode 0500 for the folders and 0400 for the files
+    manifest.json                    4.16
+    inventory/hosts.yml              4.11
+    inventory/host_vars/&lt;host&gt;.yml   4.12, one file for each host of the environment
+    vars/run.json                    4.14
+    vars/params.yml                  4.14, only for a command
+    callback_plugins/pupitre_events.py   4.20
+  ansible.cfg                        4.15
+  run-vars.json                      4.14
+  pid                                4.19
+  output.log                         4.19
+  events.jsonl                       4.20
+  home/  tmp/
+&lt;runner.secrets_dir&gt;/&lt;run id&gt;/       4.13, mode 0700
+  values/                            4.13
+  render/                            4.25</code></pre></div>
+<p>The runner writes <code>inventory/hosts.yml</code> and <code>vars/run.json</code> in the canonical form of 2.4. This JSON text is also YAML. These two files hold no text of a document: they hold ids, names and paths. The files with values of documents or parameters are in the YAML form of 4.12a. The runner changes the modes after the last file, then it computes the hash (4.16). The folder of a run stays until <code>prune_runs</code> removes the run (4.31).</p>
+<h3 id="411-the-inventory">4.11 The inventory</h3>
+<p><code>inventory/hosts.yml</code> holds each host of the environment and these groups:</p>
+<ul><li>the group of each schema (2.11) whose units have hosts in the environment, with the hosts of these units;</li><li>one group for each host label (2.8), with the hosts that have the label;</li><li>the group <code>pupitre_run</code>, with the hosts of the run.</li></ul>
+<p>A group with no host is absent. No label and no group of a schema can be <code>pupitre_run</code> (2.1). Example:</p>
+<div class="code-wrap"><span class="label">json</span><pre data-copy tabindex="0" aria-label="Code example: json"><code>{
+  "all": {
+    "children": {
+      "canary": {
+        "hosts": {
+          "host-a": {}
+        }
+      },
+      "pupitre_run": {
+        "hosts": {
+          "host-a": {}
+        }
+      },
+      "relay_hosts": {
+        "hosts": {
+          "host-a": {},
+          "host-b": {}
+        }
+      }
+    },
+    "hosts": {
+      "host-a": {},
+      "host-b": {},
+      "host-c": {}
+    }
+  }
+}</code></pre></div>
+<p>The inventory holds each host of the environment, so a playbook can read the variables of the other hosts. The group <code>pupitre_run</code> gives the hosts that the run reaches: the limit of the command line names it (4.17). A host id that is also the name of a label or of a group thus adds no host to the run.</p>
+<h3 id="412-the-variables-of-a-host">4.12 The variables of a host</h3>
+<p><code>inventory/host_vars/&lt;host&gt;.yml</code> holds, for one host:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Variable</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>ansible_host</code></th><td data-label="Content">The <code>address</code> of the document <code>host</code></td></tr><tr><th scope="row"><code>ansible_port</code></th><td data-label="Content">The <code>port</code> of the document <code>host</code>, when it has one</td></tr><tr><th scope="row"><code>ansible_ssh_common_args</code></th><td data-label="Content"><code>-o HostKeyAlias=&lt;environment&gt;.&lt;host&gt;</code>, with the ids of the environment and of the host</td></tr><tr><th scope="row"><code>pupitre_environment</code></th><td data-label="Content">The id of the environment</td></tr><tr><th scope="row"><code>pupitre_units</code></th><td data-label="Content">The ids of the units that hold the host, in byte order</td></tr><tr><th scope="row"><code>&lt;variable&gt;</code> of each schema</th><td data-label="Content">For each unit U that holds the host: the effective values of U on the host (2.13), as one nested object</td></tr><tr><th scope="row"><code>pupitre_secret_files</code></th><td data-label="Content">Only for a host of the run, and only when one of its units has a secret. An object keyed by unit id. The value of a unit is an object from each secret key path to the path of its file (4.13).</td></tr></tbody></table></div>
+<p>The nested object comes from the key paths: each segment is one level. Example: the values <code>limits.max_clients = 500</code> and <code>log.level = "info"</code> give <code>{"limits": {"max_clients": 500}, "log": {"level": "info"}}</code>. A duration stays the text of 2.12. A key with no effective value is absent.</p>
+<p>Example of <code>pupitre_secret_files</code>, for a host of the units <code>feed</code> and <code>relay</code>:</p>
+<div class="code-wrap"><span class="label">json</span><pre data-copy tabindex="0" aria-label="Code example: json"><code>{
+  "feed": {"api.token": "{{ pupitre_secrets_dir }}/environments/production/api.token"},
+  "relay": {"storage.password": "{{ pupitre_secrets_dir }}/environments/production/units/relay/storage.password"}
+}</code></pre></div>
+<p>A unit lists only the secret keys that have a stored value. The value of the unit scope wins over the value of the environment scope (2.13), so the path names the scope that wins. A unit with no secret has no entry, and the variable is absent when no unit of the host has an entry. A playbook reads the files of its unit with <code>pupitre_secret_files[&lt;unit id&gt;]</code>.</p>
+<p>The path of a secret file is the text <code>{{ pupitre_secrets_dir }}/&lt;scope folder&gt;/&lt;name&gt;</code>. Ansible replaces <code>pupitre_secrets_dir</code> with the value of <code>run-vars.json</code> (4.14). So the snapshot holds no path that changes with each run.</p>
+<p>Inventory variables have a low precedence in Ansible. Ansible also reads the entries <code>group_vars</code> and <code>host_vars</code> next to the playbook for each run, and they win over Pupitre. A label of a host becomes a group (4.11). So a file <code>group_vars/production.yml</code> would reach the run of another environment when an editor gives a host the label <code>production</code>. A host id that equals a file of <code>host_vars</code> has the same effect.</p>
+<p>The generated inventory folder holds only the <code>host_vars</code> of Pupitre. The playbook folder is the second place where Ansible looks.</p>
+<p>So the runner node refuses a playbook whose folder holds an entry <code>group_vars</code> or <code>host_vars</code>. It checks this at start and for each snapshot (4.2, 7.8). The entry can be a file, a folder or a symbolic link.</p>
+<p>SSH finds the host key of a host by the name <code>&lt;environment&gt;.&lt;host&gt;</code>, never by the address (<code>HostKeyAlias</code>). The ids have no <code>.</code>, so each pair gives one name. The file <code>runner.known_hosts_file</code> MUST hold one line for each host that the runner reaches, with this name in place of the address. Example: <code>production.host-a ssh-ed25519 AAAA...</code>. The file MUST hold only lines of this form.</p>
+<p>The operator MUST remove the lines of a host or an environment when it is deleted. An id that is made again gets the old key (7.11).</p>
+<p>A person can change the <code>address</code> of a host to the address of another machine. The key of that machine is not the key of the host id, so the connection stops (7.8). This holds also when the other machine is in another environment.</p>
+<h3 id="412a-the-yaml-form-of-the-variable-files">4.12a The YAML form of the variable files</h3>
+<p>Ansible evaluates a template in the value of a variable when a playbook reads it. A string with <code>{{ lookup('pipe', ...) }}</code> would run a program on the runner node, also in the mode <code>check</code>. The tag <code>!unsafe</code> of Ansible makes a value data: Ansible never evaluates a string in it. JSON has no tags, so the files <code>inventory/host_vars/&lt;host&gt;.yml</code> and <code>vars/params.yml</code> are in this YAML form:</p>
+<ul><li>The layout is the layout of 2.4: the members in byte order, two spaces for each level, one item on each line.</li><li>The object of the variable of each schema (4.12) and the object <code>pupitre_params</code> (4.14) have the tag <code>!unsafe</code>. Each object and each array in them also has the tag. A string in them has no tag.</li><li>A string writes <code>"</code>, the characters, <code>"</code>. The escapes are <code>\"</code>, <code>\\</code>, <code>\n</code>, <code>\r</code> and <code>\t</code>. Each other character outside U+0020 to U+007E is <code>\xXX</code>, <code>\uXXXX</code> or <code>\UXXXXXXXX</code>, with the fewest digits that hold its code and lower-case digits. So each file is ASCII.</li><li>The names of the members are ids of 2.1, segments of key paths, or fixed names. No name can hold a template marker.</li></ul>
+<p>Example of the variable of a schema:</p>
+<div class="code-wrap"><span class="label">yaml</span><pre data-copy tabindex="0" aria-label="Code example: yaml"><code>  "relay_config": !unsafe {
+    "banner": "Caf\xe9 {open}",
+    "limits": !unsafe {
+      "max_clients": 500
+    }
+  }</code></pre></div>
+<p>The tag is on the objects and the arrays, not on the strings. From ansible-core 2.19, a tag on a string makes Ansible resolve its type again. Then the text <code>"true"</code> becomes a boolean, and <code>""</code> becomes <code>null</code>.</p>
+<p>The runner node needs ansible-core 2.19 or later, and it refuses an older version at start (7.8). Before 2.19, the tag is lost when a playbook reads a value through <code>hostvars</code>. A filter that builds a new string, for example <code>b64decode</code>, <code>from_json</code>, <code>join</code> or <code>~</code>, then gives a plain string. <code>set_fact</code> stores this string, and each later read evaluates it. Only a version from 2.19 keeps the protection in this path.</p>
+<p>The address, <code>ansible_ssh_common_args</code>, <code>pupitre_environment</code> and <code>pupitre_units</code> have no tag. They hold an address of 2.8 or ids of 2.1, and these rules permit no <code>{</code>, <code>%</code> or <code>#</code>. The paths of <code>pupitre_secret_files</code> have no tag, because Ansible must evaluate <code>{{ pupitre_secrets_dir }}</code> in them. Rule 2.12 and rule 4.33 also refuse the template markers in each text, before a value reaches the store or a run (7.3).</p>
+<h3 id="413-the-private-folder-of-the-secrets">4.13 The private folder of the secrets</h3>
+<p>The runner writes the secrets of a run in <code>&lt;runner.secrets_dir&gt;/&lt;run id&gt;/</code>:</p>
+<ul><li>The folder has the mode 0700. Each file has the mode 0600 and the bytes of one value, with no line end added.</li><li>The files are <code>values/&lt;scope folder&gt;/&lt;name&gt;</code>. They hold the secrets of each unit that has a host of the run. They also hold the secrets of the environment scope that these units use (2.13).</li><li>The folder <code>render</code> is empty at the start. The render phase writes the configuration files of the hosts in it (4.25). These files can hold secrets, so they stay on <code>tmpfs</code> with the values.</li><li><code>runner.secrets_dir</code> MUST be on <code>tmpfs</code> or <code>ramfs</code>. The runner node checks it at start (6.13).</li><li>The runner removes the folder at the end of the run, whatever its status. At start, the runner node removes each folder of a run that it does not adopt (4.29). When the record of a run refuses a write, the runner stops the child and removes the folder. Then it frees the environment.</li></ul>
+<h3 id="414-the-variable-files">4.14 The variable files</h3>
+<p>The snapshot holds two variable files. The command line gives them with <code>--extra-vars @&lt;file&gt;</code>.</p>
+<p><code>vars/run.json</code> holds the facts of the run that never change between a check and its apply:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Variable</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>pupitre_kind</code></th><td data-label="Content"><code>deploy</code>, <code>status</code> or <code>command</code></td></tr><tr><th scope="row"><code>pupitre_node</code></th><td data-label="Content">The node path of the run</td></tr><tr><th scope="row"><code>pupitre_playbook</code></th><td data-label="Content">The id of the playbook</td></tr><tr><th scope="row"><code>pupitre_command</code></th><td data-label="Content">The id of the command, for a command</td></tr><tr><th scope="row"><code>pupitre_releases_dir</code></th><td data-label="Content">The value of <code>runner.releases_dir</code>, when the configuration has it</td></tr></tbody></table></div>
+<p><code>vars/params.yml</code> holds <code>pupitre_params</code> for a command, in the YAML form of 4.12a. It has the parameters of the request in the form of 4.34. A duration becomes an integer of milliseconds. The command line never holds a parameter.</p>
+<p><code>run-vars.json</code> is outside the snapshot, because it changes with each run:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Variable</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>pupitre_run_id</code></th><td data-label="Content">The run id</td></tr><tr><th scope="row"><code>pupitre_secrets_dir</code></th><td data-label="Content"><code>&lt;runner.secrets_dir&gt;/&lt;run id&gt;/values</code></td></tr><tr><th scope="row"><code>pupitre_render_dir</code></th><td data-label="Content"><code>&lt;runner.secrets_dir&gt;/&lt;run id&gt;/render</code>, an empty folder in the private folder for the render phase (4.13, 4.25)</td></tr></tbody></table></div>
+<h3 id="415-the-file-ansiblecfg">4.15 The file <code>ansible.cfg</code></h3>
+<p>The runner writes <code>&lt;run folder&gt;/ansible.cfg</code>:</p>
+<div class="code-wrap"><span class="label">ini</span><pre data-copy tabindex="0" aria-label="Code example: ini"><code>[defaults]
+inventory = &lt;run folder&gt;/snapshot/inventory/hosts.yml
+callback_plugins = &lt;run folder&gt;/snapshot/callback_plugins
+callbacks_enabled = pupitre_events
+retry_files_enabled = False
+host_key_checking = True
+remote_user = &lt;runner.ssh_user&gt;
+private_key_file = &lt;runner.ssh_key_file&gt;
+forks = &lt;runner.forks&gt;
+local_tmp = &lt;run folder&gt;/tmp
+
+[ssh_connection]
+ssh_args = -o UserKnownHostsFile=&lt;runner.known_hosts_file&gt; -o GlobalKnownHostsFile=/dev/null -o StrictHostKeyChecking=yes -o CheckHostIP=no -o IdentitiesOnly=yes -o ForwardAgent=no -o PasswordAuthentication=no</code></pre></div>
+<p>The file has no other line. The manifest holds the values of the settings, not the file (4.16). Each host adds <code>-o HostKeyAlias=&lt;environment&gt;.&lt;host&gt;</code> through <code>ansible_ssh_common_args</code> (4.12). <code>CheckHostIP=no</code> stops a second check by the address: the name of the host id is the only key of the check.</p>
+<h3 id="416-the-manifest-and-the-hash">4.16 The manifest and the hash</h3>
+<p><code>snapshot/manifest.json</code> describes the snapshot. Example:</p>
+<div class="code-wrap"><span class="label">json</span><pre data-copy tabindex="0" aria-label="Code example: json"><code>{
+  "callback_plugin": "&lt;64 hex&gt;",
+  "environment": "production",
+  "files": {
+    "inventory/host_vars/host-a.yml": "&lt;64 hex&gt;",
+    "inventory/hosts.yml": "&lt;64 hex&gt;",
+    "vars/run.json": "&lt;64 hex&gt;"
+  },
+  "format": 1,
+  "kind": "deploy",
+  "playbooks": {
+    "deploy": {
+      "id": "deploy-relay",
+      "path": "/srv/ansible/playbooks/deploy-relay.yml",
+      "sha256": "&lt;64 hex&gt;"
+    },
+    "render": {
+      "id": "render-relay",
+      "path": "/srv/ansible/playbooks/render-relay.yml",
+      "sha256": "&lt;64 hex&gt;"
+    }
+  },
+  "secrets": {
+    "environment:production/unit:relay": {
+      "storage.password": "&lt;16 hex&gt;"
+    }
+  },
+  "settings": {
+    "forks": 5,
+    "known_hosts_sha256": "&lt;64 hex&gt;",
+    "ssh_key_file": "/run/secrets/ssh/id_ed25519",
+    "ssh_user": "deploy"
+  }
+}</code></pre></div>
+<ul><li><code>files</code> holds the SHA-256 of each file of <code>snapshot/</code> except the manifest and the callback plugin.</li><li><code>playbooks</code> holds the playbooks of the run by their role in 4.3: <code>render</code>, <code>deploy</code>, <code>status</code> or <code>command</code>. A <code>deploy</code> run, check or apply, holds <code>deploy</code> and, when the unit has one, <code>render</code>. Only a check starts the render playbook (4.25), but the apply holds it too. So a check and its apply have the same hash.</li><li><code>secrets</code> holds the fingerprint of each secret of the private folder (2.26). It never holds a value.</li><li><code>settings</code> holds the values of <code>ansible.cfg</code> that are not paths of the run folder.</li></ul>
+<p>The snapshot hash is the text <code>sha256:</code> and the 64 lower-case hexadecimal characters of the SHA-256 of the canonical bytes of the manifest. The mode, the run id, the times and the subject are not in the manifest. So a check and an apply with the same inputs have the same hash. The run record keeps the hash (4.38).</p>
+<p>The hash does not cover the roles and the other files of the playbook folder. A change of a role between a check and its apply does not change the hash. Section 7.11 lists this limit.</p>
+<h3 id="417-the-command-line">4.17 The command line</h3>
+<p>The runner starts the program <code>runner.ansible_playbook</code> with these arguments, as separate items, with no shell:</p>
+<div class="code-wrap"><span class="label">text</span><pre data-copy tabindex="0" aria-label="Code example: text"><code>--inventory &lt;run&gt;/snapshot/inventory/hosts.yml
+--limit pupitre_run
+--extra-vars @&lt;run&gt;/snapshot/vars/run.json
+--extra-vars @&lt;run&gt;/snapshot/vars/params.yml       (a command only)
+--extra-vars @&lt;run&gt;/run-vars.json
+--check --diff                                      (the mode check only)
+&lt;path of the playbook&gt;</code></pre></div>
+<p>The arguments hold paths, flags and the fixed name of the group <code>pupitre_run</code> (4.11). They never hold a value, a parameter or a secret.</p>
+<h3 id="418-the-environment-of-the-child">4.18 The environment of the child</h3>
+<p>The runner clears the environment of the child, then sets exactly these variables:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Variable</th><th scope="col">Value</th></tr></thead><tbody><tr><th scope="row"><code>PATH</code></th><td data-label="Value"><code>runner.path</code></td></tr><tr><th scope="row"><code>HOME</code></th><td data-label="Value"><code>&lt;run&gt;/home</code></td></tr><tr><th scope="row"><code>LANG</code>, <code>LC_ALL</code></th><td data-label="Value"><code>C.UTF-8</code></td></tr><tr><th scope="row"><code>ANSIBLE_CONFIG</code></th><td data-label="Value"><code>&lt;run&gt;/ansible.cfg</code></td></tr><tr><th scope="row"><code>ANSIBLE_LOCAL_TEMP</code></th><td data-label="Value"><code>&lt;run&gt;/tmp</code></td></tr><tr><th scope="row"><code>PYTHONDONTWRITEBYTECODE</code></th><td data-label="Value"><code>1</code></td></tr><tr><th scope="row"><code>PUPITRE_EVENTS_FILE</code></th><td data-label="Value"><code>&lt;run&gt;/events.jsonl</code></td></tr><tr><th scope="row"><code>PUPITRE_EVENTS_PHASE</code></th><td data-label="Value"><code>render</code> or <code>main</code></td></tr></tbody></table></div>
+<p>The child gets no variable of the environment of Pupitre. It has no <code>SSH_AUTH_SOCK</code>, so no agent forwards a key.</p>
+<h3 id="419-the-child-process">4.19 The child process</h3>
+<ul><li>The child starts in a new process group, whose id is its pid. Its standard input is <code>/dev/null</code>. Its standard output and its standard error go to <code>&lt;run&gt;/output.log</code>, opened with <code>O_APPEND</code>.</li><li>The runner writes <code>&lt;run&gt;/pid</code> at once: a canonical object with <code>boot_id</code> (the text of <code>/proc/sys/kernel/random/boot_id</code>), <code>pid</code>, <code>phase</code>, and <code>start_time</code> (field 22 of <code>/proc/&lt;pid&gt;/stat</code>). The run record gets the same values in <code>runner</code> (4.38).</li><li>The runner never kills the child when the process of Pupitre stops. A stop of Pupitre leaves the child alone (4.29).</li><li>The runner stops a child with the signal <code>SIGTERM</code> to its process group. After <code>runner.cancel_grace</code>, it sends <code>SIGKILL</code> to the group.</li></ul>
+<h3 id="420-the-callback-plugin-and-the-events">4.20 The callback plugin and the events</h3>
+<p>The binary holds the callback plugin <code>pupitre_events</code> (<code>crates/pupitre-runner/src/callback/pupitre_events.py</code>). The runner writes it into the snapshot. The plugin writes one JSON object on each line of the file <code>PUPITRE_EVENTS_FILE</code>. It flushes each line. It works with <code>ansible-core</code> 2.19 and later (7.8).</p>
+<div class="tablewrap"><table><thead><tr><th scope="col"><code>kind</code></th><th scope="col">Other members</th></tr></thead><tbody><tr><th scope="row"><code>playbook_start</code></th><td data-label="Other members"><code>playbook</code> (the file name), <code>check</code> (<code>true</code> or <code>false</code>)</td></tr><tr><th scope="row"><code>play_start</code></th><td data-label="Other members"><code>play</code> (the name of the play)</td></tr><tr><th scope="row"><code>task_start</code></th><td data-label="Other members"><code>task</code> (the name of the task)</td></tr><tr><th scope="row"><code>host_result</code></th><td data-label="Other members"><code>host</code>, <code>task</code>, <code>status</code> (<code>ok</code>, <code>changed</code>, <code>failed</code>, <code>skipped</code> or <code>unreachable</code>), optional <code>diff</code>, optional <code>message</code>, optional <code>omitted</code></td></tr><tr><th scope="row"><code>stats</code></th><td data-label="Other members"><code>hosts</code>: for each host, the integers <code>changed</code>, <code>failed</code>, <code>ignored</code>, <code>ok</code>, <code>rescued</code>, <code>skipped</code> and <code>unreachable</code></td></tr></tbody></table></div>
+<p>Each line also has <code>v</code> with the value 1.</p>
+<ul><li><code>diff</code> is the text of the difference of the task, when the result has one. <code>message</code> is the message of a failed or unreachable result. A message that is a list or a dictionary is JSON text, and a text with non-ASCII characters keeps them.</li><li>A task with <code>no_log</code> gives no <code>diff</code> and no <code>message</code>.</li><li>A text of <code>diff</code> or <code>message</code> above 16,384 bytes is absent, and the line has <code>omitted</code> equal to <code>true</code>. The plugin never cuts a text.</li></ul>
+<p>The runner reads the file while the child runs. It reads each line with the strict reader of 2.5. It adds <code>seq</code> (1, 2, 3 and so on), <code>phase</code> and <code>t</code> (the time of the read) and stores the line (4.22). A line that is not valid, or that is longer than <code>runner.max_event_bytes</code>, becomes <code>{"kind": "invalid", "length": &lt;bytes&gt;}</code>.</p>
+<h3 id="421-the-scrubber">4.21 The scrubber</h3>
+<p>Before it stores output bytes or an event line, the runner replaces each copy of each secret value of the run with the text <code>[secret]</code>. It also replaces the JSON string form of each value in the event lines. An event line can hold a value after two layers of escapes. A <code>diff</code> is JSON text, and the line writes it as a JSON string again. So the runner also replaces the JSON form of the JSON form. It replaces the Python <code>repr</code> form of a value, and its JSON form, for a text that Python made with <code>str()</code>.</p>
+<ul><li>The match is exact, on bytes. A value has 8 bytes or more (2.25).</li><li>Copies that overlap, of one value or of two values, become one <code>[secret]</code>. So no part of a value stays. Copies that touch with no overlap become one <code>[secret]</code> each.</li><li>The runner keeps the last bytes of each output chunk until the next chunk, so that a value across two chunks is also replaced.</li><li>A role can still print a value in another form, for example in base64. The scrubber does not find it. A role MUST use <code>no_log</code> for a task that handles a secret (7.11).</li></ul>
+<h3 id="422-the-output-and-the-events-in-the-store">4.22 The output and the events in the store</h3>
+<p>The runner adds the output to the store in chunks of 65,536 bytes at most (2.28). It adds a chunk at most one time each second, and at the end of the run. It adds the events in the same way.</p>
+<ul><li>When the stored output of a run reaches <code>runner.max_log_bytes</code>, the runner stores no more output. The run record gets <code>output_truncated</code> equal to <code>true</code>. The full output stays in <code>&lt;run&gt;/output.log</code> on the runner node.</li><li>When a run has <code>runner.max_events</code> events, the runner stores no more events. The run record gets <code>events_truncated</code> equal to <code>true</code>.</li><li>The run continues in both cases. The page shows each such mark.</li></ul>
+<h3 id="423-the-end-of-a-run">4.23 The end of a run</h3>
+<div class="tablewrap"><table><thead><tr><th scope="col">Cause</th><th scope="col">Status</th><th scope="col"><code>reason</code></th></tr></thead><tbody><tr><th scope="row">The main phase ends with exit code 0</th><td data-label="Status"><code>passed</code></td><td data-label="reason">absent</td></tr><tr><th scope="row">The main phase ends with another exit code</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>exit_code</code></td></tr><tr><th scope="row">The render phase ends with an exit code other than 0</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>render_failed</code></td></tr><tr><th scope="row">A check of 4.9 fails</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>invalid_values</code></td></tr><tr><th scope="row">A secret does not decrypt (2.39)</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>secret_unreadable</code></td></tr><tr><th scope="row">The snapshot cannot be written</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>snapshot_failed</code></td></tr><tr><th scope="row">The guard of 4.24 fails at the start of the run</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>snapshot_changed</code> or <code>check_too_old</code></td></tr><tr><th scope="row">The program cannot start</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>spawn_failed</code></td></tr><tr><th scope="row">The run reaches <code>runner.run_timeout</code></th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>timeout</code></td></tr><tr><th scope="row">A person cancels the run</th><td data-label="Status"><code>canceled</code></td><td data-label="reason">absent</td></tr><tr><th scope="row">The runner cannot find the child after a restart</th><td data-label="Status"><code>lost</code></td><td data-label="reason"><code>process_gone</code></td></tr><tr><th scope="row">Another runner node held the run</th><td data-label="Status"><code>lost</code></td><td data-label="reason"><code>node_changed</code></td></tr><tr><th scope="row">An adopted child ends with no <code>stats</code> event</th><td data-label="Status"><code>failed</code></td><td data-label="reason"><code>lost_exit</code></td></tr><tr><th scope="row">An adopted child ends with a <code>stats</code> event</th><td data-label="Status"><code>passed</code> when no host has <code>failed</code> or <code>unreachable</code> above 0, else <code>failed</code> with <code>host_failed</code></td><td data-label="reason"></td></tr></tbody></table></div>
+<p>The record also gets <code>exit_code</code> when the runner knows it, <code>stats</code> from the event <code>stats</code>, and <code>finished_at</code>.</p>
+<h3 id="424-the-guard-of-an-apply">4.24 The guard of an apply</h3>
+<p>An apply that needs a check (4.3) names the check run in <code>check_run</code>. The guard holds when each rule holds:</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Rule</th><th scope="col">Code of a refusal at the request</th><th scope="col">Reason of a failure at the start</th></tr></thead><tbody><tr><th scope="row">The check run exists and the subject can see it (3.14)</th><td data-label="Code of a refusal at the request"><code>403 forbidden</code> or <code>404 not_found</code></td><td data-label="Reason of a failure at the start"></td></tr><tr><th scope="row">It has the same kind, the mode <code>check</code> and the status <code>passed</code></th><td data-label="Code of a refusal at the request"><code>409 check_required</code></td><td data-label="Reason of a failure at the start"></td></tr><tr><th scope="row">Its <code>applied_by</code> is absent</th><td data-label="Code of a refusal at the request"><code>409 check_used</code></td><td data-label="Reason of a failure at the start"></td></tr><tr><th scope="row">Its <code>finished_at</code> is not older than <code>runner.check_max_age</code></th><td data-label="Code of a refusal at the request"><code>409 check_too_old</code></td><td data-label="Reason of a failure at the start"><code>check_too_old</code></td></tr><tr><th scope="row">The snapshot of the apply has the hash of the check</th><td data-label="Code of a refusal at the request"></td><td data-label="Reason of a failure at the start"><code>snapshot_changed</code></td></tr></tbody></table></div>
+<ul><li>The apply takes the node, the hosts, the command and the parameters of the check run. The request cannot change them.</li><li><code>create_run</code> sets <code>applied_by</code> of the check in the same step (2.27). So one check gives one apply at most.</li><li>At the start of the apply, the runner builds the snapshot and compares the two hashes. It also checks the age again: the time in the queue counts. A failure stops the run before the child starts.</li><li>The subject of the apply can differ from the subject of the check. Each one needs its own action.</li></ul>
+<h3 id="425-the-render-phase">4.25 The render phase</h3>
+<p>A <code>deploy</code> check of a unit with <code>playbooks.render</code> has two phases. The render phase runs first:</p>
+<ul><li>It starts the render playbook on the same snapshot, in the mode <code>apply</code>, with the same command line except the playbook. <code>pupitre_render_dir</code> names an empty folder for the files that the playbook writes. The folder is in the private folder of the run, on <code>tmpfs</code>, and it goes at the end of the run (4.13).</li><li>The render playbook writes the configuration files of the service locally and checks them, for example with <code>--check-config</code> of the binary of the service. It MUST NOT connect to a host. Pupitre cannot check this rule (7.11).</li><li>An exit code other than 0 ends the run with <code>render_failed</code>. The main phase does not start, so no host gets a connection.</li><li>The events of each phase have their <code>phase</code>: <code>render</code> or <code>main</code>.</li></ul>
+<p>An apply has no render phase: its check ran it on the same snapshot.</p>
+<h3 id="426-status-runs">4.26 Status runs</h3>
+<p>A <code>status</code> run starts the status playbook of the unit (4.3). Its events show the version and the state of each host, as the playbook prints them. A status run never starts by itself, also not after an apply. The page shows a button for it.</p>
+<h3 id="427-cancel">4.27 Cancel</h3>
+<p><code>POST /api/runs/{r}/cancel</code> (5.18):</p>
+<ul><li>A <code>queued</code> run gets the status <code>canceled</code> at once, with a compare and set of its status.</li><li>A <code>running</code> run gets the member <code>cancel</code> with the subject and the time. The runner node reads it at its next step. It sends <code>SIGTERM</code> to the process group, waits <code>runner.cancel_grace</code>, then sends <code>SIGKILL</code>. The status then becomes <code>canceled</code>.</li><li>A finished run gives <code>409 run_finished</code>.</li></ul>
+<p>A cancel stops the child at once. The playbook decides what a half run leaves on the hosts. Pupitre decides no rollback.</p>
+<h3 id="428-the-timeout">4.28 The timeout</h3>
+<p>A run that is <code>running</code> for longer than <code>runner.run_timeout</code> gets the steps of a cancel, with the status <code>failed</code> and the reason <code>timeout</code>. The time starts when the status becomes <code>running</code>, and it covers the two phases.</p>
+<h3 id="429-adoption-after-a-restart">4.29 Adoption after a restart</h3>
+<p>At start, the runner node reads each run with the status <code>running</code> and its node id.</p>
+<ol><li>It reads <code>&lt;run&gt;/pid</code>. It reads <code>/proc/&lt;pid&gt;/stat</code> and the boot id.</li><li>When the boot id and the start time are the same, the child is the same process. The runner adopts it. It takes the lease of the environment again. It reads the output and the events from the offsets that the store holds.</li><li>Else, the run gets the status <code>lost</code> with the reason <code>process_gone</code>.</li></ol>
+<p>An adopted child is not a child of the new process, so the runner cannot read its exit code. It checks each second that the pid exists with the same start time. At the end, it reads the event <code>stats</code> (4.23).</p>
+<p>Adoption needs a child that lives after the stop of Pupitre. It needs the same machine and the same process namespace. The service manager must not kill the children, for example with <code>KillMode=process</code> of systemd. A restart of a container kills the children, and the runs become <code>lost</code>. Section 7.11 lists this limit.</p>
+<h3 id="430-runs-of-another-runner-node">4.30 Runs of another runner node</h3>
+<p>The runner node holds the lease <code>runner</code>. So each run with the status <code>running</code> and another node id gets the status <code>lost</code>, with the reason <code>node_changed</code>. The old node stopped its children when it lost the lease (4.8).</p>
+<h3 id="431-cleanup">4.31 Cleanup</h3>
+<ul><li>After the end of each run, the runner node calls <code>prune_runs(runner.runs_keep)</code> (2.27). It then removes the folder of each run that the store no longer holds.</li><li>At start, it removes each folder of <code>runner.secrets_dir</code> that is not the folder of an adopted run.</li><li>The runner node never removes a folder of a run with the status <code>queued</code> or <code>running</code>.</li></ul>
+<h3 id="432-commands">4.32 Commands</h3>
+<p>A command is a named action of the configuration file. A person launches it by hand on chosen hosts.</p>
+<div class="code-wrap"><span class="label">hcl</span><pre data-copy tabindex="0" aria-label="Code example: hcl"><code>command "restart-service" {
+  label    = "Restart the service"
+  playbook = "restart-service"
+  target   = "unit"
+  check    = false
+
+  param "grace" {
+    label        = "Grace period"
+    type         = "duration"
+    required     = true
+    min_duration = "1s"
+    max_duration = "5m"
+  }
+}</code></pre></div>
+<div class="tablewrap"><table><thead><tr><th scope="col">Key</th><th scope="col">Rule</th></tr></thead><tbody><tr><th scope="row"><code>label</code></th><td data-label="Rule">The text of the page: 1 to 64 characters with no control character.</td></tr><tr><th scope="row"><code>playbook</code></th><td data-label="Rule">The id of a block <code>playbook</code> with the kind <code>command</code>. Another id stops the start (6.14).</td></tr><tr><th scope="row"><code>target</code></th><td data-label="Rule"><code>environment</code>, <code>unit</code> or <code>host</code>: the type of the node of a launch.</td></tr><tr><th scope="row"><code>check</code></th><td data-label="Rule">Necessary. <code>true</code>: an apply needs a check of the same snapshot (4.24). <code>false</code>: the command runs after the confirmation of the person.</td></tr><tr><th scope="row"><code>param "&lt;name&gt;"</code></th><td data-label="Rule">0 to 16 blocks. The name follows 2.1.</td></tr></tbody></table></div>
+<p>The store holds no command. A person who can launch a command cannot add or change one.</p>
+<h3 id="433-the-parameters-of-a-command">4.33 The parameters of a command</h3>
+<div class="tablewrap"><table><thead><tr><th scope="col"><code>type</code></th><th scope="col">Keys of the block</th><th scope="col">JSON of the request</th><th scope="col">Check</th><th scope="col">Value in <code>pupitre_params</code></th></tr></thead><tbody><tr><th scope="row"><code>text</code></th><td data-label="Keys of the block"><code>min</code>, <code>max</code> (characters)</td><td data-label="JSON of the request">string</td><td data-label="Check">The count of Unicode scalar values is in the range. No control character. No template marker <code>{{</code>, <code>{%</code> or <code>{#</code> (2.12).</td><td data-label="Value in pupitre_params">string</td></tr><tr><th scope="row"><code>integer</code></th><td data-label="Keys of the block"><code>min</code>, <code>max</code></td><td data-label="JSON of the request">integer</td><td data-label="Check">In the range</td><td data-label="Value in pupitre_params">integer</td></tr><tr><th scope="row"><code>boolean</code></th><td data-label="Keys of the block">none</td><td data-label="JSON of the request"><code>true</code> or <code>false</code></td><td data-label="Check">None</td><td data-label="Value in pupitre_params">boolean</td></tr><tr><th scope="row"><code>duration</code></th><td data-label="Keys of the block"><code>min_duration</code>, <code>max_duration</code></td><td data-label="JSON of the request">string</td><td data-label="Check">A canonical duration of 2.12, in the range</td><td data-label="Value in pupitre_params">integer of milliseconds</td></tr><tr><th scope="row"><code>choice</code></th><td data-label="Keys of the block"><code>choices</code>: 1 to 32 texts of 1 to 64 bytes, each one time</td><td data-label="JSON of the request">string</td><td data-label="Check">One of <code>choices</code></td><td data-label="Value in pupitre_params">string</td></tr></tbody></table></div>
+<p>Each block also has <code>label</code> (1 to 64 characters) and <code>required</code> (<code>true</code> or <code>false</code>). A key of another type is forbidden in the block (6.14). A parameter never holds a secret.</p>
+<ul><li>A parameter that the command does not declare gives an error.</li><li>A parameter with <code>required = true</code> MUST be in the request.</li><li>A parameter with <code>required = false</code> can be absent. It is then absent from <code>pupitre_params</code>. Pupitre adds no default.</li><li>A wrong value gives an error with the name, the expected type and range, and the value. Pupitre never changes a value.</li></ul>
+<h3 id="434-the-canonical-form-of-the-parameters">4.34 The canonical form of the parameters</h3>
+<p>The run record keeps <code>params</code> as a canonical object (2.4). The members are in byte order. Each value has the JSON of the request column of 4.33. So the same parameters give the same bytes, and a check and its apply have the same <code>vars/params.yml</code>.</p>
+<h3 id="435-the-flow-of-a-command">4.35 The flow of a command</h3>
+<ol><li>The person chooses the command, the node and the hosts. The options route and the lists show only the nodes that the subject can see.</li><li>The person fills the parameters. The page checks each one with the rules of 4.33, and the server checks them again.</li><li>With <code>check = true</code>, the page sends a request of the mode <code>check</code>. The person reads the result and the differences. Then the page sends the mode <code>apply</code> with <code>check_run</code>.</li><li>With <code>check = false</code>, the page asks the person to confirm in place. Then it sends the mode <code>apply</code>.</li><li>The run record keeps the command, the parameters, the subject, the hosts and the result.</li></ol>
+<h3 id="436-what-the-runner-never-does">4.36 What the runner never does</h3>
+<ul><li>It never starts a program other than <code>runner.ansible_playbook</code>, and never with a playbook outside the catalog.</li><li>It never starts a shell, and it never puts a value on a command line.</li><li>It never turns off the check of the host keys, and it never forwards an SSH agent.</li><li>It never connects to the internet. A role that needs a release file reads it from <code>pupitre_releases_dir</code>.</li><li>It never decides a rollback, and it never starts a run by itself.</li></ul>
+<h3 id="437-the-interface-in-the-code">4.37 The interface in the code</h3>
+<p>The crate <code>pupitre-runner</code> gives the server two things. The code of <code>crates/pupitre-runner/src/lib.rs</code> gives the exact signatures.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Item</th><th scope="col">Role</th></tr></thead><tbody><tr><th scope="row"><code>start_executor(settings, capabilities, store, wake)</code></th><td data-label="Role">Run the checks of 7.8, take the lease <code>runner</code>, adopt the runs, and start the loop of 4.6. It gives a <code>RunnerHandle</code>.</td></tr><tr><th scope="row"><code>Wake::wake()</code></th><td data-label="Role">Tell the loop that a run is queued or that a cancel waits. The server keeps a copy of <code>Wake</code>.</td></tr><tr><th scope="row"><code>RunnerHandle::stop(grace)</code></th><td data-label="Role">Stop the loop. It leaves the children alone (4.19).</td></tr><tr><th scope="row"><code>ProcessControl</code></th><td data-label="Role">The trait of the process steps: spawn, probe, signal. A test uses a fake.</td></tr><tr><th scope="row"><code>build_snapshot(input, folders)</code></th><td data-label="Role">The steps of 4.9 to 4.16. It gives the hash and the secret values for the scrubber.</td></tr></tbody></table></div>
+<h3 id="438-the-run-record">4.38 The run record</h3>
+<p>A run record is a canonical object (2.4). No other member is valid.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Member</th><th scope="col">Rule</th></tr></thead><tbody><tr><th scope="row"><code>format</code></th><td data-label="Rule">The integer 1.</td></tr><tr><th scope="row"><code>id</code></th><td data-label="Rule">The run id (2.1).</td></tr><tr><th scope="row"><code>kind</code>, <code>mode</code></th><td data-label="Rule">4.3</td></tr><tr><th scope="row"><code>environment</code></th><td data-label="Rule">The environment id</td></tr><tr><th scope="row"><code>node</code></th><td data-label="Rule">The node path (3.8)</td></tr><tr><th scope="row"><code>hosts</code></th><td data-label="Rule">The host ids of the run, in byte order</td></tr><tr><th scope="row"><code>playbook</code></th><td data-label="Rule">The id of the main playbook</td></tr><tr><th scope="row"><code>command</code>, <code>params</code></th><td data-label="Rule">For a command only (4.34)</td></tr><tr><th scope="row"><code>check_run</code></th><td data-label="Rule">For an apply that needed a check</td></tr><tr><th scope="row"><code>applied_by</code></th><td data-label="Rule">For a check that an apply consumed</td></tr><tr><th scope="row"><code>message</code></th><td data-label="Rule">Optional. The message of the request.</td></tr><tr><th scope="row"><code>subject</code></th><td data-label="Rule">The subject of the request</td></tr><tr><th scope="row"><code>created_at</code>, <code>started_at</code>, <code>finished_at</code></th><td data-label="Rule">Times in the form <code>2026-11-24T10:00:00.000Z</code>. The last two are absent before the event.</td></tr><tr><th scope="row"><code>status</code></th><td data-label="Rule"><code>queued</code>, <code>running</code>, <code>passed</code>, <code>failed</code>, <code>canceled</code> or <code>lost</code></td></tr><tr><th scope="row"><code>reason</code></th><td data-label="Rule">A code of 4.23, with a status <code>failed</code> or <code>lost</code></td></tr><tr><th scope="row"><code>snapshot</code></th><td data-label="Rule">The snapshot hash, after the build</td></tr><tr><th scope="row"><code>runner</code></th><td data-label="Rule"><code>node</code>, <code>pid</code>, <code>start_time</code>, <code>boot_id</code>, after the start of the child</td></tr><tr><th scope="row"><code>exit_code</code></th><td data-label="Rule">An integer, when known</td></tr><tr><th scope="row"><code>stats</code></th><td data-label="Rule">The counts of the event <code>stats</code></td></tr><tr><th scope="row"><code>cancel</code></th><td data-label="Rule"><code>by</code> and <code>at</code>, after a cancel request</td></tr><tr><th scope="row"><code>output_truncated</code>, <code>events_truncated</code></th><td data-label="Rule"><code>true</code> after 4.22. Absent else.</td></tr></tbody></table></div>
+<h3 id="439-the-status-transitions">4.39 The status transitions</h3>
+<div class="code-wrap"><span class="label">text</span><pre data-copy tabindex="0" aria-label="Code example: text"><code>queued  --&gt; running --&gt; passed | failed | canceled | lost
+queued  --&gt; canceled</code></pre></div>
+<p>No other transition is valid. <code>passed</code>, <code>failed</code>, <code>canceled</code> and <code>lost</code> are final. <code>update_run</code> refuses another change (2.27).</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

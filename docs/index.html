@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Pupitre is a web console for the configuration of services on many hosts. It starts Ansible runs, a check first and an apply second. It is one static binary with one HCL file.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Pupitre: configuration and Ansible runs for services on many hosts">
+<meta property="og:description" content="Pupitre is a web console for the configuration of services on many hosts. It starts Ansible runs, a check first and an apply second. It is one static binary with one HCL file.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pupitre: configuration and Ansible runs for services on many hosts">
+<meta name="twitter:description" content="Pupitre is a web console for the configuration of services on many hosts. It starts Ansible runs, a check first and an apply second. It is one static binary with one HCL file.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/">
+<title>Pupitre: configuration and Ansible runs for services on many hosts</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html" aria-current="page">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow"><span class="badge">Version 0.1.0</span> Configuration and Ansible runs for services on many hosts</p>
+      <h1 id="hero-title">Pupitre</h1>
+      <p class="promise">Values in layers, one static binary and one HCL file.</p>
+      <p class="sub">The console runs only the playbooks and the commands that the configuration file lists. No document of the store names a program. It is for teams that deploy services with Ansible.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="getting-started.html">Get started</a>
+        <a class="btn" href="https://github.com/ProcurAuth/pupitre/releases/latest">Download v0.1.0</a>
+      </div>
+      <p class="more"><a href="architecture.html">See how it works</a></p>
+    </div>
+    <div class="hero-shot"><figure class="shot"><img src="assets/img/hero.webp" width="1920" height="1080" alt="The page of a unit: each key with its value and the layer that gives it" decoding="async" loading="eager" fetchpriority="high"><figcaption>A unit of a demo environment, with synthetic data.</figcaption></figure></div>
+  </div>
+</section>
+<section class="section" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="section-head"><h2 id="why-h">Changes that stay under control</h2>
+    <p>Pupitre keeps the values of services and starts the runs. It keeps the rules in one place, and it keeps them strict.</p></div>
+    <div class="grid c3"><a class="card" href="architecture.html#the-documents-and-the-layers"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div><h3>Values in layers</h3><p>A key gets its value from the schema default, the environment, the unit or the host. The last layer that gives a value wins, and the page shows which one.</p></a><a class="card" href="architecture.html#the-runner"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 6"/></svg></div><h3>A check, then an apply</h3><p>A check run builds a snapshot and runs Ansible with check and diff. An apply needs a check of the same snapshot hash, used one time.</p></a><a class="card" href="security.html#the-controls"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div><h3>No program in the store</h3><p>Only the configuration file lists the playbooks and the commands. No document names a program. A person who edits values cannot add a key.</p></a></div>
+  </div>
+</section>
+<section class="section alt" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="section-head"><h2 id="how-h">How it works</h2>
+    <p>Pupitre is one static binary. The page is inside. Only the runner node builds snapshots and starts Ansible.</p></div>
+    <figure class="panel"><img src="assets/architecture.svg" width="1100" height="640" alt="Architecture of Pupitre: the browser, the edge, the single binary with the HTTP server, the access guard, the catalog, the store and the runner, and the managed hosts" decoding="async" loading="lazy"><figcaption><strong>The single binary.</strong> The HTTP server, the access guard, the catalog, the store and the runner are in one program.</figcaption></figure>
+    <figure class="panel"><img src="assets/layers.svg" width="1100" height="470" alt="The four layers of a value: the schema default, the environment, the unit and the host" decoding="async" loading="lazy"><figcaption><strong>Four layers.</strong> The last layer that gives a value wins. The page shows the value and the layer. <a href='architecture.html#the-documents-and-the-layers'>Read the rules</a>.</figcaption></figure>
+    <figure class="panel"><img src="assets/run-flow.svg" width="1100" height="560" alt="The run flow: a request, the queue, the lease, the snapshot and the check run, then the guard and the apply run" decoding="async" loading="lazy"><figcaption><strong>A check, then an apply.</strong> The apply needs a check of the same snapshot hash. <a href='architecture.html#the-runner'>Read the steps</a>.</figcaption></figure>
+    <figure class="panel"><img src="assets/access-model.svg" width="1100" height="540" alt="The resource tree of the access model: service, environment, unit and host, with the actions and the question to the PDP" decoding="async" loading="lazy"><figcaption><strong>The access model.</strong> A grant on an environment covers its units and hosts. <a href='access.html'>Read the rules</a>.</figcaption></figure>
+  </div>
+</section>
+<section class="section" aria-labelledby="see-h">
+  <div class="wrap">
+    <div class="section-head"><h2 id="see-h">See it</h2>
+    <p>Each picture comes from a live copy of the product, with synthetic data. Nothing is mocked.</p></div>
+    <div class="shots"><figure class="shot"><img src="assets/img/hero.webp" width="1920" height="1080" alt="The page of a unit: each key with its value and the layer that gives it" decoding="async" loading="lazy"><figcaption><strong>The unit page.</strong> Each key shows its value and the layer that gives it.</figcaption></figure><figure class="shot"><img src="assets/img/environments.webp" width="1920" height="1080" alt="The list of environments" decoding="async" loading="lazy"><figcaption><strong>Environments.</strong> The page lists the environments that the subject can see.</figcaption></figure><figure class="shot"><img src="assets/img/unit-dark.webp" width="1920" height="1080" alt="The page of a unit in the dark theme" decoding="async" loading="lazy"><figcaption><strong>Two themes.</strong> The page has a light theme and a dark theme.</figcaption></figure><figure class="shot"><img src="assets/img/history.webp" width="1920" height="1080" alt="The history of versions of a unit" decoding="async" loading="lazy"><figcaption><strong>History.</strong> Each save is a version. You can compare two versions.</figcaption></figure><figure class="shot"><img src="assets/img/run-check.webp" width="1920" height="1080" alt="The record of a check run: one row for each host, the events and the output" decoding="async" loading="lazy"><figcaption><strong>Check run.</strong> The page shows one row for each host, the events and the output.</figcaption></figure><figure class="shot"><img src="assets/img/run-apply.webp" width="1920" height="1080" alt="The page that starts a check: the choice of hosts and a message" decoding="async" loading="lazy"><figcaption><strong>Start a check.</strong> The person picks the hosts. The apply comes after a passed check.</figcaption></figure><figure class="shot"><img src="assets/img/command.webp" width="1920" height="1080" alt="The form of a command with typed parameters and a confirmation" decoding="async" loading="lazy"><figcaption><strong>Commands.</strong> A form from the typed parameters, with a confirmation.</figcaption></figure><figure class="shot"><img src="assets/img/secrets.webp" width="1920" height="1080" alt="The secrets of a unit: names and fingerprints, never values" decoding="async" loading="lazy"><figcaption><strong>Secrets.</strong> The page shows a fingerprint, never a value.</figcaption></figure><figure class="shot"><img src="assets/img/mobile.webp" width="390" height="844" alt="A unit at the width of a phone" decoding="async" loading="lazy"><figcaption><strong>Narrow screens.</strong> The page has no horizontal scroll at 390 pixels.</figcaption></figure></div>
+  </div>
+</section>
+<section class="section alt" aria-labelledby="features-h">
+  <div class="wrap">
+    <div class="section-head"><h2 id="features-h">What Pupitre does</h2></div>
+    <div class="tablewrap"><table class="feature-table"><thead><tr><th scope="col">Area</th><th scope="col">What Pupitre does</th></tr></thead><tbody><tr><th scope="row">Values</th><td data-label="What Pupitre does">Four layers: the schema default, the environment, the unit and the host. Each value has a type and a range from the schema.</td></tr><tr><th scope="row">Schemas</th><td data-label="What Pupitre does">A schema is a file that the configuration names. It lists the keys of a unit. A person who edits values cannot add a key.</td></tr><tr><th scope="row">Runs</th><td data-label="What Pupitre does">A check run builds a snapshot, hashes it and runs ansible-playbook with check and diff. An apply run needs a passed check of the same hash.</td></tr><tr><th scope="row">Commands</th><td data-label="What Pupitre does">Named actions of the configuration file, with typed parameters. A person launches them by hand, on chosen hosts.</td></tr><tr><th scope="row">Secrets</th><td data-label="What Pupitre does">Write-only values with a fingerprint. The runner gives them to a playbook as files on a tmpfs, and it scrubs the output.</td></tr><tr><th scope="row">Stores</th><td data-label="What Pupitre does">A folder (files) with a lock and a history, or PostgreSQL. The commands export and copy-store move documents. The command import makes documents from an Ansible inventory.</td></tr><tr><th scope="row">Access</th><td data-label="What Pupitre does">The mode authzen checks an identity token and asks a PDP. The mode open needs a proxy that signs users in.</td></tr><tr><th scope="row">Configuration</th><td data-label="What Pupitre does">One HCL file with a closed schema. A mistake stops the start. The command print-config shows each value and its source.</td></tr><tr><th scope="row">Operation</th><td data-label="What Pupitre does">JSON logs, Prometheus metrics, an OTLP exporter of traces and a second port for the probes.</td></tr><tr><th scope="row">Page</th><td data-label="What Pupitre does">Plain JavaScript, HTML and CSS with no framework and no build step. No request goes to another origin.</td></tr></tbody></table></div>
+  </div>
+</section>
+<section class="section" aria-labelledby="run-h">
+  <div class="wrap narrow">
+    <div class="section-head"><h2 id="run-h">Try it in ten minutes</h2>
+    <p>Download the archive and check it. The <a href="getting-started.html">guide</a> has each step, with an example of synthetic schemas and playbooks.</p></div>
+    <div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: quick start"><code>curl -fsSLO https://github.com/ProcurAuth/pupitre/releases/download/v0.1.0/pupitre_0.1.0_linux_amd64.tar.gz
+curl -fsSLO https://github.com/ProcurAuth/pupitre/releases/download/v0.1.0/SHA256SUMS
+sha256sum --check --ignore-missing SHA256SUMS
+tar -xzf pupitre_0.1.0_linux_amd64.tar.gz
+pupitre_0.1.0_linux_amd64/pupitre print-reference --format hcl --profile local</code></pre></div>
+    <div class="btn-row"><a class="btn primary" href="getting-started.html">Open the guide</a><a class="btn" href="configuration.html">Read the configuration</a></div>
+  </div>
+</section>
+<section class="section alt" aria-labelledby="family-h">
+  <div class="wrap narrow">
+    <div class="section-head"><h2 id="family-h">The ProcurAuth family</h2>
+    <p>Pupitre is a program of the <a href="https://github.com/ProcurAuth">ProcurAuth</a> organisation. The organisation holds the open specification and the programs that follow it. The <a href="https://procurauth.github.io/procurauth/implementations.html">implementations page</a> lists them, with the results of the conformance runs.</p></div>
+  </div>
+</section>
+<section class="section" aria-labelledby="go-h">
+  <div class="wrap">
+    <div class="section-head"><h2 id="go-h">Where to go next</h2></div>
+    <div class="btn-row">
+      <a class="btn primary" href="getting-started.html">Getting started</a>
+      <a class="btn" href="configuration.html">Configuration</a>
+      <a class="btn" href="access.html">Access and ProcurAuth</a>
+      <a class="btn" href="specification.html">Specification</a>
+      <a class="btn" href="changelog.html">Changelog</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

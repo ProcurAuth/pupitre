@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# The playbook of the command restart-relay (4.32). The parameter grace is in milliseconds (4.33).
+- name: Restart the relay
+  hosts: relay_hosts
+  gather_facts: false
+  tasks:
+    - name: Record the restart
+      ansible.builtin.copy:
+        dest: /tmp/pupitre-example/restart.txt
+        mode: "0644"
+        content: "restart with a grace period of {{ pupitre_params.grace }} ms\n"

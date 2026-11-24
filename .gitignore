@@ -1,0 +1,21 @@
+# Build output of cargo.
+/target/
+# Release archives that a local run of the release steps makes.
+/dist/
+
+# Local working files. They never go to the repository.
+/private/
+
+# Local configuration and credentials. The test values of the repository protect nothing (SECURITY.md lists them).
+.env
+.env.*
+*.pem
+*.key
+
+# Files of Python, of editors and of the operating system.
+__pycache__/
+*.pyc
+*.swp
+.DS_Store
+!/tests/fixtures/config/*.pem
+scripts/.hygiene-names.local

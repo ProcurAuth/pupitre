@@ -1,0 +1,30 @@
+{
+  "note": "The files of web/ that Pupitre copied from Hune (and, through Hune, from ClickHouse Dash). A byte copy has the sha256 of its bytes: check_page.py fails when the file changes. A copy with edits has its origin and its edits in the first line of the file. The file THIRD-PARTY-NOTICES.md names each of them.",
+  "hune": {
+    "repository": "ProcurAuth/hune",
+    "commit": "a55fff3"
+  },
+  "files": [
+    {"path": "css/vendor/chdash/00-tokens.css", "kind": "byte copy", "origin": "web/css/vendor/chdash/00-tokens.css of Hune", "upstream": "ClickHouse Dash v1.3.1, src/static/css/00-tokens.css, commit e970694e5e0b17b07cf187f3128af93fa1a82b76", "licence": "MIT", "sha256": "668da9b068ccd3e5878608c8222cbc381f6dca4525382053e54272a7dd85df5b"},
+    {"path": "fonts/inter/InterVariable.woff2", "kind": "byte copy", "origin": "web/fonts/inter/InterVariable.woff2 of Hune", "upstream": "Inter 4.1", "licence": "SIL OFL-1.1", "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"},
+    {"path": "fonts/inter/LICENSE", "kind": "byte copy", "origin": "web/fonts/inter/LICENSE of Hune", "upstream": "Inter 4.1", "licence": "SIL OFL-1.1", "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"},
+    {"path": "css/base.css", "kind": "copy with edits", "origin": "web/css/base.css of Hune", "edits": "data-hune-hold is data-pupitre-hold"},
+    {"path": "css/components.css", "kind": "copy with edits", "origin": "web/css/components.css of Hune", "edits": "the sections of the dashboard, the pickers, the variables bar and the panel view are removed"},
+    {"path": "css/fonts.css", "kind": "copy with edits", "origin": "web/css/fonts.css of Hune", "edits": "none"},
+    {"path": "css/history.css", "kind": "copy with edits", "origin": "the sections History and Diff of web/css/editor.css of Hune", "edits": "none"},
+    {"path": "css/panel-logs.css", "kind": "copy with edits", "origin": "web/css/panel-logs.css of Hune", "edits": "none"},
+    {"path": "css/list.css", "kind": "copy with edits", "origin": "web/css/list.css of Hune", "edits": "none"},
+    {"path": "css/tokens.css", "kind": "copy with edits", "origin": "web/css/tokens.css of Hune", "edits": "none"},
+    {"path": "icons.svg", "kind": "copy with edits", "origin": "web/icons.svg of Hune", "edits": "the symbol logo is removed; the symbols play, stop, key and server are added", "upstream": "The paths of chevron-down, chevron-right, chevron-up and the spinner come from Tabler Icons (MIT)"},
+    {"path": "js/boot_theme.js", "kind": "copy with edits", "origin": "web/js/boot_theme.js of Hune", "edits": "the storage key and the attribute"},
+    {"path": "js/busy.js", "kind": "copy with edits", "origin": "web/js/busy.js of Hune", "edits": "the attribute"},
+    {"path": "js/diff.js", "kind": "copy with edits", "origin": "web/js/editor/diff.js of Hune", "edits": "none"},
+    {"path": "js/diff_view.js", "kind": "copy with edits", "origin": "web/js/editor/diff_view.js of Hune", "edits": "the imports; no download"},
+    {"path": "js/theme.js", "kind": "copy with edits", "origin": "web/js/theme.js of Hune", "edits": "the storage key and the event"},
+    {"path": "js/ui.js", "kind": "copy with edits", "origin": "web/js/ui.js of Hune", "edits": "the prefix of the icon ids"}
+  ],
+  "written for pupitre": [
+    "shell.html", "css/pupitre.css", "js/main.js", "js/api.js", "js/config.js", "js/routes.js", "js/errors.js", "js/format.js", "js/validate.js",
+    "js/canonical.js", "js/ctl.js", "js/lib/*", "js/pages/*"
+  ]
+}

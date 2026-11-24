@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+  <title>Pupitre</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#312e81"/>
+      <stop offset="0.55" stop-color="#1b1a45"/>
+      <stop offset="1" stop-color="#0c0e15"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.2" cy="0.3" r="0.6">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g transform="translate(90 150) scale(7)"><rect width="32" height="32" rx="8" fill="#4338ca"/><path d="M9 7h14l3 9H6z" fill="#ffffff"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="#4338ca" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="#ffffff"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="#ffffff"/></g>
+  <g font-family="Inter, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+    <text x="360" y="260" font-size="110" font-weight="800" fill="#ffffff" letter-spacing="-2">Pupitr<tspan fill="#a5b4fc">e</tspan></text>
+    <text x="364" y="330" font-size="38" font-weight="500" fill="#e0e7ff">Configuration and Ansible runs</text>
+    <text x="364" y="380" font-size="38" font-weight="500" fill="#e0e7ff">for services on many hosts</text>
+    <text x="364" y="450" font-size="26" fill="#9ca3d4">One static binary. A check run first, then an apply run.</text>
+  </g>
+</svg>

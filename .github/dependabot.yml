@@ -1,0 +1,12 @@
+# Each workflow in .github/workflows pins each action to a full commit SHA, with its version in a comment.
+# Each week, Dependabot proposes one pull request that updates the SHA and the comment of each action.
+# Dependabot watches only these actions. It does not watch the Cargo or npm dependencies.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

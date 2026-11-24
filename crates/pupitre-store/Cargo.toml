@@ -1,0 +1,31 @@
+[package]
+name = "pupitre-store"
+description = "Pupitre Store trait, the backends files and postgres, the secret cipher, the catalog, the transfer and the contract suite."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[features]
+# The contract suite of 2.43 as a public module.
+conformance = []
+
+[dependencies]
+pupitre-core.workspace = true
+ring.workspace = true
+getrandom.workspace = true
+rustix.workspace = true
+tokio.workspace = true
+tokio-postgres.workspace = true
+deadpool-postgres.workspace = true
+tokio-postgres-rustls.workspace = true
+rustls.workspace = true
+rustls-pki-types.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
+
+[lints]
+workspace = true

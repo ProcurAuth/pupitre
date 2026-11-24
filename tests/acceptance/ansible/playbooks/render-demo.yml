@@ -1,0 +1,37 @@
+---
+# Playbook of the kind `render` for the schema `demo` (4.25).
+# It runs in the render phase of a check. It connects to no host: the connection is local.
+# It writes the configuration of each host in `pupitre_render_dir` and checks it.
+- name: Render the configuration of the demo service
+  hosts: demo_hosts
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Check that the unit has the values that the service needs
+      ansible.builtin.assert:
+        that:
+          - demo_config is defined
+          - demo_config.banner is defined
+        fail_msg: "The key banner has no value."
+        quiet: true
+
+    - name: Make the folder of the host
+      ansible.builtin.file:
+        path: "{{ pupitre_render_dir }}/{{ inventory_hostname }}"
+        state: directory
+        mode: "0755"
+
+    - name: Write the configuration of the host
+      ansible.builtin.copy:
+        content: "{{ demo_config | to_nice_json(indent=2, sort_keys=True) }}\n"
+        dest: "{{ pupitre_render_dir }}/{{ inventory_hostname }}/config.json"
+        mode: "0644"
+
+    - name: Check the configuration with the checker of the service
+      ansible.builtin.command:
+        argv:
+          - python3
+          - -c
+          - "import json,sys; json.load(open(sys.argv[1]))"
+          - "{{ pupitre_render_dir }}/{{ inventory_hostname }}/config.json"
+      changed_when: false

@@ -1,0 +1,34 @@
+[graph]
+targets = ["x86_64-unknown-linux-musl", "aarch64-unknown-linux-musl"]
+
+[advisories]
+version = 2
+yanked = "deny"
+# crypto-bigint 0.5 comes through p256 0.13 of procurauth-core.
+ignore = [
+  { id = "RUSTSEC-2026-0387", reason = "Pupitre only verifies ES256 signatures with public keys; remove when procurauth-core moves to p256 0.14" },
+]
+
+[licenses]
+version = 2
+allow = ["Apache-2.0", "MIT", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Unicode-3.0", "Zlib"]
+confidence-threshold = 0.93
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# The workspace crates use each other and the two ProcurAuth crates with no version (a path or a pinned git rev).
+# Each crate of the workspace has `publish = false`. This key accepts such dependencies for these crates only.
+allow-wildcard-paths = true
+deny = [
+  { name = "openssl" }, { name = "openssl-sys" }, { name = "native-tls" },
+  { name = "aws-lc-rs" }, { name = "aws-lc-sys" },
+  { name = "reqwest" }, { name = "sqlx" }, { name = "axum" },
+  { name = "rustls-native-certs" }, { name = "rustls-platform-verifier" }, { name = "webpki-roots" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = ["https://github.com/ProcurAuth/procurauth"]

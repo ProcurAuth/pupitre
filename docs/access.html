@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="How Pupitre checks the identity token, asks the PDP and applies the decision: the resource tree, the actions, the ceiling and the errors.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Access and ProcurAuth | Pupitre">
+<meta property="og:description" content="How Pupitre checks the identity token, asks the PDP and applies the decision: the resource tree, the actions, the ceiling and the errors.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/access.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Access and ProcurAuth | Pupitre">
+<meta name="twitter:description" content="How Pupitre checks the identity token, asks the PDP and applies the decision: the resource tree, the actions, the ceiling and the errors.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/access.html">
+<title>Access and ProcurAuth | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html" aria-current="true">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> The modes open and authzen</p><h1>Access and ProcurAuth</h1><p class="lede">How Pupitre checks the identity token, asks the PDP and applies the decision: the resource tree, the actions, the ceiling and the errors.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#the-two-modes">The two modes</a></li><li><a href="#the-mode-authzen">The mode authzen</a></li><li><a href="#the-resource-tree">The resource tree</a></li><li><a href="#the-actions">The actions</a></li><li><a href="#the-ceiling-max_hosts">The ceiling max_hosts</a></li><li><a href="#the-procurauth-routes">The ProcurAuth routes</a></li><li><a href="#errors">Errors</a></li><li><a href="#revoked-grants">Revoked grants</a></li><li><a href="#approvals">Approvals</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/ACCESS.md"><code>docs/ACCESS.md</code></a> in the repository.</p><p>Pupitre has no login of its own. The key <code>access.mode</code> has two values: <code>open</code> and <code>authzen</code>. The block <code>access</code> is mandatory and has no default, so no instance gets the mode <code>open</code> by error. Part 3 of the <a href="spec-03.html">specification</a> has the rules.</p>
+<h2 id="the-two-modes"><a class="self" href="#the-two-modes">The two modes</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col"></th><th scope="col"><code>open</code></th><th scope="col"><code>authzen</code></th></tr></thead><tbody><tr><th scope="row">Token</th><td data-label="open">None. The subject is <code>-</code>.</td><td data-label="authzen">An identity token on each request</td></tr><tr><th scope="row">Who guards the page</th><td data-label="open">The reverse proxy</td><td data-label="authzen">The edge and the PDP</td></tr><tr><th scope="row">Questions</th><td data-label="open">None</td><td data-label="authzen">One or more for each operation</td></tr><tr><th scope="row"><code>run.apply</code> and <code>command.run</code></th><td data-label="open">Refused with <code>403 apply_disabled</code>, unless <code>runner.allow_apply_in_open_mode = true</code></td><td data-label="authzen">Decided by the PDP</td></tr><tr><th scope="row">The two ProcurAuth routes</th><td data-label="open"><code>404 not_found</code></td><td data-label="authzen">Served</td></tr></tbody></table></div>
+<p>In the mode <code>open</code>, a reverse proxy MUST authenticate each person before the main listener. The proxy MUST send the public name of the service in <code>Host</code>, and <code>server.allowed_hosts</code> MUST list that name (7.4 of the specification). Pupitre then trusts each request. The mode writes the warning <code>access.mode_open</code> at each start.</p>
+<h2 id="the-mode-authzen"><a class="self" href="#the-mode-authzen">The mode authzen</a></h2>
+<p>In the mode <code>authzen</code>, Pupitre is a PEP of <a href="https://github.com/ProcurAuth/procurauth">ProcurAuth</a>. An edge signs an identity token and sends it in a header. Pupitre checks the token, then asks a decision point (PDP) before each operation. A PDP that does not answer gives <code>503</code>, never a grant.</p>
+<p>This <code>access</code> block makes Pupitre check the tokens of an edge and ask a PDP:</p>
+<div class="code-wrap"><span class="label">hcl</span><pre data-copy tabindex="0" aria-label="Code example: hcl"><code>access {
+  mode = "authzen"
+
+  identity {
+    header           = "X-Identity-Token"
+    issuer           = "https://edge.example.invalid"
+    audience         = "pupitre"
+    public_keys_file = "/run/secrets/edge/jwks.json"
+    max_age          = "5m"
+    clock_skew       = "1m"
+  }
+
+  pdp {
+    url             = "https://pdp.example.invalid:4182"
+    token_file      = "/run/secrets/pdp/token"
+    ca_file         = "/run/secrets/pdp/ca.pem"
+    plain_http      = false
+    timeout         = "500ms"
+    cache_ttl       = "30s"
+    max_connections = 4
+  }
+}</code></pre></div>
+<p>The key <code>access.identity.audience</code> is the service id. It is also the member <code>server</code> of the action document. The credential of Pupitre at the PDP goes in a header <code>Authorization: Bearer</code>. It is a secret, so the file accepts it only with <code>_env</code> and <code>_file</code>.</p>
+<p>The public keys of the edge are a JWK Set or PEM text, with 1 to 16 keys. A JWK Set with more than one key needs a different <code>kid</code> in each key. A PEM key gets its RFC 7638 thumbprint as <code>kid</code>. A token with the <code>sub</code> value <code>-</code>, <code>external</code> or <code>import</code> gives <code>401 unauthenticated</code>, because the history uses these names.</p>
+<p>Keep <code>access.options_max_questions</code> at 8 or more with <code>runner.enabled = true</code>, and at 4 or more with <code>runner.enabled = false</code>. One item can need that many questions. A lower value stops the start. The default is far above the minimum.</p>
+<h2 id="the-resource-tree"><a class="self" href="#the-resource-tree">The resource tree</a></h2>
+<p>The tree has the service, the environments, the units and the hosts. A grant on a node covers each node below it, also a node that a person adds later.</p>
+<p><img src="assets/access-model.svg" width="1100" height="540" alt="The resource tree: the service, the environment, the unit and the host, the eight actions and the ceiling max_hosts" loading="lazy"></p>
+<p>A host node is always below a unit. The same host in two units is two nodes. A grant of <code>run.apply</code> on <code>environment:production</code> covers each unit and each host of <code>production</code>, now and later. Pupitre builds the chain of ancestors of a node from its own catalog, never from a value of the request.</p>
+<h2 id="the-actions"><a class="self" href="#the-actions">The actions</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Action</th><th scope="col">What it permits</th></tr></thead><tbody><tr><th scope="row"><code>config.read</code></th><td data-label="What it permits">Read the documents, the effective values, the provenance, the history and the metadata of the secrets. Never a secret value.</td></tr><tr><th scope="row"><code>config.write</code></th><td data-label="What it permits">Write the values of a layer: <code>common</code> on an environment, <code>unit_values</code> on a unit, <code>host_values</code> on a host.</td></tr><tr><th scope="row"><code>secret.write</code></th><td data-label="What it permits">Set and delete a secret of an environment or a unit. No action reads a secret value.</td></tr><tr><th scope="row"><code>inventory.write</code></th><td data-label="What it permits">Create, change and delete environments, hosts and units.</td></tr><tr><th scope="row"><code>run.read</code></th><td data-label="What it permits">Read the runs, their events and their output.</td></tr><tr><th scope="row"><code>run.check</code></th><td data-label="What it permits">Start a check run or a status run of a unit. Cancel such a run.</td></tr><tr><th scope="row"><code>run.apply</code></th><td data-label="What it permits">Start an apply run of a unit. Cancel such a run.</td></tr><tr><th scope="row"><code>command.run</code></th><td data-label="What it permits">Start a command of the catalog, in check or apply. Cancel such a run.</td></tr></tbody></table></div>
+<p>The last four actions exist only with <code>runner.enabled = true</code>. With <code>runner.enabled = false</code>, Pupitre publishes the first four actions, and the run routes give <code>404 not_found</code>.</p>
+<h2 id="the-ceiling-max_hosts"><a class="self" href="#the-ceiling-max_hosts">The ceiling max_hosts</a></h2>
+<p>The actions <code>run.check</code>, <code>run.apply</code> and <code>command.run</code> have the ceiling <code>max_hosts</code>. It is the most hosts of one run. The bound that applies is the lower of two values: <code>runner.max_hosts</code>, and the ceiling that the PDP gives with its answer. A run with more hosts gets <code>403 ceiling_exceeded</code>. Pupitre never runs a part of the hosts.</p>
+<h2 id="the-procurauth-routes"><a class="self" href="#the-procurauth-routes">The ProcurAuth routes</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Route</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><code>GET /.well-known/procurauth/actions</code></th><td data-label="Content">The action document. It needs no token. Pupitre builds it one time at start.</td></tr><tr><th scope="row"><code>GET /.well-known/procurauth/resources</code></th><td data-label="Content">The options route. It lists the children of a node, page by page, for the nodes that the subject can see.</td></tr></tbody></table></div>
+<p>Both routes give <code>404 not_found</code> in the mode <code>open</code>. They are below <code>server.base_path</code>.</p>
+<h2 id="errors"><a class="self" href="#errors">Errors</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Status</th><th scope="col">Code</th><th scope="col">Cause</th></tr></thead><tbody><tr><th scope="row">401</th><td data-label="Code"><code>unauthenticated</code></td><td data-label="Cause">No token, a token that is not valid, or two copies of the header</td></tr><tr><th scope="row">403</th><td data-label="Code"><code>forbidden</code></td><td data-label="Cause">The PDP answered <code>false</code>. The body has the member <code>action</code>.</td></tr><tr><th scope="row">403</th><td data-label="Code"><code>ceiling_exceeded</code></td><td data-label="Cause">More hosts than the effective <code>max_hosts</code></td></tr><tr><th scope="row">403</th><td data-label="Code"><code>apply_disabled</code></td><td data-label="Cause">An apply or a command in the mode <code>open</code> with no <code>runner.allow_apply_in_open_mode = true</code></td></tr><tr><th scope="row">403</th><td data-label="Code"><code>approval_cannot_wait</code></td><td data-label="Cause">The grant needs an approval, and no route of Pupitre can wait</td></tr><tr><th scope="row">404</th><td data-label="Code"><code>not_found</code></td><td data-label="Cause">An unknown item after the check, or a feature that is off</td></tr><tr><th scope="row">503</th><td data-label="Code"><code>pdp_unavailable</code></td><td data-label="Cause">The PDP gave no valid answer in time</td></tr></tbody></table></div>
+<p>An unknown node and a forbidden node give the same answer. A subject without the right learns nothing about a unit that exists. The list routes show only the items that the subject can see.</p>
+<h2 id="revoked-grants"><a class="self" href="#revoked-grants">Revoked grants</a></h2>
+<p>Each write and each run asks the PDP with no kept answer. A revoked grant thus stops them at once. A read route can use a kept answer for <code>access.pdp.cache_ttl</code> at most. Pupitre keeps only a <code>true</code> answer to the question <code>access</code>, and never a <code>false</code> answer. Each instance has its own cache.</p>
+<h2 id="approvals"><a class="self" href="#approvals">Approvals</a></h2>
+<p>No route of Pupitre can wait for an approval. A key with a grant that has <code>confirm</code> cannot use that action through the API. A person never gets this refusal. <a href="security.html">Security model</a> lists this limit.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

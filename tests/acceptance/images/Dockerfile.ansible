@@ -1,0 +1,26 @@
+# Runner image of the acceptance tests: the runner node of Pupitre with a pinned ansible-core.
+# The image holds no Pupitre binary. The harness mounts the static binary that scripts/static.sh builds.
+# The harness also mounts the keys, the configuration and the Ansible files.
+# The file ansible-constraints.txt pins ansible-core and each dependency to one exact version.
+# The harness builds it with the user id of the host user, so that the bind-mounted files have the owner of the process.
+# Build it with the folder of this file as the context. Never push this image to a registry.
+FROM debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2
+
+ARG RUNNER_UID=2100
+
+COPY ansible-constraints.txt /tmp/ansible-constraints.txt
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      python3 python3-venv python3-pip openssh-client ca-certificates procps iproute2 \
+ && rm -rf /var/lib/apt/lists/* \
+ && python3 -m venv /opt/ansible \
+ && /opt/ansible/bin/pip install --no-cache-dir --disable-pip-version-check --constraint /tmp/ansible-constraints.txt ansible-core \
+ && useradd --create-home --shell /bin/bash --uid "${RUNNER_UID}" pupitre \
+ && mkdir -p /var/lib/pupitre /etc/pupitre /srv/ansible \
+ && chown pupitre:pupitre /var/lib/pupitre
+
+ENV PATH=/opt/ansible/bin:/usr/local/bin:/usr/bin:/bin
+
+USER pupitre
+WORKDIR /var/lib/pupitre

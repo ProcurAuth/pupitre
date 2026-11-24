@@ -1,0 +1,8 @@
+---
+# Playbook of the kind `deploy` for the schema `demo` (4.3). It changes the hosts.
+- name: Deploy the demo service
+  hosts: demo_hosts
+  gather_facts: false
+  become: true
+  roles:
+    - demo_service

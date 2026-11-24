@@ -1,0 +1,4 @@
+---
+# The secrets of a unit. Pupitre gives a file path for each secret key path in `pupitre_secret_files` (4.12, 4.13).
+# The value can be flat (key path to path) or have one level for each unit. The role reads both forms.
+demo_secret_files: "{{ (pupitre_secret_files | default({})).get(pupitre_units | first, pupitre_secret_files | default({})) }}"

@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+# Synthetic service of the acceptance tests. It reads its configuration and writes a line in the log each 5 seconds.
+import json
+import time
+
+with open("/etc/demo-service/config.json", encoding="utf-8") as handle:
+    config = json.load(handle)
+while True:
+    print("demo-service running with max_clients=%s" % config.get("limits", {}).get("max_clients"), flush=True)
+    time.sleep(5)

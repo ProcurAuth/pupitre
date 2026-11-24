@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The versions of Pupitre, with the changes and the upgrade steps.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Changelog | Pupitre">
+<meta property="og:description" content="The versions of Pupitre, with the changes and the upgrade steps.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/changelog.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Changelog | Pupitre">
+<meta name="twitter:description" content="The versions of Pupitre, with the changes and the upgrade steps.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/changelog.html">
+<title>Changelog | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html" aria-current="page">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> The changes of each version</p><h1>Changelog</h1><p class="lede">The versions of Pupitre, with the changes and the upgrade steps.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#010---2026-11-24">0.1.0 - 2026-11-24</a></li><li><a href="#added">Added</a></li><li><a href="#security">Security</a></li><li><a href="#known-limits">Known limits</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/CHANGELOG.md"><code>CHANGELOG.md</code></a> in the repository.</p><p>This file follows the layout of <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a> and uses ASD-STE100 Simplified Technical English. The versions follow <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Before 1.0, a minor version can change a key, a route or the format of a document.</p>
+<p>Each version has a section <code>## &lt;version&gt; - &lt;YYYY-MM-DD&gt;</code>. The newest version is first. The release workflow reads the section of the version as the notes of the release. The section `## Unreleased</p>
+<h2 id="010---2026-11-24"><a class="self" href="#010---2026-11-24">0.1.0 - 2026-11-24</a></h2>
+<p>First release.</p>
+<h3 id="added">Added</h3>
+<ul><li>One static binary <code>pupitre</code> with a web page inside. It edits the configuration of services on many hosts, and it starts Ansible runs and named commands from the page.</li><li>The tree service, environment, unit and host. A unit gets its values from four layers: the default of its schema, the environment, the unit and the host. The page shows the layer of each value.</li><li>Closed schemas of the unit that the operator gives in the configuration file. Each key has a type, a range and a default. A value that breaks its schema is refused.</li><li>Two stores. The backend <code>files</code> keeps documents in folders, and it fits a review in Git. The backend <code>postgres</code> serves two instances or more, with TLS and an account that cannot change a table. Both keep a history of each document, with etags and a conflict answer.</li><li>Secrets. A secret value never leaves the store through the API. The page shows its fingerprint only. The backend <code>files</code> keeps secrets in a separate folder, and the backend <code>postgres</code> encrypts them with a key file.</li><li>The runner. A run is a check or an apply of one playbook on a snapshot of the values. An apply needs a check that passed, with the same snapshot hash, not older than <code>runner.check_max_age</code>. One runner node holds a lease for each environment. A run survives a restart of Pupitre.</li><li>Commands. The operator lists named commands and their playbooks in the configuration file. A person starts a command by hand, with typed parameters that have ranges. No command runs by itself, and the product has no schedule.</li><li>Two access modes. The mode <code>open</code> has no login and relies on a proxy. The mode <code>authzen</code> asks a ProcurAuth PDP for each request and publishes the action document.</li><li>The commands <code>serve</code>, <code>check-config</code>, <code>print-config</code>, <code>print-reference</code>, <code>migrate</code>, <code>import</code>, <code>export</code>, <code>copy-store</code> and <code>version</code>. <code>import</code> reads an Ansible inventory as JSON. <code>copy-store</code> moves all data from one backend to the other.</li><li>A configuration with a closed schema, fail-fast errors, no coercion, and the forms <code>_env</code> and <code>_file</code> for secrets. The reference of the keys is generated from the table of keys.</li><li>The specification in eight parts, the guides, the website, and the example in <code>examples/local</code>.</li><li>Static <code>musl</code> release archives with a <code>SHA256SUMS</code> file. Two builds give the same bytes. No container image exists.</li></ul>
+<h3 id="security">Security</h3>
+<ul><li>The runner node needs ansible-core 2.19 or later. It runs <code>runner.ansible_playbook --version</code> at start and stops with an older version. Before 2.19, the tag <code>!unsafe</code> is lost when a playbook reads a value through <code>hostvars</code>.</li><li>The variable files of a snapshot are YAML. Each object and array of the values of documents and parameters has the tag <code>!unsafe</code>, so Ansible never evaluates a template in them. The server and the runner also refuse <code>{{</code>, <code>{%</code> and <code>{#</code> in a text value, a list item and a text parameter.</li><li>Each run sets <code>HostKeyAlias=&lt;environment&gt;.&lt;host&gt;</code> and <code>CheckHostIP=no</code>. A host that gets the address of another host fails the key check. Each line of <code>runner.known_hosts_file</code> names a host by <code>&lt;environment&gt;.&lt;host&gt;</code>.</li><li>The main listener serves a request only when its header <code>Host</code> is in <code>server.allowed_hosts</code>, else the answer is <code>421 misdirected_request</code>. A loopback listener has a default list. Any other listener needs the key.</li><li>A request runs in its own task, so a client that closes the connection does not cancel a write after the store committed it.</li><li>The runner node refuses a playbook whose folder holds an entry <code>group_vars</code> or <code>host_vars</code>. A schema cannot name its variable with a name that Ansible reserves. A host id or a host label cannot be <code>all</code>, <code>ungrouped</code> or <code>localhost</code>.</li><li>A label, a note, a subject and the message of a run refuse the Unicode format characters, for example the bidirectional controls.</li><li>The render phase writes its files in the private folder of the run on <code>tmpfs</code>. The runner node sets <code>PR_SET_DUMPABLE</code> to 0, so a child cannot read the environment of Pupitre.</li><li>The scrubber replaces copies of a secret that overlap with one <code>[secret]</code>. It also finds a secret with a quote or a backslash after two layers of escapes.</li><li>The fingerprint of a secret is part of the associated data of its encryption in the backend <code>postgres</code>. The poll of the backend <code>postgres</code> uses a barrier, so it does not miss a commit that arrives late.</li><li>When the record of a run refuses a write, the runner stops the child and removes the private folder before the environment is free.</li></ul>
+<h3 id="known-limits">Known limits</h3>
+<ul><li>The hosted CI runs the format, lint, unit tests and documents checks. The tests of the stores, the series U of the ProcurAuth conformance suite and the acceptance tests run by hand.</li><li>The page checks in a browser run by hand, in Chrome only.</li><li><code>Store::update_run</code> compares the status only, so a cancel that arrives between two writes of the runner can be lost.</li><li>See <code>SECURITY.md</code> for the limits that touch security.</li></ul></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

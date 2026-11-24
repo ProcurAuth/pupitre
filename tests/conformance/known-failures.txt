@@ -1,0 +1,8 @@
+# The cases of the series U that the pinned commit of the library cannot pass.
+# One case on each line: the id, then the reason with the paragraph of the protocol.
+# A required case that fails and is not here stops tests/conformance/run.sh.
+# A case that is here and does not fail also stops it, so that this list stays true.
+#
+# The list is empty: each case that the runner does not skip passes at the pinned commit.
+# The skipped cases are the cases of a budget (Pupitre declares no budget, 3.1), the cases of
+# the MCP binding (Pupitre has no MCP endpoint) and the cases of section 17 that need it.

@@ -1,0 +1,155 @@
+# Release of Pupitre (8.10). A person starts it by hand on main, with the inputs `version` and `arm64`.
+# It builds and attaches the static archives and SHA256SUMS to a GitHub release that this workflow creates.
+# With `arm64` false (a repository with no arm64 runner), it builds, sums and attaches the amd64 archive only.
+# The notes of the release are the section of the version in CHANGELOG.md (tools/changelog-section.sh).
+# It never pushes an image and never logs in to a registry (8.7).
+# Each step pins its action to a full commit SHA and gives the version in a comment. Dependabot proposes the updates.
+# Each checkout keeps no credentials in the work tree (persist-credentials: false).
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, for example 0.1.0"
+        required: true
+        type: string
+      arm64:
+        description: "Build the arm64 archive too (false: amd64 only, for a repository with no arm64 runner)"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # Step 1: check the input.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      V: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Never publish container images
+        run: |
+          # This step is a copy of the job no-image of ci.yaml. Keep the two copies the same.
+          # The pattern is split so that this line does not match itself.
+          if grep -rnE 'ghcr''\.io|docker/login''-action|docker[[:space:]]+(pus''h|logi''n)\b|buildx[^#]*--pus''h|imagetools[[:space:]]+crea''te|packages: *wr''ite|push: *tr''ue' .github scripts; then
+            echo "::error::workflows and scripts must not publish container images"
+            exit 1
+          fi
+      - name: Check the version
+        run: |
+          set -eu
+          [ "$GITHUB_REF" = refs/heads/main ] || { echo "run this workflow on main"; exit 1; }
+          printf '%s\n' "$V" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$' || { echo "bad version: $V"; exit 1; }
+          cargo_v=$(sed -n '/^\[workspace\.package\]/,/^\[/{s/^version *= *"\(.*\)"/\1/p}' Cargo.toml)
+          [ "$cargo_v" = "$V" ] || { echo "Cargo.toml has version $cargo_v, not $V"; exit 1; }
+          grep -qE "^## $V - [0-9]{4}-[0-9]{2}-[0-9]{2}\$" CHANGELOG.md || { echo "CHANGELOG.md has no heading '## $V - <date>'"; exit 1; }
+          tools/changelog-section.sh "$V" CHANGELOG.md >/dev/null || { echo "the section '## $V - <date>' of CHANGELOG.md is empty"; exit 1; }
+          # git ls-remote --exit-code gives 2 when no tag matches. Any other error stops the release.
+          rc=0
+          git ls-remote --exit-code --tags origin "refs/tags/v$V" >/dev/null || rc=$?
+          case $rc in
+            0) echo "tag v$V exists"; exit 1 ;;
+            2) ;;
+            *) echo "cannot read the tags of origin (git ls-remote exit code $rc)"; exit 1 ;;
+          esac
+
+  # Step 2: the jobs of the CI on this commit. All must pass.
+  ci:
+    needs: check
+    uses: ./.github/workflows/ci.yaml
+
+  # Steps 3 to 5: build each target two times, compare, make its archive. One runner for each architecture.
+  build:
+    needs: ci
+    strategy:
+      fail-fast: true
+      matrix:
+        arch: ${{ fromJSON(inputs.arm64 && '["amd64", "arm64"]' || '["amd64"]') }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    timeout-minutes: 60
+    env:
+      V: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - run: scripts/static.sh --archive "$V"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: archive-${{ matrix.arch }}
+          path: dist/pupitre_${{ inputs.version }}_linux_${{ matrix.arch }}.tar.gz
+          if-no-files-found: error
+
+  # Steps 6 to 9: SHA256SUMS, the draft release, the check of the draft, the publish.
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      V: ${{ inputs.version }}
+      ARM64: ${{ inputs.arm64 }}
+      GH_TOKEN: ${{ github.token }}
+      # gh reads the repository from GH_REPO: the work tree keeps no credentials.
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: archive-*
+          merge-multiple: true
+          path: dist
+      - name: List the archives
+        # ARCHIVES: the archives of the release. ASSETS: the number of files of the draft (the archives and SHA256SUMS).
+        run: |
+          set -eu
+          if [ "$ARM64" = true ]; then
+            echo "ARCHIVES=pupitre_${V}_linux_amd64.tar.gz pupitre_${V}_linux_arm64.tar.gz" >> "$GITHUB_ENV"
+            echo "ASSETS=3" >> "$GITHUB_ENV"
+          else
+            echo "ARCHIVES=pupitre_${V}_linux_amd64.tar.gz" >> "$GITHUB_ENV"
+            echo "ASSETS=2" >> "$GITHUB_ENV"
+          fi
+      - name: Make SHA256SUMS
+        working-directory: dist
+        run: |
+          set -eu
+          # ARCHIVES holds one or two names: the split on blanks is intended.
+          # shellcheck disable=SC2086
+          sha256sum $ARCHIVES > SHA256SUMS
+          cat SHA256SUMS
+      - name: Make the release notes
+        run: tools/changelog-section.sh "$V" > notes.md
+      - name: Make the draft release
+        working-directory: dist
+        run: |
+          set -eu
+          # shellcheck disable=SC2086
+          gh release create "v$V" --draft --target "$GITHUB_SHA" --title "Pupitre v$V" --notes-file ../notes.md \
+            $ARCHIVES SHA256SUMS
+      - name: Check the draft
+        run: |
+          set -eu
+          n=$(gh release view "v$V" --json assets --jq '.assets | length')
+          [ "$n" = "$ASSETS" ] || { echo "the draft has $n files, not $ASSETS"; exit 1; }
+          mkdir check
+          gh release download "v$V" --dir check
+          (cd check && sha256sum -c SHA256SUMS)
+      - name: Publish the draft
+        id: publish
+        # After this call starts, the workflow never deletes the draft or the release.
+        run: gh release edit "v$V" --draft=false --latest
+      - name: Delete the draft after a failure before the publish call
+        if: failure() && steps.publish.conclusion == 'skipped'
+        run: gh release delete "v$V" --yes || true

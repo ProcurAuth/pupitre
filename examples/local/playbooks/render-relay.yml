@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+# The render phase of a check run (4.25). It connects to no host: it runs on the runner node only.
+# It writes the file of each host in the folder that Pupitre gives, and it checks the file.
+- name: Render the relay configuration
+  hosts: relay_hosts
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create the folder of the host
+      ansible.builtin.file:
+        path: "{{ pupitre_render_dir }}/{{ inventory_hostname }}"
+        state: directory
+        mode: "0700"
+
+    - name: Write the configuration file of the host
+      ansible.builtin.copy:
+        dest: "{{ pupitre_render_dir }}/{{ inventory_hostname }}/relay.conf"
+        mode: "0600"
+        content: |
+          max_clients = {{ relay_config.limits.max_clients }}
+          log_level = {{ relay_config.log.level }}
+          connect_timeout = {{ relay_config.timeouts.connect }}
+
+    - name: Check the configuration file
+      ansible.builtin.command:
+        argv:
+          - grep
+          - --quiet
+          - --extended-regexp
+          - "max_clients = [0-9]+"
+          - "{{ pupitre_render_dir }}/{{ inventory_hostname }}/relay.conf"
+      changed_when: false

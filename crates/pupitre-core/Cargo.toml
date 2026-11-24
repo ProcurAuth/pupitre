@@ -1,0 +1,15 @@
+[package]
+name = "pupitre-core"
+description = "Pupitre ids, strict JSON and canonical form, etag, documents, schemas, layers, nodes, actions, commands, runs and the snapshot manifest. No I/O."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+hclconf.workspace = true
+sha2.workspace = true
+
+[lints]
+workspace = true

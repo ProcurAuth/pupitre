@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" role="img" aria-label="Pupitre: configuration and Ansible runs for services on many hosts">
+  <title>Pupitre: configuration and Ansible runs for services on many hosts</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#312e81"/>
+      <stop offset="0.55" stop-color="#1b1a45"/>
+      <stop offset="1" stop-color="#0c0e15"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.18" cy="0.35" r="0.6">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a5b4fc"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="320" rx="28" fill="url(#bg)"/>
+  <rect width="1280" height="320" rx="28" fill="url(#glow)"/>
+  <g transform="translate(78 80) scale(5)"><rect width="32" height="32" rx="8" fill="#4338ca"/><path d="M9 7h14l3 9H6z" fill="#ffffff"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="#4338ca" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="#ffffff"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="#ffffff"/></g>
+  <g font-family="Inter, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+    <text x="290" y="148" font-size="76" font-weight="800" fill="#ffffff" letter-spacing="-1.5">Pupitr<tspan fill="#a5b4fc">e</tspan></text>
+    <text x="292" y="196" font-size="26" font-weight="500" fill="#e0e7ff">Configuration and Ansible runs for services on many hosts</text>
+    <text x="292" y="240" font-size="20" fill="#9ca3d4">One static binary. Values in layers. A check run first, then an apply run.</text>
+    <g font-size="17" font-weight="600" fill="#e0e7ff" text-anchor="middle">
+      <rect x="1020" y="62" width="200" height="48" rx="14" fill="none" stroke="#a5b4fc" stroke-opacity="0.4" stroke-width="2"/>
+      <text x="1120" y="92">Values in layers</text>
+      <rect x="1020" y="136" width="200" height="48" rx="14" fill="none" stroke="#a5b4fc" stroke-opacity="0.4" stroke-width="2"/>
+      <text x="1120" y="166">Check run</text>
+      <rect x="1020" y="210" width="200" height="48" rx="14" fill="none" stroke="#34d399" stroke-opacity="0.7" stroke-width="2"/>
+      <text x="1120" y="240">Apply run</text>
+    </g>
+  </g>
+  <path d="M1120 112V132" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+  <path d="M1120 186V206" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+</svg>

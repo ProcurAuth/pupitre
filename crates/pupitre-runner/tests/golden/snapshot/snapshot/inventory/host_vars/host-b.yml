@@ -1,0 +1,31 @@
+{
+  "ansible_host": "203.0.113.11",
+  "ansible_ssh_common_args": "-o HostKeyAlias=production.host-b",
+  "feed_config": !unsafe {
+    "log": !unsafe {
+      "level": "debug"
+    }
+  },
+  "pupitre_environment": "production",
+  "pupitre_secret_files": {
+    "feed": {
+      "api.token": "{{ pupitre_secrets_dir }}/environments/production/api.token"
+    },
+    "relay": {
+      "storage.password": "{{ pupitre_secrets_dir }}/environments/production/units/relay/storage.password"
+    }
+  },
+  "pupitre_units": [
+    "feed",
+    "relay"
+  ],
+  "relay_config": !unsafe {
+    "banner": "Say \"hi\" \\ caf\xe9 \U0001f600 {x} }}",
+    "limits": !unsafe {
+      "max_clients": 300
+    },
+    "log": !unsafe {
+      "level": "debug"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 470" width="1100" height="470" role="img" aria-label="The four layers of a value: the schema default, the environment, the unit and the host. The last layer that gives a value wins.">
+  <title>The layers of a value</title>
+  <desc>For the key limits.max_clients, the schema default is 100, the environment gives 200, the unit gives 300 and the host host-b gives 500. The value on host-b is 500, from the host layer. On host-a the value is 300, from the unit layer.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a5b4fc"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#34d399"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="470" rx="20" fill="#12142a"/>
+  <g font-family="Inter, 'Segoe UI', -apple-system, Helvetica, Arial, sans-serif">
+    <text x="40" y="52" font-size="24" font-weight="700" fill="#ffffff" text-anchor="start">Four layers, one value</text>
+    <text x="40" y="82" font-size="15" font-weight="400" fill="#9ca3d4" text-anchor="start">The last layer that gives a value wins. The page shows the value and the layer that gives it.</text>
+    <rect x="40" y="120" width="220" height="150" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="150.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">0  default</text>
+    <text x="150.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">the schema</text>
+    <text x="150.0" y="187" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle"></text>
+    <text x="150.0" y="204" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">limits.max_clients = 100</text>
+    <path d="M260 195H294" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="296" y="120" width="220" height="150" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="406.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">1  environment</text>
+    <text x="406.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">common values</text>
+    <text x="406.0" y="187" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle"></text>
+    <text x="406.0" y="204" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">limits.max_clients = 200</text>
+    <path d="M516 195H550" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="552" y="120" width="220" height="150" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="662.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">2  unit</text>
+    <text x="662.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">values of the unit</text>
+    <text x="662.0" y="187" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle"></text>
+    <text x="662.0" y="204" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">limits.max_clients = 300</text>
+    <path d="M772 195H806" stroke="#a5b4fc" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+    <rect x="808" y="120" width="220" height="150" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="918.0" y="148" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">3  host</text>
+    <text x="918.0" y="170" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">values of one host</text>
+    <text x="918.0" y="187" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle"></text>
+    <text x="918.0" y="204" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">limits.max_clients = 500</text>
+    <text x="40" y="310" font-size="16" font-weight="700" fill="#e0e7ff" text-anchor="start">Value of limits.max_clients on each host of the unit</text>
+    <rect x="40" y="330" width="500" height="100" rx="12" fill="#1c1f3d" stroke="#2c3070" stroke-width="1.5"/>
+    <text x="290.0" y="358" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">host-a</text>
+    <text x="290.0" y="380" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">layers 0, 1 and 2 give a value, layer 3 gives none</text>
+    <text x="290.0" y="397" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">value 300, from the unit layer</text>
+    <rect x="560" y="330" width="500" height="100" rx="12" fill="#1c1f3d" stroke="#34d399" stroke-width="1.5"/>
+    <text x="810.0" y="358" font-size="15" font-weight="700" fill="#e0e7ff" text-anchor="middle">host-b</text>
+    <text x="810.0" y="380" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">layers 0, 1, 2 and 3 give a value</text>
+    <text x="810.0" y="397" font-size="12" font-weight="400" fill="#c7d2fe" text-anchor="middle">value 500, from the host layer</text>
+    <text x="40" y="456" font-size="13" font-weight="400" fill="#9ca3d4" text-anchor="start">A secret key has two layers only: the environment and the unit. No route returns the value of a secret.</text>
+  </g>
+</svg>

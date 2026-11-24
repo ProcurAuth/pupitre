@@ -1,0 +1,84 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/hclconf",
+    "crates/pupitre-core",
+    "crates/pupitre-store",
+    "crates/pupitre-runner",
+    "crates/pupitre",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/ProcurAuth/pupitre"
+rust-version = "1.89"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
+
+# Each direct dependency has an exact pin, default-features = false where the crate permits it,
+# and one line with its reason (8.9 of the specification).
+[workspace.dependencies]
+# Workspace crates.
+hclconf = { path = "crates/hclconf" }
+pupitre-core = { path = "crates/pupitre-core" }
+pupitre-store = { path = "crates/pupitre-store" }
+pupitre-runner = { path = "crates/pupitre-runner" }
+
+# SHA-256 for the etag (2.6), the snapshot hash (4.16) and the hashes of the files of a snapshot.
+sha2 = { version = "=0.11.1", default-features = false }
+
+# ChaCha20-Poly1305, HKDF and HMAC of the secrets (2.26, 2.39). Already in the graph through rustls.
+ring = { version = "=0.17.14", default-features = false, features = ["alloc"] }
+# Random bytes for the run ids, the nonces of the cipher, the node id and the temporary file names.
+getrandom = { version = "=0.4.3", default-features = false, features = ["std"] }
+# flock, openat, O_NOFOLLOW, statfs and fsync of folders (2.32, 4.13); the signals to a process group (4.19).
+rustix = { version = "=1.1.6", default-features = false, features = ["std", "fs", "process"] }
+# Async runtime of the server, the store and the runner; tokio::process starts the child (4.19).
+tokio = { version = "=1.54.1", default-features = false, features = ["rt-multi-thread", "net", "time", "sync", "macros", "signal", "io-util", "process", "fs"] }
+# PostgreSQL client of the backend postgres (2.36).
+tokio-postgres = { version = "=0.7.18", default-features = false, features = ["runtime"] }
+# Connection pool of the backend postgres (2.37).
+deadpool-postgres = { version = "=0.14.2", default-features = false, features = ["rt_tokio_1"] }
+# rustls for tokio-postgres (6.10).
+tokio-postgres-rustls = { version = "=0.14.0", default-features = false }
+# The one TLS stack, with the ring provider: PostgreSQL, the PDP and the OTLP collector.
+rustls = { version = "=0.23.46", default-features = false, features = ["ring", "std", "tls12"] }
+# PEM parse of the CA files (6.13).
+rustls-pki-types = { version = "=1.15.1", default-features = false, features = ["std"] }
+
+# HTTP/1.1 server of the two listeners (5.1) and client of the PDP and of the OTLP collector.
+hyper = { version = "=1.12.0", default-features = false, features = ["http1", "server", "client"] }
+# Tokio glue for hyper.
+hyper-util = { version = "=0.1.21", default-features = false, features = ["tokio"] }
+# Body helpers for hyper.
+http-body-util = { version = "=0.1.5", default-features = false }
+# HTTP types shared with hyper.
+http = { version = "=1.5.0", default-features = false, features = ["std"] }
+# Byte buffers shared with hyper.
+bytes = { version = "=1.12.1", default-features = false, features = ["std"] }
+# JSON values of the API of procurauth-pep (3.1). Pupitre reads and writes its own JSON with pupitre-core.
+serde_json = { version = "=1.0.154", default-features = false, features = ["std"] }
+# ProcurAuth PEP library (3.1, 8.9): git dependency at one full commit, the commit of Hune 0.1.1.
+procurauth-pep = { git = "https://github.com/ProcurAuth/procurauth", rev = "058563cfbc3536b9b850255d953568ef0a5cabbe", default-features = false }
+# ProcurAuth core: identity token, keys, strict JSON (3.1, 8.9).
+procurauth-core = { git = "https://github.com/ProcurAuth/procurauth", rev = "058563cfbc3536b9b850255d953568ef0a5cabbe", default-features = false }
+
+# Test only: temporary directories for the store, runner and configuration tests.
+tempfile = { version = "=3.27.0", default-features = false }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
+debug = false
+incremental = false
+panic = "abort"

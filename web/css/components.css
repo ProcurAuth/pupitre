@@ -1,0 +1,443 @@
+/* Copied from Hune, web/css/components.css, commit a55fff3. Edits: the sections of the dashboard, the pickers, the variables bar and the panel view are removed; the header actions row, the listbox and the select popup stay. */
+/* Shared components (9.2): icons, buttons, fields, toggles, segmented control, badges, notices, menus, dialogs, tooltips,
+   empty states, tabs, tables, cards, pickers, variables bar and the list page.
+   The catalogue of the classes is this file.
+   A rule here names tokens of css/tokens.css and of the copied vendor/chdash/00-tokens.css. No literal colour. */
+
+/* --- Icons ---------------------------------------------------------------------------------------------------------- */
+
+.icon { flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+.icon--muted { color: var(--muted); }
+.icon--ok { color: var(--success); }
+.icon--warn { color: var(--warning); }
+.icon--error { color: var(--danger); }
+.icon--info { color: var(--info); }
+
+/* --- Buttons -------------------------------------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-6);
+  min-height: var(--control-h); padding: 0 var(--space-10);
+  border: 1px solid var(--button-border); border-radius: var(--r-md); background: var(--button-bg); color: var(--text);
+  font-size: var(--fs-md); font-weight: var(--fw-medium); line-height: 1.2; text-decoration: none; white-space: nowrap;
+  cursor: pointer; user-select: none;
+  transition: background-color var(--motion-quick) var(--ease), border-color var(--motion-quick) var(--ease), color var(--motion-quick) var(--ease);
+}
+.btn:hover { border-color: var(--button-border-hover); background: var(--button-bg-hover); }
+.btn[aria-expanded="true"] { background: var(--button-bg-hover); border-color: var(--button-border-hover); }
+.btn[aria-pressed="true"], .btn.is-active { border-color: var(--selected-edge); background: var(--selected-bg); color: var(--text); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.btn[disabled]:hover { border-color: var(--button-border); background: var(--button-bg); }
+
+.btn--primary { border-color: var(--accent-fill); background: var(--accent-fill); color: var(--on-fill); }
+.btn--primary:hover { border-color: var(--accent-fill-hover); background: var(--accent-fill-hover); }
+.btn--primary[disabled]:hover { border-color: var(--accent-fill); background: var(--accent-fill); }
+.btn--danger { border-color: var(--danger-fill); background: var(--danger-fill); color: var(--on-fill); }
+.btn--danger:hover { border-color: var(--danger-fill-hover); background: var(--danger-fill-hover); }
+.btn--danger[disabled]:hover { border-color: var(--danger-fill); background: var(--danger-fill); }
+/* The ghost (quiet) button has no frame until it is hovered. It is the button of dense toolbars and panel title bars. */
+.btn--ghost, .btn--quiet { border-color: transparent; background: transparent; color: var(--text); }
+.btn--ghost:hover, .btn--quiet:hover { border-color: transparent; background: var(--hover-tint); }
+.btn--ghost[disabled]:hover, .btn--quiet[disabled]:hover { background: transparent; }
+.btn--ghost[aria-pressed="true"], .btn--quiet[aria-pressed="true"] { border-color: transparent; background: var(--selected-bg); }
+.btn--ghost.btn--icon, .btn--quiet.btn--icon { color: var(--muted); }
+.btn--ghost.btn--icon:hover, .btn--quiet.btn--icon:hover { color: var(--text); }
+.btn--quiet:not(.btn--icon):not(.btn--ghost) { padding: 0 var(--space-6); }
+.btn--sm { min-height: var(--control-h-sm); padding: 0 var(--space-8); font-size: var(--fs-sm); }
+.btn--icon { width: var(--control-h); padding: 0; }
+.btn--icon.btn--sm { width: var(--control-h-sm); }
+.btn--block { width: 100%; }
+.btn-group { display: inline-flex; }
+.btn-group > .btn { border-radius: 0; }
+.btn-group > .btn + .btn { margin-left: -1px; }
+.btn-group > .btn:first-child { border-radius: var(--r-md) 0 0 var(--r-md); }
+.btn-group > .btn:last-child { border-radius: 0 var(--r-md) var(--r-md) 0; }
+
+/* The toolbar button of the dashboard (the variant "tb" of button() in ui.js): 32 px high, 14 px/500 text, icons of 18 px
+   (chevrons of 16 px), a quiet fill that follows the theme. Only the toolbar uses it: the other .btn keep their look.
+   A group (.tb-group) holds buttons that touch: only the outer corners are round. The groups are 8 px apart. */
+.btn--tb {
+  gap: var(--space-8); min-height: var(--control-h); padding: 0 var(--space-8);
+  border-color: var(--tb-border); background: var(--tb-bg); color: var(--text); line-height: 1.2;
+}
+.btn--tb:hover, .btn--tb[aria-expanded="true"] { border-color: var(--tb-border-hover); background: var(--tb-bg-hover); }
+.btn--tb[disabled]:hover { border-color: var(--tb-border); background: var(--tb-bg); }
+.btn--tb.btn--icon { width: var(--tb-icon-w, 36px); padding: 0; }
+.btn--tb.btn--tb-nav { width: 34px; }
+.btn--tb-primary, .btn--tb-primary:hover { border-color: transparent; color: var(--on-primary); }
+.btn--tb-primary { background: var(--primary); }
+.btn--tb-primary:hover { background: var(--primary-hover); }
+.btn--tb-primary[disabled]:hover { border-color: transparent; background: var(--primary); }
+.btn--tb .icon { color: inherit; }
+.tb-group { display: flex; align-items: stretch; min-width: 0; }
+/* The corners join by the type of the element: a popup or a hidden list in the group does not change the corners of the buttons. */
+.tb-group > .btn--tb:not(:first-of-type), .tb-group > .picker__button:not(:first-of-type) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.tb-group > .btn--tb:not(:last-of-type), .tb-group > .picker__button:not(:last-of-type) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.tb-group > .btn--tb:hover, .tb-group > .btn--tb:focus-visible { z-index: 1; }
+/* The time control of the header (9.9): the time group and the refresh group, joined. The buttons touch, and only the outer corners are round. */
+.tc { display: flex; flex: none; align-items: stretch; }
+.tc > .tb-group:not(:first-child) > .btn--tb:first-of-type { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.tc > .tb-group:not(:last-child) > .btn--tb:last-of-type { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.icon--spin { animation: icon-spin 0.8s linear infinite; }
+@keyframes icon-spin { to { transform: rotate(360deg); } }
+
+/* A button that looks like a link, for an action inside a sentence. */
+.link-button { padding: 0; border: 0; background: none; color: var(--accent-text); text-align: left; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; font: inherit; }
+
+/* --- Fields --------------------------------------------------------------------------------------------------------- */
+
+.input {
+  max-width: 100%; min-height: var(--control-h); padding: 0 var(--space-8);
+  border: 1px solid var(--control-border); border-radius: var(--r-md); background: var(--surface-inset); color: var(--text);
+  font-size: var(--fs-md); line-height: 1.2;
+  transition: border-color var(--motion-quick) var(--ease);
+}
+.input::placeholder { color: var(--text-faint); opacity: 1; }
+.input:hover { border-color: var(--control-border-hover); }
+.input:focus-visible { border-color: var(--accent-fill); outline: 2px solid var(--focus-ring-color); outline-offset: 1px; }
+.input[aria-invalid="true"] { border-color: var(--danger); }
+.input:disabled { opacity: 0.55; }
+.input[readonly] { opacity: 0.7; }
+.input[readonly] { cursor: text; }
+input[type="search"].input::-webkit-search-cancel-button { filter: none; opacity: 0.6; cursor: pointer; }
+textarea.input { min-height: calc(var(--control-h) * 2); padding: var(--space-6) var(--space-8); line-height: var(--lh-base); resize: vertical; }
+select.input {
+  padding-right: var(--space-24); appearance: none; cursor: pointer;
+  background-image: var(--select-arrow); background-repeat: no-repeat; background-position: right var(--space-8) center; background-size: 14px;
+}
+.input--mono { font-family: var(--font-mono); font-size: var(--fs-sm); }
+
+/* A field is a label, a control, a hint and an error, in a column. The .form-row names are older aliases. */
+.field, .form-row { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.field__label, .form-row > label, .form-label { color: var(--muted); font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+.field__hint, .form-row__hint { color: var(--muted); font-size: var(--fs-xs); }
+.field-error, .field__error { color: var(--danger); font-size: var(--fs-sm); }
+.error-list { margin-top: var(--space-8); }
+.error-list li { margin: var(--space-4) 0; }
+.form { display: flex; flex-direction: column; gap: var(--space-12); max-width: 900px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-12); }
+fieldset { min-width: 0; margin: 0; padding: var(--space-8) var(--space-12); border: 1px solid var(--border); border-radius: var(--r-md); }
+legend { padding: 0 var(--space-4); font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+
+/* Checkbox and radio: one 14 px mark, the accent when checked. */
+input[type="checkbox"], input[type="radio"] {
+  flex: 0 0 auto; width: 14px; height: 14px; margin: 0; padding: 0; vertical-align: middle;
+  border: 1px solid var(--control-border); background: var(--surface-inset); appearance: none; cursor: pointer;
+  transition: background-color var(--motion-quick) var(--ease), border-color var(--motion-quick) var(--ease);
+}
+input[type="checkbox"] { border-radius: var(--r-xs); }
+input[type="radio"] { border-radius: 50%; }
+input[type="checkbox"]:hover, input[type="radio"]:hover { border-color: var(--control-border-hover); }
+input[type="checkbox"]:checked, input[type="checkbox"]:indeterminate { border-color: var(--accent-fill); background-color: var(--accent-fill); background-position: center; background-repeat: no-repeat; background-size: 12px; }
+input[type="checkbox"]:checked { background-image: var(--check-mark); }
+input[type="checkbox"]:indeterminate { background-image: linear-gradient(var(--on-fill), var(--on-fill)); background-size: 8px 2px; }
+input[type="radio"]:checked { border-color: var(--accent-fill); background-color: var(--accent-fill); box-shadow: inset 0 0 0 3px var(--surface-inset); }
+input[type="checkbox"]:disabled, input[type="radio"]:disabled { opacity: 0.5; cursor: not-allowed; }
+.check { display: inline-flex; align-items: center; gap: var(--space-8); cursor: pointer; }
+
+/* Toggle: an input checkbox with the class "toggle" (and role="switch"). */
+input.toggle {
+  position: relative; width: 28px; height: 16px; border-radius: var(--r-pill);
+}
+input.toggle::before {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--toggle-thumb-off);
+  transition: transform var(--motion-quick) var(--ease), background-color var(--motion-quick) var(--ease);
+}
+input.toggle:checked { background-image: none; }
+input.toggle:checked::before { background: var(--toggle-thumb-on); transform: translateX(12px); }
+
+/* Segmented control: a group of toggle buttons where one is pressed (aria-pressed). */
+.seg { display: inline-flex; gap: var(--space-2); padding: var(--space-2); border: 1px solid var(--button-border); border-radius: var(--r-md); background: var(--button-bg); }
+.seg__item {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-4);
+  min-height: calc(var(--control-h) - 6px); padding: 0 var(--space-8); border: 0; border-radius: var(--r-sm);
+  background: transparent; color: var(--muted); font-size: var(--fs-sm); font-weight: var(--fw-medium); cursor: pointer; white-space: nowrap;
+  transition: background-color var(--motion-quick) var(--ease), color var(--motion-quick) var(--ease);
+}
+.seg__item:hover { color: var(--text); background: var(--hover-tint); }
+.seg__item[aria-pressed="true"], .seg__item[aria-checked="true"], .seg__item.is-active { background: var(--accent-tint); box-shadow: inset 0 -2px 0 var(--accent-fill); color: var(--accent-text); }
+.seg__item[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* --- Badges, tags, dots ------------------------------------------------------------------------------------------------ */
+
+.badge {
+  display: inline-flex; align-items: center; gap: var(--space-4); height: 18px; padding: 0 var(--space-6);
+  border-radius: var(--r-pill); background: var(--hover-tint); color: var(--muted);
+  font-size: var(--fs-xs); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.badge--ok { background: var(--success-bg); color: var(--success); }
+.badge--warn { background: var(--warning-bg); color: var(--warning); }
+.badge--error, .badge--danger { background: var(--danger-bg); color: var(--danger); }
+.badge--info { background: var(--info-bg); color: var(--info); }
+.badge--accent { background: var(--accent-tint); color: var(--accent-text); }
+.tag {
+  display: inline-block; margin-right: var(--space-4); padding: 0 var(--space-6);
+  border: 1px solid var(--border-strong); border-radius: var(--r-pill); color: var(--muted); font-size: var(--fs-xs); line-height: 16px;
+}
+.tag--button { margin-right: 0; background: none; font: inherit; font-size: var(--fs-xs); line-height: 16px; cursor: pointer; }
+.tag--button:hover { border-color: var(--accent-fill); color: var(--accent-text); }
+.dot { display: inline-block; flex: 0 0 auto; width: var(--swatch); height: var(--swatch); border-radius: 50%; background: var(--muted); box-shadow: inset 0 0 0 1px var(--dot-ring); }
+.dot--ok { background: var(--success); }
+.dot--warn { background: var(--warning); }
+.dot--error { background: var(--danger); }
+.dot--info { background: var(--info); }
+
+/* --- Notices: toasts (.notice) and inline callouts (.callout) --------------------------------------------------------- */
+
+.notice, .callout {
+  display: flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--border-strong); border-left: 3px solid var(--info); border-radius: var(--r-lg); background: var(--surface-raised);
+}
+.notice { box-shadow: var(--shadow-overlay); }
+.notice .icon, .callout .icon { color: var(--info); }
+.notice--success, .callout--success { border-left-color: var(--success); }
+.notice--success .icon, .callout--success .icon { color: var(--success); }
+.notice--warning, .callout--warning { border-left-color: var(--warning); }
+.notice--warning .icon, .callout--warning .icon { color: var(--warning); }
+.notice--error, .callout--error { border-left-color: var(--danger); }
+.notice--error .icon, .callout--error .icon { color: var(--danger); }
+.notice__text, .callout__text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.callout { background: var(--info-bg); box-shadow: none; }
+.callout--success { background: var(--success-bg); }
+.callout--warning { background: var(--warning-bg); }
+.callout--error { background: var(--danger-bg); }
+.banner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-bottom: var(--space-12); padding: var(--space-8) var(--space-12); border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--info-bg); }
+.errors { margin-bottom: var(--space-12); padding: var(--space-8) var(--space-12); border: 1px solid var(--danger); border-radius: var(--r-md); background: var(--danger-bg); }
+.errors__title { font-size: var(--fs-md); }
+
+/* --- Full pages (401, "Hune does not answer.", 404, 403, a dashboard that does not load) ------------------------------ */
+
+/* A full page as in Grafana: no box, the picture or the icon, the title (18 px) and the text (14 px, muted), centred under the header.
+   The content is 600 px wide at most and 32 px apart (picture, text). */
+#app-main.app-main--full { display: flex; flex-direction: column; justify-content: flex-start; padding-top: calc(var(--space-64) + var(--space-32) + var(--space-16)); }
+.full-page {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-16);
+  width: 100%; max-width: 600px; margin: 0 auto var(--space-64); padding: 0; text-align: center;
+}
+.full-page--picture { gap: var(--space-16); }
+.full-page--picture .full-page__actions { margin-top: 0; }
+.illus { flex: none; max-width: 100%; height: auto; margin-bottom: var(--space-16); }
+.illus__blob { fill: color-mix(in srgb, var(--primary) 22%, var(--bg)); }
+.illus__card { fill: var(--panel); stroke: var(--border-strong); stroke-width: 2; }
+.illus__bar { fill: var(--border-strong); }
+.illus__axis { fill: none; stroke: var(--border-strong); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.illus__trace { fill: none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 7; }
+.illus__lens-fill { fill: color-mix(in srgb, var(--panel) 70%, transparent); }
+.illus__lens { fill: none; stroke: var(--warning); stroke-width: 8; }
+.illus__handle { stroke: var(--warning); stroke-width: 12; stroke-linecap: round; }
+.illus__mark { fill: none; stroke: var(--text); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.illus__dot { fill: var(--text); }
+.illus__dot--soft { fill: var(--primary); opacity: 0.6; }
+.illus__spark { fill: none; stroke: var(--primary); stroke-width: 2; stroke-linecap: round; opacity: 0.7; }
+.full-page__icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--hover-tint); color: var(--muted); }
+.full-page--error .full-page__icon { background: var(--danger-bg); color: var(--danger); }
+.full-page--warning .full-page__icon { background: var(--warning-bg); color: var(--warning); }
+.full-page h1 { font-size: 18px; font-weight: var(--fw-regular); }
+.full-page__text { max-width: 100%; color: var(--muted); font-size: var(--fs-md); overflow-wrap: anywhere; }
+.full-page__text--lead { color: var(--text); font-size: 18px; font-weight: var(--fw-regular); line-height: 22px; }
+.full-page__hint { color: var(--muted); font-size: var(--fs-md); }
+.full-page__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-8); margin-top: var(--space-8); }
+.error-list--box { width: 100%; max-height: 280px; margin: 0; padding: var(--space-8) var(--space-12); overflow: auto; border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface-inset); font-size: var(--fs-sm); text-align: left; }
+.error-list--box li { margin: var(--space-4) 0; }
+
+/* --- Empty state, skeleton --------------------------------------------------------------------------------------------- */
+
+.empty { display: flex; flex-direction: column; align-items: center; gap: var(--space-8); max-width: 440px; margin: var(--space-32) auto; padding: 0 var(--space-16); text-align: center; }
+.empty__icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--hover-tint); color: var(--muted); }
+.empty__title { font-size: var(--fs-lg); font-weight: var(--fw-semibold); }
+.empty__text { color: var(--muted); }
+.empty__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-8); margin-top: var(--space-4); }
+.empty--inline { margin: 0; padding: var(--space-16); }
+.skeleton { display: block; height: var(--space-12); border-radius: var(--r-sm); background: var(--skeleton-bg); }
+
+/* --- Menus ------------------------------------------------------------------------------------------------------------
+   Every menu of the app (the panel menu, the refresh menu, the dashboard menu, the list menus) is a .menu: the menu surface, no
+   border, radius 6, padding 4. An item is 32 px high with 14 px text and a radius of 2. The icon of an item is 16 px, 8 px before
+   the label, at the muted colour; the label has the full text colour. A hover or the chosen item gets the menu hover fill. */
+
+.menu {
+  position: fixed; z-index: var(--z-menu); min-width: 0; max-width: calc(100vw - 2 * var(--space-8)); padding: var(--space-4);
+  border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface-menu); box-shadow: var(--shadow-menu);
+}
+.menu__item {
+  display: flex; align-items: center; gap: var(--space-8); width: 100%; min-height: var(--control-h); padding: var(--space-4) var(--space-12);
+  border: 0; border-radius: 2px; background: none; color: var(--text); font-size: var(--fs-md); line-height: var(--lh-base); text-align: left; text-decoration: none; white-space: nowrap; cursor: pointer;
+}
+.menu__item .icon { width: var(--icon-md); height: var(--icon-md); color: var(--muted); }
+.menu__item:hover, .menu__item:focus-visible { background: var(--menu-item-hover); }
+.menu__item:hover .icon, .menu__item:focus-visible .icon { color: var(--text); }
+.menu__item:focus-visible { outline-offset: -2px; }
+.menu__item[aria-checked="true"], .menu__item.is-active { background: var(--selected-bg); box-shadow: inset 0 0 0 1px var(--selected-edge); }
+.menu__item--danger, .menu__item--danger .icon, .menu__item--danger:hover .icon { color: var(--danger); }
+.menu__item[disabled], .menu__item[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.menu__sep { height: 1px; margin: var(--space-4) 0; background: var(--border); }
+.menu__label { padding: var(--space-4) var(--space-12); color: var(--muted); font-size: var(--fs-xs); font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; }
+
+/* --- Dialogs ---------------------------------------------------------------------------------------------------------- */
+
+/* A modal as in Grafana: 500 px wide, 10 % from the top of the window, a radius of 10, no line under the title (18 px), a body with 24 px
+   at the sides and the buttons 16 px apart at the right. On a phone it takes the width of the window. */
+.dialog {
+  width: min(500px, 100%); max-width: 100%; max-height: 85vh; margin: 10vh auto auto; padding: 0;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--surface-panel); color: var(--text); box-shadow: var(--shadow-overlay);
+}
+.dialog[open] { display: flex; flex-direction: column; }
+.dialog--wide { width: min(var(--dialog-w-wide), calc(100vw - 2 * var(--space-16))); margin: auto; }
+.dialog::backdrop { background: var(--backdrop); }
+.dialog__head { display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8); min-height: 42px; padding: var(--space-8) var(--space-16) 0 var(--space-24); }
+.dialog__titles { min-width: 0; }
+.dialog__title { font-size: 18px; font-weight: var(--fw-regular); line-height: 24px; }
+.dialog__subtitle { margin: 0; color: var(--muted); font-size: var(--fs-md); }
+.dialog__close { width: 24px; min-height: 24px; height: 24px; padding: 0; }
+.dialog__body { flex: 1 1 auto; min-height: 0; padding: var(--space-24) var(--space-24) 0; overflow: auto; }
+.dialog__body label { display: block; margin: var(--space-8) 0 var(--space-4); color: var(--muted); font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+.dialog__body label.check { display: inline-flex; margin: 0; color: var(--text); font-size: var(--fs-md); font-weight: var(--fw-regular); }
+.dialog__body .input { width: 100%; }
+.dialog__footer { display: flex; flex: none; justify-content: flex-end; gap: var(--space-16); padding: var(--space-24) var(--space-24) var(--space-20); }
+.dialog .btn.is-initial-focus { outline: 2px solid var(--focus-ring-color); outline-offset: 2px; }
+.dialog__row { display: flex; justify-content: flex-end; margin-top: var(--space-8); }
+
+/* A drawer (the save dialog): a panel at the right edge, full height, half of the window wide (the window less 16 px up to 768 px).
+   The title is 22 px, the subtitle is muted, the tabs sit under them, and the buttons follow the form at the left. */
+.dialog--drawer {
+  width: 50vw; max-width: none; height: 100vh; max-height: none; margin: 0 0 0 auto;
+  border-width: 0 0 0 1px; border-radius: 0; box-shadow: var(--shadow-overlay);
+}
+@media (max-width: 768px) { .dialog--drawer { width: calc(100vw - 16px); } }
+.dialog--drawer .dialog__head { position: relative; display: block; min-height: 0; padding: var(--space-16) var(--space-16) 0; }
+.dialog--drawer .dialog__title { font-size: 22px; line-height: 24px; }
+.dialog--drawer .dialog__titles { display: flex; flex-direction: column; gap: var(--space-8); padding-right: var(--space-24); }
+.dialog--drawer .dialog__close { position: absolute; top: var(--space-8); right: var(--space-8); width: 24px; min-height: 24px; height: 24px; }
+.dialog--drawer .dialog__body { flex: 0 1 auto; padding: var(--space-16); }
+.dialog--drawer .dialog__footer { justify-content: flex-start; gap: var(--space-8); padding: 0 var(--space-16) var(--space-16); }
+.dialog__tabs { display: flex; gap: var(--space-4); margin: var(--space-8) calc(-1 * var(--space-16)) 0; padding: 0 var(--space-16); border-bottom: 1px solid var(--border); }
+.dialog__tab {
+  position: relative; display: inline-flex; align-items: center; gap: var(--space-8); min-height: 38px; padding: 0 var(--space-8);
+  border: 0; background: none; color: var(--muted); font-size: var(--fs-md); cursor: pointer;
+}
+.dialog__tab:hover { color: var(--text); }
+.dialog__tab[aria-selected="true"] { color: var(--text); }
+.dialog__tab[aria-selected="true"]::after { content: ""; position: absolute; right: var(--space-8); bottom: -1px; left: var(--space-8); height: 2px; border-radius: 1px; background: var(--primary); }
+.dialog__tab:focus-visible { outline-offset: -2px; }
+.dialog__tab .badge { min-width: 20px; justify-content: center; }
+
+/* --- Tooltip: a data-tooltip attribute shows a small label on hover and keyboard focus. The attribute adds to the ------------
+   accessible name (aria-label or visible text): it never replaces it. A parent with overflow hidden clips the label.
+   The label is not in the layout (display none) until it shows, so that a label at the edge never makes the page scroll.
+   A label of a control at the right edge uses data-tooltip-align="end", at the left edge "start". */
+
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip); position: absolute; top: calc(100% + var(--space-6)); left: 50%; z-index: var(--z-tooltip);
+  display: none; width: max-content; max-width: min(320px, 80vw);
+  padding: var(--space-4) var(--space-8); border: 1px solid var(--border-strong); border-radius: var(--r-sm); background: var(--tooltip-bg); color: var(--tooltip-fg);
+  box-shadow: var(--shadow-tooltip); font-size: var(--fs-xs); font-weight: var(--fw-regular); line-height: var(--lh-tight); text-align: left; white-space: normal;
+  pointer-events: none; transform: translateX(-50%);
+}
+[data-tooltip][data-tooltip-align="end"]::after { left: auto; right: 0; transform: none; }
+[data-tooltip][data-tooltip-align="start"]::after { left: 0; transform: none; }
+[data-tooltip]:hover::after, [data-tooltip]:focus-visible::after { display: block; animation: tooltip-in var(--motion-quick) var(--ease) 400ms backwards; }
+[data-tooltip][aria-expanded="true"]::after { display: none; }
+@keyframes tooltip-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- Tabs ------------------------------------------------------------------------------------------------------------- */
+
+.tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-12); border-bottom: 1px solid var(--border); }
+.tab {
+  margin-bottom: -1px; padding: var(--space-8) var(--space-12); border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted);
+  font-size: var(--fs-md); font-weight: var(--fw-medium); cursor: pointer;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { border-bottom-color: var(--accent-fill); color: var(--text); }
+
+/* --- Tables, cards, toolbar, layout helpers ---------------------------------------------------------------------------- */
+
+.table { width: 100%; font-size: var(--fs-md); }
+.table th { padding: var(--space-6) var(--space-12); border-bottom: 1px solid var(--border); background: var(--thead-bg); color: var(--muted); font-size: var(--fs-sm); font-weight: var(--fw-semibold); text-align: left; }
+.table td { padding: var(--space-6) var(--space-12); border-top: 1px solid var(--dt-divider); vertical-align: middle; }
+.table tbody tr:first-child td { border-top: 0; }
+.table tbody tr:hover td { background: var(--row-hover); }
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.card { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface-panel); }
+.card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); font-weight: var(--fw-semibold); }
+.card__body { padding: var(--space-12); }
+
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--toolbar-gap); }
+.toolbar__sep { width: 1px; height: var(--space-16); margin: 0 var(--space-2); background: var(--border-strong); }
+.toolbar__spacer { flex: 1 1 auto; }
+.row { display: flex; align-items: center; gap: var(--space-8); }
+.stack { display: flex; flex-direction: column; gap: var(--space-8); }
+.spacer { flex: 1 1 auto; }
+
+/* --- The theme selector (header) and the variables row of the dashboard ------------------------------------------------- */
+
+/* The theme selector of the header (9.25). It has the structure and the motion of the selector of ClickHouse Dash: an icon button that
+   shows the choice, and a menu of three icon options that hangs from it, joined to it (the button loses its lower corners and its lower
+   border while the menu is open). The menu opens with a move of 6 px and a fade of --dur-base (160 ms); it closes the same way. */
+.theme-select { position: relative; display: inline-flex; }
+.theme-select__button { width: var(--tb-icon-w, 36px); padding: 0; color: var(--muted); transition: border-radius var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), color var(--dur-quick) var(--ease), background-color var(--dur-quick) var(--ease); }
+.theme-select__button:hover, .theme-select__button:focus-visible { color: var(--text); }
+.theme-select__current { display: inline-flex; }
+/* The button holds the three icons; the one of the choice shows. boot_theme.js sets data-theme-choice before the first paint. */
+.theme-select__current > .theme-icon { display: none; }
+html:not([data-theme-choice="dark"], [data-theme-choice="light"]) .theme-select__current > .theme-icon--system,
+html[data-theme-choice="dark"] .theme-select__current > .theme-icon--dark,
+html[data-theme-choice="light"] .theme-select__current > .theme-icon--light { display: block; }
+.theme-select__menu {
+  position: absolute; z-index: var(--z-dropdown); top: 100%; left: 0; width: 100%; box-sizing: border-box; margin-top: -1px;
+  display: grid; justify-items: center; gap: var(--space-2); padding: var(--space-4) 0;
+  border: 1px solid var(--border-strong); border-top: 0; border-radius: 0 0 var(--r-md) var(--r-md);
+  background: var(--surface-menu); box-shadow: var(--shadow-menu);
+  transform-origin: top center; will-change: transform, opacity;
+  opacity: 0; transform: translateY(-6px) scaleY(0.98); visibility: hidden; pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), visibility 0s linear var(--dur-base);
+}
+.theme-select--open .theme-select__menu { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), visibility 0s; }
+.theme-select--open .theme-select__button, .theme-select--closing .theme-select__button {
+  border-bottom-color: transparent; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-color: var(--border-strong); background: var(--surface-menu); color: var(--text);
+}
+.theme-select--closing .theme-select__button { border-bottom-color: transparent; }
+.theme-select__option {
+  display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0;
+  border: 1px solid transparent; border-radius: var(--r-md); background: transparent; color: var(--muted); cursor: pointer;
+  transition: background-color var(--dur-quick) var(--ease), color var(--dur-quick) var(--ease), border-color var(--dur-quick) var(--ease);
+}
+.theme-select__option:hover, .theme-select__option:focus-visible { background: var(--menu-item-hover); color: var(--text); }
+.theme-select__option[aria-selected="true"] { border-color: var(--selected-edge); background: var(--selected-bg); color: var(--text); }
+.theme-select__option:focus-visible { outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) {
+  .theme-select__menu { transition: none; transform: none; }
+}
+
+/* The controls of the page, in the header (9.6): one row, 8 px apart. The buttons of the time control touch. */
+.header-actions { display: flex; justify-content: flex-end; min-width: 0; }
+.header-actions:has(> .header-actions__row:empty) { display: none; }
+.header-actions__row { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--space-8); min-width: 0; }
+.select__popup {
+  min-width: 240px; max-width: min(420px, calc(100vw - 2 * var(--space-8))); padding: var(--space-6); overflow: auto;
+  border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface-menu); box-shadow: var(--shadow-menu);
+}
+.select__search { width: 100%; margin-bottom: var(--space-6); }
+.listbox { max-height: min(280px, calc(var(--popup-avail, 70vh) - 64px)); overflow: auto; }
+.listbox__item { display: flex; align-items: center; gap: var(--space-8); min-height: var(--control-h); padding: 0 var(--space-8); border-radius: var(--r-sm); cursor: pointer; overflow-wrap: anywhere; }
+.listbox__item:hover, .listbox__item:focus-visible { background: var(--hover-tint); }
+.listbox__item:focus-visible { outline-offset: -2px; }
+/* A multi list: a 14 px checkbox in front of each option. A single list: the chosen option has a tint and a check at the end. */
+.listbox__mark { flex: none; width: 14px; height: 14px; border: 1px solid var(--control-border); border-radius: var(--r-xs); background: var(--surface-inset); }
+.listbox__item[aria-selected="true"] .listbox__mark { border-color: var(--accent-fill); background: var(--accent-fill) var(--check-mark) center / 12px no-repeat; }
+.listbox:not([aria-multiselectable="true"]) .listbox__mark { display: none; }
+.listbox:not([aria-multiselectable="true"]) .listbox__item[aria-selected="true"] { background: var(--selected-bg); }
+.listbox:not([aria-multiselectable="true"]) .listbox__item[aria-selected="true"]::after { content: ""; flex: none; width: var(--icon-sm); height: var(--icon-sm); margin-left: auto; background: var(--accent-text); mask: var(--icon-check) center / contain no-repeat; -webkit-mask: var(--icon-check) center / contain no-repeat; }
+.listbox__empty { padding: var(--space-6) var(--space-8); }
+/* The combobox of an open variable (9.10, 9.26): the active row has a ring, and the error of a typed value is under the field. */
+.listbox__item--active { outline: 2px solid var(--focus-ring-color); outline-offset: -2px; background: var(--hover-tint); }
+.listbox__use .listbox__mark { visibility: hidden; }
+.select__typed-error { margin: 0 var(--space-8) var(--space-4); font-size: var(--fs-sm); overflow-wrap: anywhere; }
+/* --- Forced colors (a high contrast mode of the system) ---------------------------------------------------------------
+   The browser paints every background in the colour Canvas. A mask glyph is a background colour, so it would disappear:
+   it takes the text colour of the system. */
+@media (forced-colors: active) {
+  .listbox:not([aria-multiselectable="true"]) .listbox__item[aria-selected="true"]::after { background-color: CanvasText; }
+}
+

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The service, the network, the probes, the logs, the backup, the upgrade and the steps to find a problem.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Operations | Pupitre">
+<meta property="og:description" content="The service, the network, the probes, the logs, the backup, the upgrade and the steps to find a problem.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/operations.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Operations | Pupitre">
+<meta name="twitter:description" content="The service, the network, the probes, the logs, the backup, the upgrade and the steps to find a problem.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/operations.html">
+<title>Operations | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html" aria-current="page">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> Run it in production</p><h1>Operations</h1><p class="lede">The service, the network, the probes, the logs, the backup, the upgrade and the steps to find a problem.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#deploy">Deploy</a></li><li><a href="#run-as-a-service">Run as a service</a></li><li><a href="#network">Network</a></li><li><a href="#health-probes">Health probes</a></li><li><a href="#logs-metrics-and-traces">Logs, metrics and traces</a></li><li><a href="#several-instances">Several instances</a></li><li><a href="#back-up">Back up</a></li><li><a href="#upgrade">Upgrade</a></li><li><a href="#find-a-problem">Find a problem</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/OPERATIONS.md"><code>docs/OPERATIONS.md</code></a> in the repository.</p><p>This page tells how to run Pupitre in production. It covers the service, the network, the probes, the logs, the backup and the upgrade. It also lists the steps to find a problem. The deployment rules of 7.2 of the <a href="spec-07.html">specification</a> are part of the security model. Follow them.</p>
+<h2 id="deploy"><a class="self" href="#deploy">Deploy</a></h2>
+<p>A deployment has these parts:</p>
+<ul><li>the binary <code>pupitre</code> and the configuration file, with the mode 0600;</li><li>the store: three folders for the backend <code>files</code>, or a PostgreSQL database;</li><li>the key of the store, in a file or an environment variable that the configuration names;</li><li>on the runner node: <code>ansible-playbook</code> of ansible-core 2.19 or later (the start checks the version);</li><li>on the runner node: the SSH key, the file of pinned host keys, the work folder and a folder on <code>tmpfs</code> for the secrets;</li><li>a reverse proxy or an edge in front of the main listener.</li></ul>
+<p>Make the store key with <code>openssl rand -hex 32</code>. All instances of one store MUST have the same key. Keep a copy in a safe place. A copy of the database without the key gives no secret value, and a different key stops the start.</p>
+<p>The runner node is a dedicated machine or container. Only its operators have a shell on it. It reaches each managed host, so protect it as a key vault.</p>
+<p>The file of pinned host keys names each host <code>&lt;environment&gt;.&lt;host&gt;</code>, not by its address: <code>production.host-a ssh-ed25519 AAAA...</code>. Add one line when you add a host to an environment. A new address of a host needs no new line. Give each name the key of its own machine only.</p>
+<p>The child of a run has the user of Pupitre, so it can read each file of this user. A separate user for the child is the stronger setup.</p>
+<h2 id="run-as-a-service"><a class="self" href="#run-as-a-service">Run as a service</a></h2>
+<p>This unit file starts Pupitre with systemd. The key <code>KillMode=process</code> is important. It stops only the main process. A child <code>ansible-playbook</code> then lives on, and the next start adopts it.</p>
+<div class="code-wrap"><span class="label">ini</span><pre data-copy tabindex="0" aria-label="Code example: ini"><code>[Unit]
+Description=Pupitre
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=pupitre
+ExecStart=/usr/local/bin/pupitre serve --config /etc/pupitre/pupitre.hcl
+KillMode=process
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target</code></pre></div>
+<p>The exit code 1 shows a configuration error or a failure. The runner node also exits with the code 1 when it loses the lease <code>runner</code>. <code>Restart=on-failure</code> then starts it again. A restart of a container kills the children, and the runs of the runner node become <code>lost</code>.</p>
+<h2 id="network"><a class="self" href="#network">Network</a></h2>
+<p>Pupitre opens two listeners. Both use plain HTTP. Pupitre has no TLS on its listeners: the edge or the proxy does TLS.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Listener</th><th scope="col">Key</th><th scope="col">Routes</th></tr></thead><tbody><tr><th scope="row">Main</th><td data-label="Key"><code>server.listen</code></td><td data-label="Routes">The page, the API and the two ProcurAuth routes</td></tr><tr><th scope="row">Ops</th><td data-label="Key"><code>server.ops_listen</code></td><td data-label="Routes"><code>/livez</code>, <code>/readyz</code> and <code>/metrics</code></td></tr></tbody></table></div>
+<p>The main listener serves a request only when its header <code>Host</code> is in <code>server.allowed_hosts</code>. This stops an attack with a rebound DNS name. Another value gets <code>421 misdirected_request</code>.</p>
+<p>When <code>server.listen</code> is a loopback address, the key is optional. The default is <code>localhost</code>, <code>127.0.0.1</code>, <code>[::1]</code> and the address of the listener. For any other address, the key is necessary. List the public name of the service. The proxy MUST send that name in <code>Host</code>.</p>
+<p>The edge MUST NOT reach the ops listener. A network rule must enforce this. The two listeners have different ports. Only the edge or the proxy reaches the main listener.</p>
+<p>Pupitre connects out to these hosts only: the PDP, the PostgreSQL server, the OTLP collector and the managed hosts. It makes no request to the internet.</p>
+<h2 id="health-probes"><a class="self" href="#health-probes">Health probes</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Route</th><th scope="col">Answer</th></tr></thead><tbody><tr><th scope="row"><code>GET /livez</code></th><td data-label="Answer"><code>200</code> with <code>ok</code> while the process serves</td></tr><tr><th scope="row"><code>GET /readyz</code></th><td data-label="Answer"><code>200</code> with <code>ok</code>, or <code>503</code> with the code of the first check that fails</td></tr></tbody></table></div>
+<p><code>/readyz</code> has three checks: <code>store</code> (the store is open), <code>catalog</code> (the last load is within the limits) and <code>runner_lease</code> (on the runner node, the node holds the lease). A PDP outage never changes <code>/readyz</code>.</p>
+<p>The command <code>import --write</code> writes each document in its own transaction. On the backend <code>postgres</code>, each of them takes the barrier of 2.38 in shared mode, and a poll waits only for the transaction in flight. A poll that runs during an import can load some of the documents only. The catalog then shows the errors of the rules across documents until the next poll. Run <code>import</code> when nobody edits the environment.</p>
+<p>When a host or an environment is deleted, remove its lines <code>&lt;environment&gt;.&lt;host&gt;</code> from the file <code>runner.known_hosts_file</code>. An id that is made again would get the old key.</p>
+<h2 id="logs-metrics-and-traces"><a class="self" href="#logs-metrics-and-traces">Logs, metrics and traces</a></h2>
+<p>Pupitre writes the log on the standard error: one JSON object on each line, with <code>t</code>, <code>level</code> and <code>event</code>. A line never holds a secret, a token or a value of a document. At each start, the line <code>server.config</code> holds the effective configuration with the secrets hidden. The warnings <code>access.mode_open</code>, <code>access.pdp_plain_http</code>, <code>runner.apply_in_open_mode</code> and <code>telemetry.plain_http</code> come at each start.</p>
+<div class="tablewrap"><table><thead><tr><th scope="col">Event</th><th scope="col">Meaning</th></tr></thead><tbody><tr><th scope="row"><code>http.request</code></th><td data-label="Meaning">One request, with the route, the status and the duration</td></tr><tr><th scope="row"><code>access.decision</code></th><td data-label="Meaning">One question to the PDP and its answer</td></tr><tr><th scope="row"><code>document.write</code></th><td data-label="Meaning">A write: the key, the version, the etags and the key paths that changed</td></tr><tr><th scope="row"><code>secret.write</code></th><td data-label="Meaning">A write of a secret: the scope, the name and the fingerprint</td></tr><tr><th scope="row"><code>run.queued</code>, <code>run.started</code>, <code>run.finished</code>, <code>run.cancel</code></th><td data-label="Meaning">The life of a run</td></tr><tr><th scope="row"><code>run.adopted</code>, <code>run.lost</code></th><td data-label="Meaning">A run after a restart</td></tr><tr><th scope="row"><code>runner.lease_lost</code>, <code>runner.store_error</code></th><td data-label="Meaning">A fault of the runner node</td></tr></tbody></table></div>
+<p>The ops listener gives metrics in the Prometheus text format at <code>/metrics</code>. The main ones are <code>pupitre_http_requests_total</code>, <code>pupitre_pdp_requests_total</code>, <code>pupitre_store_errors_total</code>, <code>pupitre_runs_total</code>, <code>pupitre_runs_queued</code>, <code>pupitre_runs_running</code> and <code>pupitre_runs_oldest_queued_seconds</code>. A label never holds a subject, a node id or a value.</p>
+<p>With <code>telemetry.enabled = true</code>, Pupitre exports spans with OTLP over HTTP to the endpoint of the file. It sets each value from the file, never from an <code>OTEL_*</code> variable.</p>
+<h2 id="several-instances"><a class="self" href="#several-instances">Several instances</a></h2>
+<p>The backend <code>postgres</code> serves two or more instances. They share the database and the same store key. Set <code>runner.execute = true</code> on exactly one of them: the runner node. A second instance with <code>runner.execute = true</code> stops at start with the message <code>another runner node holds the lease until &lt;time&gt;</code>. The other instances serve the API and write the runs as <code>queued</code>.</p>
+<p>The backend <code>files</code> serves one instance. It is the runner node, so <code>runner.execute</code> must be <code>true</code> when <code>runner.enabled = true</code>.</p>
+<h2 id="back-up"><a class="self" href="#back-up">Back up</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Data</th><th scope="col">Backend <code>files</code></th><th scope="col">Backend <code>postgres</code></th></tr></thead><tbody><tr><th scope="row">Documents and history</th><td data-label="Backend files">The documents folder. It can be a Git checkout.</td><td data-label="Backend postgres">The database</td></tr><tr><th scope="row">Secrets</th><td data-label="Backend files">The secrets folder. Its values are in clear text.</td><td data-label="Backend postgres">The database. The values are encrypted.</td></tr><tr><th scope="row">Runs</th><td data-label="Backend files">The runs folder</td><td data-label="Backend postgres">The database</td></tr><tr><th scope="row">Key of the store</th><td data-label="Backend files">A file or a variable that the configuration names</td><td data-label="Backend postgres">The same</td></tr></tbody></table></div>
+<p>When the documents folder is a Git checkout, commit <code>pupitre-store.json</code>, <code>environments/</code> and <code>.history/</code>. Put <code>.lock</code> and <code>.tmp/</code> in <code>.gitignore</code>. Only the process that holds the lock uses them.</p>
+<p>The command <code>export</code> writes the documents and their versions into an empty folder for a review in Git. It writes no secret and no run. The command <code>copy-store</code> copies a whole store, with the secrets, into an empty store.</p>
+<h2 id="upgrade"><a class="self" href="#upgrade">Upgrade</a></h2>
+<ol><li>Read the <a href="changelog.html">changelog</a>. A line <code>BREAKING:</code> gives the step to take.</li><li>Stop the instances.</li><li>Replace the binary.</li><li>Run <code>pupitre migrate --config &lt;path&gt;</code>. It changes the store to the version of the binary. On a current store it changes nothing.</li><li>Start the instances.</li></ol>
+<p>A store with an older version stops the start with the message <code>run pupitre migrate</code>. A store with a newer version stops it with <code>the store is newer than this binary</code>. Before 1.0, a minor version can change a key, a route or a format.</p>
+<h2 id="find-a-problem"><a class="self" href="#find-a-problem">Find a problem</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Symptom</th><th scope="col">Cause and step</th></tr></thead><tbody><tr><th scope="row">The start stops and names a key</th><td data-label="Cause and step">A configuration error. Run <code>check-config</code> and read the message.</td></tr><tr><th scope="row"><code>the folder &lt;path&gt; is locked by another process</code></th><td data-label="Cause and step">A second process uses the folders of the backend <code>files</code>. Stop it.</td></tr><tr><th scope="row"><code>storage.secret_key does not match the key of the store</code></th><td data-label="Cause and step">The key is not the key that made the store. Use the right key.</td></tr><tr><th scope="row"><code>run pupitre migrate</code></th><td data-label="Cause and step">The store schema is old. Run <code>migrate</code>.</td></tr><tr><th scope="row"><code>another runner node holds the lease until &lt;time&gt;</code></th><td data-label="Cause and step">Another instance is the runner node. Set <code>runner.execute = false</code> here.</td></tr><tr><th scope="row">A run stays <code>queued</code></th><td data-label="Cause and step">No runner node is up, or the environment has a run. The metric <code>pupitre_runs_oldest_queued_seconds</code> shows the age.</td></tr><tr><th scope="row"><code>503 run_queue_full</code></th><td data-label="Cause and step"><code>runner.max_queued_runs</code> runs wait. Wait, or cancel runs.</td></tr><tr><th scope="row"><code>403 apply_disabled</code></th><td data-label="Cause and step">The mode is <code>open</code> and <code>runner.allow_apply_in_open_mode</code> is <code>false</code>.</td></tr><tr><th scope="row"><code>409 check_required</code>, <code>check_used</code>, <code>check_too_old</code></th><td data-label="Cause and step">The guard of an apply refuses. Start a new check run.</td></tr><tr><th scope="row">A run fails with <code>snapshot_changed</code></th><td data-label="Cause and step">A value or a playbook changed after the check. Start a new check run.</td></tr><tr><th scope="row">A host is <code>unreachable</code> with <code>Host key verification failed</code></th><td data-label="Cause and step">The file of pinned keys has no line <code>&lt;environment&gt;.&lt;host&gt;</code> with the key of this host, or the address is the address of another machine. Check the line and the address.</td></tr><tr><th scope="row">A run fails with <code>invalid_values</code> and <code>no template marker</code></th><td data-label="Cause and step">A stored text holds <code>{{</code>, <code>{%</code> or <code>{#</code>. Change the value.</td></tr><tr><th scope="row">A run is <code>lost</code> with <code>process_gone</code></th><td data-label="Cause and step">Pupitre restarted and the child did not live. Check the hosts by hand.</td></tr><tr><th scope="row"><code>503 pdp_unavailable</code></th><td data-label="Cause and step">The PDP gives no valid answer. The writes and the runs wait for it.</td></tr><tr><th scope="row"><code>/readyz</code> gives <code>503</code></th><td data-label="Cause and step">The code names the check: <code>store</code>, <code>catalog</code> or <code>runner_lease</code>.</td></tr><tr><th scope="row"><code>503 store_over_limit</code></th><td data-label="Cause and step">The store holds more than a limit, for example after a Git pull added a file. A <code>PUT</code> and a <code>POST</code> wait. Delete a visible document, or remove the extra files (backend <code>files</code>) or rows (backend <code>postgres</code>) outside the API. The next poll recovers.</td></tr><tr><th scope="row">A run record has <code>output_truncated</code></th><td data-label="Cause and step">The output is above <code>runner.max_log_bytes</code>. The full output stays on the runner node.</td></tr></tbody></table></div>
+<p>The log line of each refusal has the request id. The answer has the same id in the header <code>X-Request-Id</code>.</p></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

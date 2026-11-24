@@ -1,0 +1,48 @@
+# CI of Pupitre (8.8). Each job calls one script of scripts/. Cargo runs in Docker only.
+# The workflow runs on each push to main and on each pull request. The release workflow calls it.
+# No job pushes an image or logs in to a registry (8.7). The jobs have read access to the contents only.
+# Each step pins its action to a full commit SHA and gives the version in a comment. Dependabot proposes the updates.
+# Each checkout keeps no credentials in the work tree (persist-credentials: false).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  no-image:
+    # This check needs no Docker and no secret, so it also runs on a pull request from a fork.
+    # The job check of release.yaml has a copy of this step. Keep the two copies the same.
+    name: Policy (no image is published)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Never publish container images
+        run: |
+          # The pattern is split so that this line does not match itself.
+          if grep -rnE 'ghcr''\.io|docker/login''-action|docker[[:space:]]+(pus''h|logi''n)\b|buildx[^#]*--pus''h|imagetools[[:space:]]+crea''te|packages: *wr''ite|push: *tr''ue' .github scripts; then
+            echo "::error::workflows and scripts must not publish container images"
+            exit 1
+          fi
+
+  rust:
+    # Format, lint and the unit tests of the workspace (scripts/check.sh --rust).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - run: scripts/check.sh --rust

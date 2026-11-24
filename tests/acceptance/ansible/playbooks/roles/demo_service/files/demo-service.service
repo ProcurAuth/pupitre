@@ -1,0 +1,10 @@
+[Unit]
+Description=Synthetic service of the acceptance tests
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/demo-service
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

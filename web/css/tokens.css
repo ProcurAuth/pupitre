@@ -1,0 +1,169 @@
+/* Copied from Hune, web/css/tokens.css, commit a55fff3. Edits: none. */
+/* Design tokens of Hune (the Hune layer).
+   Layer 1 is css/vendor/chdash/00-tokens.css (a byte copy of the ClickHouse Dash tokens: the graphite palette,
+   the type, space, radius, motion and z-index scales, the chart palette). The colour theme of the chrome is this layer
+. This file loads after it, so it can override a value (the font and the type scale only), and it adds the tokens
+   that only Hune needs. A component rule names tokens: it does not
+   write a colour, a size or a duration as a literal.
+
+   Theme contexts, as in the copied file (layer 1 sets the colour of the chrome in all of them):
+     :root                      dark, the first design target ("dark-first"). It also applies when no data-theme is set.
+     @media light               light, for a light system when the page has no data-theme (JS off).
+     html[data-theme="dark"]    forced dark: boot_theme.js sets it (the System choice is resolved there).
+     html[data-theme="light"]   forced light.
+   A token that differs between the themes is written in the four contexts; a token that does not differ is in :root only. */
+
+:root {
+  /* --- Type (T1): Inter first (css/fonts.css loads the file), then the system stack. The copied file names IBM Plex,
+     whose files Hune does not ship. ------------------------------------------------------------------------------- */
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --lh-tight: 1.25;
+  --lh-base: 1.5714;           /* 22 px on the 14 px body (22 / 14) */
+  --lh-code: 1.5;
+  --letter-spacing-body: 0.0107em;
+  /* The scale: 12 px is the smallest text. The weights are --fw-regular 400, --fw-medium 500, --fw-semibold 600. */
+  --fs-xs: 12px;
+  --fs-sm: 12px;
+  --fs-md: 14px;               /* body, controls, table cells, panel titles */
+  --fs-lg: 14px;
+  --fs-xl: 16px;               /* section titles, page titles of the app, dialog titles */
+  /* --fs-2xl 20 and --fs-display 32 come from the copied scale. */
+  --control-h: 32px;
+
+  /* --- Shell geometry: a dense, Grafana-like frame. ---------------------------------------------------------------- */
+  --header-h: 48px;            /* the sticky top bar */
+  --page-pad: var(--space-16); /* the padding of #app-main */
+  --page-pad-sm: var(--space-12);
+  --page-max: 1280px;          /* the width of the list page and of the full pages */
+  --grid-gap: var(--space-8);  /* the gap between the panels of the dashboard grid */
+  --grid-row: 30px;            /* the height of one row unit of the grid */
+  --panel-head-h: 40px;        /* the title bar of a panel */
+  --panel-pad: var(--space-8);
+  --panel-radius: var(--r-md);
+  --toolbar-gap: var(--space-6);
+  --field-w: 280px;            /* the default width of a search or text field in a toolbar */
+  --menu-min-w: 168px;
+  --dialog-w: 520px;
+  --dialog-w-wide: 1100px;
+  --toast-w: 520px;
+  --swatch: 10px;              /* a legend swatch or a status dot */
+
+  /* --- Surface roles, as names for the copied tokens. ----------------------------------------------------------------- */
+  --surface-page: var(--bg);        /* behind everything */
+  --surface-panel: var(--panel);    /* a panel, a card, the header, a dialog */
+  --surface-raised: var(--raised);  /* a control, a menu, a toast, a row on a panel */
+  --surface-inset: var(--input-bg); /* a field, a code area */
+  --surface-hover: var(--hover-tint);
+  --tooltip-bg: var(--surface-menu);
+  --tooltip-fg: var(--text);
+  --toggle-thumb-off: var(--muted);
+  --toggle-thumb-on: var(--on-fill);
+
+  /* --- Motion: two durations and one easing, never above 200 ms (9.26). ------------------------------------------------ */
+  --motion-quick: var(--dur-quick);
+  --motion-base: var(--dur-base);
+  /* The check mark of a checkbox is the same in both themes. */
+  --check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5l9 -10'/%3E%3C/svg%3E");
+}
+
+/* --- Themed tokens (T2). The colour theme of the chrome is the theme of ClickHouse Dash:
+   layer 1 gives the surfaces, the text, the borders, the hover and focus states, the accent, the status colours and the shadow of
+   an overlay, in its four contexts. This file does not set them again. It defines the tokens that only Hune has, as roles
+   of the layer 1 tokens, so one rule serves both themes. Three tokens differ between the themes and have the four contexts:
+   --text-strong, --link and --select-arrow.
+   The DATA of the panels keeps the values measured on Grafana 12.4.2: the --viz-* colours (dashboard.css and the section
+   below), --text-strong (the text on a coloured stat) and --link (the link blue of a legend head and of a panel time note).
+   The map is the list below. */
+:root {
+  --text-faint: var(--muted);                   /* a placeholder or a disabled label: the muted text of ClickHouse Dash (4.5:1 on its surfaces) */
+  --header-bg: var(--panel);
+  --grid-line: var(--dt-divider);               /* the cell lines of a table panel: the divider of the tables of ClickHouse Dash */
+  --surface-menu: var(--panel);                 /* a menu, a popup, a tooltip: the surface of the popovers of ClickHouse Dash */
+  --shadow-menu: var(--shadow-overlay);
+  --shadow-tooltip: var(--shadow-overlay);
+  --menu-item-hover: var(--row-hover);          /* a hovered item of a menu or a list: the hover of a row of ClickHouse Dash */
+  --tb-bg: var(--button-bg);                    /* a toolbar button is a button of ClickHouse Dash */
+  --tb-border: var(--button-border);
+  --tb-bg-hover: var(--button-bg-hover);
+  --tb-border-hover: var(--button-border-hover);
+  --primary: var(--accent-fill);
+  --primary-hover: var(--accent-fill-hover);
+  --on-primary: var(--on-fill);
+  --accent-tint: var(--selected-bg);            /* a quiet accent fill: the selected fill of ClickHouse Dash */
+  --status-error-bg: var(--danger-fill);        /* the error badge of a panel title: the solid danger fill; white text 4.8:1 */
+  --skeleton-bg: color-mix(in srgb, var(--text) 8%, transparent);
+  --editor-border: var(--control-border);       /* the dark frame of ClickHouse Dash has 2.0:1: the edge of a field (3:1) is the one deviation (9.26) */
+}
+
+:root {
+  --text-strong: #f7f8fa;          /* the text on a coloured stat background (Grafana) */
+  --link: #6e9fff;                 /* a link in a legend head or a panel time note (Grafana) */
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaacaf' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6'/%3E%3C/svg%3E");   /* the text at 72 % on the input */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --text-strong: #24292e;
+    --link: #1f62e0;
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2356595c' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6'/%3E%3C/svg%3E");
+  }
+}
+
+html[data-theme="dark"] {
+  --editor-border: var(--control-border);   /* layer 1 sets the forced dark value on html[data-theme], which is more specific than :root */
+  --text-strong: #f7f8fa;
+  --link: #6e9fff;
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23aaacaf' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6'/%3E%3C/svg%3E");
+}
+
+html[data-theme="light"] {
+  --text-strong: #24292e;
+  --link: #1f62e0;
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2356595c' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6l6 -6'/%3E%3C/svg%3E");
+}
+
+/* --- Series colours in the light theme (9.16, 9.25) -------------------------------------------------------------------
+   The 30 named colours of a document (--viz-*, defined in dashboard.css with the dark-theme values of Grafana) are made for
+   a dark panel. Grafana 12.4.2 draws the light theme with the next darker shade of each hue (green #56A64B, yellow #E0B400,
+   blue #3274D9, orange #FF780A for the first four series). Marks that sit on the panel (lines, points, legend swatches, value
+   texts) read var(--viz-<token>) (colors.js markCss). The light theme uses the light Grafana shade when it has 3:1 on
+   --panel (#fff) and on --bg (#fbfbfb): the reds from light-red, the blues from blue, the purples from purple, the greens
+   from semi-dark-green. Where the shade fails (every yellow, most oranges, the light greens and blues), the same hue and
+   saturation darken until 3:1, and each hue keeps its five steps in order. A fill that carries its own text (stat tile,
+   table cell, bar gauge) keeps the hex of NAMED. The dark theme keeps the Grafana values. The chart palette --qchart-* of the
+   copied tokens already has 3.5:1 or more in the light theme: it needs no override. */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme="dark"]) {
+    --viz-super-light-red: #ff4d61; --viz-light-red: #f2495c; --viz-red: #e02f44; --viz-semi-dark-red: #c4162a; --viz-dark-red: #ad0317;
+    --viz-super-light-orange: #d67500; --viz-light-orange: #d86d00; --viz-orange: #db6200; --viz-semi-dark-orange: #de5900; --viz-dark-orange: #dd5100;
+    --viz-super-light-yellow: #9e8f00; --viz-light-yellow: #9e8904; --viz-yellow: #9d8408; --viz-semi-dark-yellow: #9e7f00; --viz-dark-yellow: #9e7a00;
+    --viz-super-light-green: #43a136; --viz-light-green: #4c9a42; --viz-green: #4e9644; --viz-semi-dark-green: #37872d; --viz-dark-green: #19730e;
+    --viz-super-light-blue: #438dff; --viz-light-blue: #4689f1; --viz-blue: #3274d9; --viz-semi-dark-blue: #1f60c4; --viz-dark-blue: #1250b0;
+    --viz-super-light-purple: #b972dc; --viz-light-purple: #b46fd7; --viz-purple: #a352cc; --viz-semi-dark-purple: #8f3bb8; --viz-dark-purple: #7c2ea3;
+  }
+}
+
+html[data-theme="light"] {
+  --viz-super-light-red: #ff4d61; --viz-light-red: #f2495c; --viz-red: #e02f44; --viz-semi-dark-red: #c4162a; --viz-dark-red: #ad0317;
+  --viz-super-light-orange: #d67500; --viz-light-orange: #d86d00; --viz-orange: #db6200; --viz-semi-dark-orange: #de5900; --viz-dark-orange: #dd5100;
+  --viz-super-light-yellow: #9e8f00; --viz-light-yellow: #9e8904; --viz-yellow: #9d8408; --viz-semi-dark-yellow: #9e7f00; --viz-dark-yellow: #9e7a00;
+  --viz-super-light-green: #43a136; --viz-light-green: #4c9a42; --viz-green: #4e9644; --viz-semi-dark-green: #37872d; --viz-dark-green: #19730e;
+  --viz-super-light-blue: #438dff; --viz-light-blue: #4689f1; --viz-blue: #3274d9; --viz-semi-dark-blue: #1f60c4; --viz-dark-blue: #1250b0;
+  --viz-super-light-purple: #b972dc; --viz-light-purple: #b46fd7; --viz-purple: #a352cc; --viz-semi-dark-purple: #8f3bb8; --viz-dark-purple: #7c2ea3;
+}
+
+/* A coarse pointer (touch) gets the touch target of the family: both control heights become --hit (40 px). */
+@media (pointer: coarse) {
+  :root {
+    --control-h: var(--hit);
+    --control-h-sm: var(--hit);
+  }
+}
+
+/* Narrow windows use the smaller page padding. */
+@media (max-width: 600px) {
+  :root {
+    --page-pad: var(--page-pad-sm);
+  }
+}

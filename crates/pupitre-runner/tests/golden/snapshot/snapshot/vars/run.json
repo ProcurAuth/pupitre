@@ -1,0 +1,5 @@
+{
+  "pupitre_kind": "deploy",
+  "pupitre_node": "environment:production/unit:relay",
+  "pupitre_playbook": "deploy-relay"
+}

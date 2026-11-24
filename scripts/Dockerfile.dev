@@ -1,0 +1,5 @@
+# Development image: the official Rust image of rust-toolchain.toml, with fmt, clippy and the two musl targets.
+# The digest pins the base image. Never push this image to a registry.
+FROM rust:1.99.1-trixie@sha256:8a4e90c7946b74626488b1446f712c0fe0ed1a596cbd3d871684bc9c5433ae07
+RUN rustup component add rustfmt clippy \
+ && rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl

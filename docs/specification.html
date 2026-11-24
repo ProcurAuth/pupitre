@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="The eight parts of the specification of Pupitre: the model, the access rules, the runner, the API, the configuration, the security and the delivery.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Specification | Pupitre">
+<meta property="og:description" content="The eight parts of the specification of Pupitre: the model, the access rules, the runner, the API, the configuration, the security and the delivery.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/specification.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Specification | Pupitre">
+<meta name="twitter:description" content="The eight parts of the specification of Pupitre: the model, the access rules, the runner, the API, the configuration, the security and the delivery.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/specification.html">
+<title>Specification | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html" aria-current="true">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> The public specification</p><h1>Specification</h1><p class="lede">The eight parts of the specification of Pupitre: the model, the access rules, the runner, the API, the configuration, the security and the delivery.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#the-parts">The parts</a></li><li><a href="#key-words">Key words</a></li><li><a href="#where-to-start">Where to start</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/SPECIFICATION.md"><code>docs/SPECIFICATION.md</code></a> in the repository.</p><p>The specification of Pupitre has eight parts. Each part is a Markdown file in <code>docs/</code>. The specification and the code MUST agree. A difference is a defect. A fix changes the part or the code, and the paragraph numbers stay the same.</p>
+<p>Each part uses ASD-STE100 Simplified Technical English. A numbered paragraph keeps its number in all later versions. The code and the tests cite the paragraph numbers.</p>
+<h2 id="the-parts"><a class="self" href="#the-parts">The parts</a></h2>
+<div class="tablewrap"><table><thead><tr><th scope="col">Part</th><th scope="col">File</th><th scope="col">Content</th></tr></thead><tbody><tr><th scope="row"><a href="spec-01.html">Part 1: Overview</a></th><td data-label="File"><code>01-overview.md</code></td><td data-label="Content">Purpose, scope, architecture, crates, terms and fixed decisions</td></tr><tr><th scope="row"><a href="spec-02.html">Part 2: Model and storage</a></th><td data-label="File"><code>02-model-and-storage.md</code></td><td data-label="Content">Ids, documents, the canonical form, schemas, layers, the <code>Store</code> contract, the two backends, secrets and the catalog</td></tr><tr><th scope="row"><a href="spec-03.html">Part 3: Access</a></th><td data-label="File"><code>03-access.md</code></td><td data-label="Content">The modes <code>open</code> and <code>authzen</code>, the resource tree, the actions, the questions of each route, the action document and the options route</td></tr><tr><th scope="row"><a href="spec-04.html">Part 4: Runner and commands</a></th><td data-label="File"><code>04-runner-and-commands.md</code></td><td data-label="Content">Runs, the queue, the snapshot, the child process, events, the guard of an apply and commands</td></tr><tr><th scope="row"><a href="spec-05.html">Part 5: API and page</a></th><td data-label="File"><code>05-api.md</code></td><td data-label="Content">The listeners, the routes, the bodies, the errors and the pages</td></tr><tr><th scope="row"><a href="spec-06.html">Part 6: Configuration</a></th><td data-label="File"><code>06-configuration.md</code></td><td data-label="Content">The file, the blocks, the checks, the contradictions, the command line, the logs and the metrics</td></tr><tr><th scope="row"><a href="spec-07.html">Part 7: Security and limits</a></th><td data-label="File"><code>07-security-and-limits.md</code></td><td data-label="Content">Threats, controls, headers, the limits and what Pupitre does not protect</td></tr><tr><th scope="row"><a href="spec-08.html">Part 8: Delivery</a></th><td data-label="File"><code>08-delivery.md</code></td><td data-label="Content">The build, the tests, the CI, the dependencies and the release</td></tr></tbody></table></div>
+<p>The <a href="reference.html">configuration reference</a> is part of section 6. The command <code>pupitre print-reference --format markdown</code> generates it from the table of keys in the code.</p>
+<h2 id="key-words"><a class="self" href="#key-words">Key words</a></h2>
+<p>The key words MUST, MUST NOT, SHOULD and MAY are as RFC 2119 and RFC 8174 define them, when they are in capital letters.</p>
+<h2 id="where-to-start"><a class="self" href="#where-to-start">Where to start</a></h2>
+<ul><li>To run Pupitre, read the <a href="getting-started.html">first guide</a> and <a href="operations.html">Operations</a>.</li><li>To write a configuration file, read <a href="configuration.html">Configuration</a> and part 6.</li><li>To understand the values and the runs, read <a href="architecture.html">Architecture</a>, parts 2 and 4.</li><li>To set the access, read <a href="access.html">Access</a> and part 3.</li><li>To review the security, read the <a href="security.html">security model</a> and part 7.</li></ul></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

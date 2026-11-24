@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Run Pupitre on one machine with the example. Make the keys, load an inventory, change a value, and start a check run and an apply run.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pupitre">
+<meta property="og:title" content="Getting started | Pupitre">
+<meta property="og:description" content="Run Pupitre on one machine with the example. Make the keys, load an inventory, change a value, and start a check run and an apply run.">
+<meta property="og:url" content="https://procurauth.github.io/pupitre/getting-started.html">
+<meta property="og:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts. One static binary.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Getting started | Pupitre">
+<meta name="twitter:description" content="Run Pupitre on one machine with the example. Make the keys, load an inventory, change a value, and start a check run and an apply run.">
+<meta name="twitter:image" content="https://procurauth.github.io/pupitre/assets/og.png">
+<meta name="twitter:image:alt" content="Pupitre: configuration and Ansible runs for services on many hosts.">
+<link rel="canonical" href="https://procurauth.github.io/pupitre/getting-started.html">
+<title>Getting started | Pupitre</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#fafafd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0e15" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="Pupitre, home page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 7h14l3 9H6z" fill="var(--accent-ink)"/><path d="M10.2 10h11.6M9.4 12.8h13.2" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/><rect x="14.5" y="16" width="3" height="6" fill="var(--accent-ink)"/><rect x="9" y="22" width="14" height="3" rx="1.5" fill="var(--accent-ink)"/></svg><span>Pupitr<b>e</b></span></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" aria-label="Main"><ul><li><a href="index.html">Overview</a></li><li><a href="getting-started.html" aria-current="page">Getting started</a></li><li><a href="configuration.html">Configuration</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="security.html">Security</a></li><li><a href="operations.html">Operations</a></li><li><a href="reference.html">Reference</a></li><li><a href="changelog.html">Changelog</a></li><li class="nav-gh"><a href="https://github.com/ProcurAuth/pupitre">GitHub</a></li></ul></nav>
+    <a class="gh-link" href="https://github.com/ProcurAuth/pupitre" aria-label="Pupitre on GitHub" title="Pupitre on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>GitHub</span></a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="wrap"><p class="eyebrow"><span class="badge">Version 0.1.0</span> A test in ten minutes</p><h1>Getting started</h1><p class="lede">Run Pupitre on one machine with the example. Make the keys, load an inventory, change a value, and start a check run and an apply run.</p></div></div><div class="wrap doc-layout"><nav class="toc" aria-label="On this page"><details class="toc-details" open><summary>On this page</summary><ol><li><a href="#what-you-need">What you need</a></li><li><a href="#1-download-pupitre">1. Download Pupitre</a></li><li><a href="#2-make-the-folder-of-the-example">2. Make the folder of the example</a></li><li><a href="#3-make-the-keys">3. Make the keys</a></li><li><a href="#4-check-the-configuration">4. Check the configuration</a></li><li><a href="#5-make-the-store-and-load-the-inventory">5. Make the store and load the inventory</a></li><li><a href="#6-start-the-server">6. Start the server</a></li><li><a href="#7-change-a-value-and-start-a-run">7. Change a value and start a run</a></li><li><a href="#8-stop-and-clean">8. Stop and clean</a></li><li><a href="#next-steps">Next steps</a></li></ol></details></nav><article class="doc"><p class="src">This page comes from <a href="https://github.com/ProcurAuth/pupitre/blob/main/docs/GETTING-STARTED.md"><code>docs/GETTING-STARTED.md</code></a> in the repository.</p><p>This guide runs Pupitre on one machine in about ten minutes. It uses the example in <code>examples/local</code>. The example has synthetic schemas and playbooks. Nothing in it is a real service.</p>
+<h2 id="what-you-need"><a class="self" href="#what-you-need">What you need</a></h2>
+<ul><li>A Linux machine with the architecture amd64 or arm64.</li><li><code>ansible-playbook</code> of ansible-core 2.19 or later on this machine. It is the program that Pupitre starts for each run. Pupitre checks its version at start and stops with an older version. The key <code>runner.ansible_playbook</code> holds its absolute path (the example uses <code>/usr/bin/ansible-playbook</code>).</li><li>One test host with Python 3 that accepts an SSH login of the account <code>deploy</code> with a key. The playbooks of the example write two files in <code>/tmp/pupitre-example</code> on this host.</li><li><code>curl</code>, <code>tar</code>, <code>sha256sum</code> and <code>openssl</code>.</li></ul>
+<h2 id="1-download-pupitre"><a class="self" href="#1-download-pupitre">1. Download Pupitre</a></h2>
+<p>Download the archive and the checksum file. Check the archive, then unpack it.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>curl -fsSLO https://github.com/ProcurAuth/pupitre/releases/download/v0.1.0/pupitre_0.1.0_linux_amd64.tar.gz
+curl -fsSLO https://github.com/ProcurAuth/pupitre/releases/download/v0.1.0/SHA256SUMS
+sha256sum --check --ignore-missing SHA256SUMS
+tar -xzf pupitre_0.1.0_linux_amd64.tar.gz
+pupitre_0.1.0_linux_amd64/pupitre --version</code></pre></div>
+<p>The last command prints <code>pupitre 0.1.0</code> and the licence. The binary is static. It needs no library. To build it from the source, read <a href="development.html">DEVELOPMENT.md</a>.</p>
+<h2 id="2-make-the-folder-of-the-example"><a class="self" href="#2-make-the-folder-of-the-example">2. Make the folder of the example</a></h2>
+<p>The example config file has the root <code>/opt/pupitre-example</code>. Copy the folder of the example there. To use another root, change the path in each line of <code>pupitre.hcl</code>.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>git clone --depth 1 https://github.com/ProcurAuth/pupitre.git
+sudo mkdir -p /opt/pupitre-example
+sudo chown "$USER" /opt/pupitre-example
+cp -R pupitre/examples/local/. /opt/pupitre-example/
+mkdir -p /opt/pupitre-example/ssh /dev/shm/pupitre-example
+chmod 0700 /dev/shm/pupitre-example</code></pre></div>
+<p>The folder <code>/dev/shm</code> is a <code>tmpfs</code>. The runner writes the secrets of a run there, and it removes them at the end of the run. A folder on a disk stops the start.</p>
+<h2 id="3-make-the-keys"><a class="self" href="#3-make-the-keys">3. Make the keys</a></h2>
+<p>The store needs a key of 32 random bytes in 64 hexadecimal characters. The configuration names the file, never the value. Pupitre derives the key of the secret cipher and the key of the fingerprints from it.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>openssl rand -hex 32 &gt; /opt/pupitre-example/store-key
+chmod 0600 /opt/pupitre-example/store-key</code></pre></div>
+<p>The runner needs an SSH key and the host keys of the hosts. Use a key that only the test hosts accept. Change the addresses in the last two commands to the addresses of your test hosts.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>ssh-keygen -t ed25519 -N "" -f /opt/pupitre-example/ssh/id_ed25519
+ssh-keyscan -t ed25519 203.0.113.10 | awk '{print "production.host-a", $2, $3}' &gt; /opt/pupitre-example/ssh/known_hosts
+ssh-keyscan -t ed25519 203.0.113.11 | awk '{print "production.host-b", $2, $3}' &gt;&gt; /opt/pupitre-example/ssh/known_hosts</code></pre></div>
+<p>Add the public key <code>id_ed25519.pub</code> to the account <code>deploy</code> on the test hosts. Pupitre finds the key of a host by the name <code>&lt;environment&gt;.&lt;host&gt;</code>, not by its address (4.12 of the <a href="specification.html">specification</a>). Step 5 makes the hosts <code>host-a</code> and <code>host-b</code> in the environment <code>production</code>, so each line starts with <code>production.host-a</code> or <code>production.host-b</code>. Pupitre refuses a host that has no line in <code>known_hosts</code> (7.8). If one machine is the two test hosts, scan its address two times.</p>
+<h2 id="4-check-the-configuration"><a class="self" href="#4-check-the-configuration">4. Check the configuration</a></h2>
+<p>The command <code>check-config</code> runs the three stages of the checks. It sends nothing on the network. It prints each error with the key, the expected type and the value.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>export PATH="$PWD/pupitre_0.1.0_linux_amd64:$PATH"
+pupitre check-config --config /opt/pupitre-example/pupitre.hcl
+pupitre print-config --config /opt/pupitre-example/pupitre.hcl</code></pre></div>
+<p>The second command prints the value of each key and its source: <code>file</code>, <code>default</code>, <code>env:VAR</code> or <code>file:/path</code>. A secret shows as <code>&lt;hidden&gt;</code>. Try a mistake: change <code>max_hosts = 10</code> to <code>"10"</code> and run the first command again. Pupitre stops, and the message names the key and the expected type. Remove the mistake.</p>
+<p>The command <code>check-config</code> does not check the tmpfs folder, the SSH key file or the known hosts file. The command <code>serve</code> checks them at start.</p>
+<h2 id="5-make-the-store-and-load-the-inventory"><a class="self" href="#5-make-the-store-and-load-the-inventory">5. Make the store and load the inventory</a></h2>
+<p>The command <code>migrate</code> makes the store. The command <code>import</code> reads the output of <code>ansible-inventory --list --export</code> and makes the documents of a new environment. Without <code>--write</code>, it only prints a report.</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>pupitre migrate --config /opt/pupitre-example/pupitre.hcl
+pupitre import --config /opt/pupitre-example/pupitre.hcl \
+  --inventory-json /opt/pupitre-example/inventory.json --environment production
+pupitre import --config /opt/pupitre-example/pupitre.hcl \
+  --inventory-json /opt/pupitre-example/inventory.json --environment production --write</code></pre></div>
+<p>The file <code>inventory.json</code> has two hosts and two groups: <code>canary</code> and <code>relay_hosts</code>. The schema <code>relay</code> names this group, so the import makes the unit <code>relay</code>. Change the addresses in the file to the addresses of your test hosts before you run the third command.</p>
+<h2 id="6-start-the-server"><a class="self" href="#6-start-the-server">6. Start the server</a></h2>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>pupitre serve --config /opt/pupitre-example/pupitre.hcl</code></pre></div>
+<p>The log goes to the standard error, one JSON object on each line. Open <code>http://127.0.0.1:8080/</code> in a browser. The configuration has the mode <code>open</code>, so the page asks for no login. A reverse proxy guards the page in a real deployment (see <a href="access.html">ACCESS.md</a>). Pupitre writes the warnings <code>access.mode_open</code> and <code>runner.apply_in_open_mode</code> at each start.</p>
+<h2 id="7-change-a-value-and-start-a-run"><a class="self" href="#7-change-a-value-and-start-a-run">7. Change a value and start a run</a></h2>
+<ol><li>Open the environment <code>production</code>, then the unit <code>relay</code>. The page shows each key of the schema with its value and its layer.</li><li>Change <code>limits.max_clients</code> on the unit. Save the change. The store keeps the old version in the history.</li><li>Open the page of the run of the unit. Choose the hosts. Start a check run. The runner builds a snapshot, runs the render playbook, then runs the deploy playbook with <code>--check --diff</code>.</li><li>Read the result of the check. When it has the status <code>passed</code>, start the apply run. It needs the check run of the same snapshot hash.</li><li>Start the status run. It shows the state of each host.</li><li>Open the commands of the environment. Launch <code>restart-relay</code> with a grace period. The command has <code>check = false</code>, so the page asks you to confirm.</li></ol>
+<p>The example sets <code>runner.allow_apply_in_open_mode = true</code>. Without this key, the mode <code>open</code> refuses each apply and each command. A check run and a status run still work.</p>
+<p>The playbooks write <code>/tmp/pupitre-example/relay.conf</code> on the test hosts. After the apply, read this file on a host. It holds the value that you saved.</p>
+<h2 id="8-stop-and-clean"><a class="self" href="#8-stop-and-clean">8. Stop and clean</a></h2>
+<p>Press Ctrl+C in the terminal of Pupitre. The server stops after the grace time of <code>server.shutdown_grace</code>. To remove the example, delete these folders and files:</p>
+<div class="code-wrap"><span class="label">sh</span><pre data-copy tabindex="0" aria-label="Code example: sh"><code>rm -rf /opt/pupitre-example /dev/shm/pupitre-example</code></pre></div>
+<p>On the test host, remove the folder <code>/tmp/pupitre-example</code>.</p>
+<h2 id="next-steps"><a class="self" href="#next-steps">Next steps</a></h2>
+<ul><li><a href="configuration.html">Configuration</a>: the rules of the file, the blocks and the commands.</li><li><a href="architecture.html">Architecture</a>: the layers, the snapshot and the guard of an apply.</li><li><a href="access.html">Access</a>: the modes <code>open</code> and <code>authzen</code>.</li><li><a href="operations.html">Operations</a>: the service, the probes, the backup and the upgrade.</li></ul></article></div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="getting-started.html">Getting started</a></li>
+          <li><a href="configuration.html">Configuration</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="specification.html">Specification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Run</h2>
+        <ul>
+          <li><a href="access.html">Access and ProcurAuth</a></li>
+          <li><a href="security.html">Security model</a></li>
+          <li><a href="operations.html">Operations</a></li>
+          <li><a href="reference.html">Configuration reference</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <ul>
+          <li><a href="https://github.com/ProcurAuth/pupitre">Repository</a></li>
+          <li><a href="https://github.com/ProcurAuth/pupitre/releases/latest">Downloads</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="development.html">Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>ProcurAuth</h2>
+        <ul>
+          <li><a href="https://procurauth.github.io/">Home</a></li>
+          <li><a href="https://procurauth.github.io/procurauth/">Specification</a></li>
+          <li><a href="https://procurauth.github.io/portal/">portal</a></li>
+          <li><a href="https://procurauth.github.io/stowr/">Stowr</a></li>
+          <li><a href="https://procurauth.github.io/hune/">Hune</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <p>Pupitre, version 0.1.0. Part of <a href="https://procurauth.github.io/">ProcurAuth</a>.</p>
+      <p>Licence: <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-MIT">MIT</a> or <a href="https://github.com/ProcurAuth/pupitre/blob/main/LICENSE-APACHE">Apache-2.0</a>.</p>
+      <p><a href="https://github.com/ProcurAuth/pupitre/blob/main/SECURITY.md">Security policy</a></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

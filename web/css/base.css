@@ -1,0 +1,224 @@
+/* Copied from Hune, web/css/base.css, commit a55fff3. Edits: the attribute data-hune-hold is data-pupitre-hold. */
+/* Reset, typography, shell layout, header, focus, reduced motion and print rules (9.2, 9.26).
+   Every colour, size and duration here is a token of css/tokens.css or of the copied vendor/chdash/00-tokens.css. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--surface-page);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-base);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Inter is the variable file: its optical size axis would pick the narrower Display cut for large text. Grafana uses the static
+     text cut at every size, so the axis stays off (the stat digits are 7 % wider). */
+  font-optical-sizing: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: var(--lh-base);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote { margin: 0; padding: 0; }
+h1, h2, h3, h4 { font-weight: var(--fw-semibold); line-height: var(--lh-tight); }
+h1 { font-size: var(--fs-2xl); }
+h2 { font-size: var(--fs-xl); }
+h3 { font-size: var(--fs-lg); }
+h4 { font-size: var(--fs-md); }
+ul, ol { list-style: none; }
+
+a { color: var(--accent-text); text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.95em; }
+/* Inline code in a sentence only: the code areas of the editor keep their own look. */
+:where(p, li, td, dd, label, .callout, .notice__text, .field__hint) > code { padding: 0 var(--space-4); border-radius: var(--r-sm); background: var(--hover-tint); }
+kbd {
+  display: inline-block; min-width: 1.6em; padding: 0 var(--space-4); border: 1px solid var(--border-strong);
+  border-radius: var(--r-xs); background: var(--surface-raised); color: var(--muted); font-size: var(--fs-xs); text-align: center;
+}
+hr { height: 0; margin: var(--space-12) 0; border: 0; border-top: 1px solid var(--border); }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { letter-spacing: inherit; }
+table { border-collapse: collapse; }
+img, svg { max-width: 100%; }
+[hidden] { display: none !important; }
+
+::selection { background: var(--selected-bg); color: var(--text); }
+
+/* Scrollbars: thin and quiet, the same in both themes (the thumb tokens follow the theme). Chromium and Safari draw the
+   ::-webkit-scrollbar parts, with no arrow buttons. Firefox has no such parts, so it uses the standard properties. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: var(--r-pill); background: var(--scroll-thumb); background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); background-clip: content-box; }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+::-webkit-scrollbar-corner { background: transparent; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-color: var(--scroll-thumb) transparent; scrollbar-width: thin; }
+}
+
+/* --- Shell ----------------------------------------------------------------------------------------------------------- */
+
+/* The first paint is held (shell.html, boot_theme.js, main.js, 9.6): until the first view is complete, the page paints nothing, so the browser
+   keeps the old page (a reload) or the page background (a first visit) and the viewer never sees the header or the grid half built.
+   visibility keeps the layout, so main.js measures the real sizes. The noscript text stays visible. */
+html[data-pupitre-hold] body > :not(noscript) { visibility: hidden; }
+
+/* The header is one row at every width (9.6). Its height is --header-base-h with its line of 1 px (box-sizing is border-box). */
+:root { --header-base-h: 44px; } /* main.js sets --header-h to the real height of the header */
+
+/* The header is an opaque bar (--header-bg) with a 1 px rule below it (the rule at --border). It is one flex row, in this order: the brand
+   (a small logo, the name and the version line), the crumbs (they take the free room and shorten), the controls of the page, the theme selector
+   and the button "More actions" (a dashboard only). The controls have fixed sizes (9.9); the css steps of header_layout.js make them smaller
+   on a narrow window, and the narrowest steps move controls into the menu. Nothing wraps and nothing goes to a second row. */
+#app-header {
+  position: sticky; top: 0; z-index: var(--z-header);
+  display: flex; flex-wrap: nowrap; align-items: center; column-gap: var(--space-8);
+  height: var(--header-base-h); padding: 0 var(--page-pad);
+  border-bottom: 1px solid var(--border); background: var(--header-bg);
+}
+#app-header > .brand, #app-header > .header-actions, #app-header > .header-theme, #app-header > .header-more { flex: none; }
+/* The controls of a dashboard have fixed sizes and never shrink. The search field of the list shrinks instead (list.css). */
+#app-header > .header-actions:has(> .header-actions__row > .list-search) { flex: 0 1 auto; }
+#app-header > .crumbs { flex: 1 1 0; }
+.header-more { display: flex; }
+.header-more:empty { display: none; }
+
+#app-main { flex: 1; min-width: 0; padding: var(--page-pad); }
+
+#app-notices {
+  position: fixed; right: var(--page-pad); bottom: var(--page-pad); z-index: var(--z-toast);
+  display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-8);
+  max-width: min(var(--toast-w), calc(100vw - 2 * var(--page-pad))); pointer-events: none;
+}
+#app-notices > * { pointer-events: auto; max-width: 100%; }
+
+/* Header content, in this order: the brand, the crumbs (folder, then dashboard), the controls of the page (the group of the edit mode, the
+   control of the time and the switch Edit of a dashboard; the search and the actions of the list), the theme selector and the button More actions. */
+.brand {
+  display: inline-flex; align-items: center; gap: var(--space-8); flex: 0 0 auto; min-width: 0;
+  color: var(--text); font-size: var(--fs-md); font-weight: var(--fw-semibold); text-decoration: none;
+}
+.brand:hover { text-decoration: none; }
+.brand:hover .brand__name { color: var(--accent-text); }
+/* The name and, beside it, the version line in small muted text (4.5:1 or more in both themes). The line is `version:checksum`; its title
+   has the full value. The line sets the width of the brand: it is never cut. */
+.brand__text { display: inline-flex; align-items: baseline; gap: var(--space-6); min-width: 0; }
+.brand__name { line-height: 20px; }
+.brand__version { color: var(--muted); font-size: var(--fs-xs); font-weight: var(--fw-regular); line-height: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Small and discreet: a size of 12 px, a thin chevron between the items, and an ellipsis with the full text in the tooltip. */
+.crumbs { display: flex; align-items: center; gap: var(--space-2); min-width: 0; color: var(--text); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 16px; }
+.crumbs__item { display: inline-flex; align-items: center; min-width: 0; color: inherit; text-decoration: none; }
+.crumbs__item--link { flex-shrink: 3; min-width: 40px; padding: var(--space-2) var(--space-4); border-radius: var(--r-sm); }
+a.crumbs__item:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.crumbs__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The crumbs are the one flexible part of the header (the edit buttons take room from them). When the box is under 150 px the
+   crumb of the folder hides, so the title keeps the room; its text ends with an ellipsis, and its tooltip has the full text. */
+.crumbs { container-type: inline-size; }
+@container (max-width: 149px) {
+  .crumbs__item--link:not(.crumbs__item--back), .crumbs__item--link:not(.crumbs__item--back) + .crumbs__sep, .crumbs > .crumbs__sep:first-child { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+/* The back link of the panel editor is the crumb of the dashboard. It has an arrow, and it never hides: under 100 px it is the
+   arrow alone (its name and its tooltip stay), and the last crumb hides. */
+.crumbs__item--back { flex-shrink: 3; min-width: 0; gap: var(--space-4); }
+.crumbs__item--back > .icon { flex: none; }
+@container (max-width: 99px) {
+  .crumbs__item--back .crumbs__text, .crumbs__item--back + .crumbs__sep, .crumbs__item--back ~ .crumbs__item--current { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+.crumbs__item--current { padding: var(--space-2) var(--space-4); color: var(--muted); font-weight: var(--fw-regular); }
+.crumbs__sep { display: inline-flex; flex: none; color: var(--muted); opacity: 0.7; }
+.header-theme { display: flex; flex: 0 0 auto; }
+
+/* --- Page parts shared by every page ------------------------------------------------------------------------------ */
+
+.page-title { margin-bottom: var(--space-12); font-size: var(--fs-2xl); }
+.eyebrow { color: var(--muted); font-size: var(--fs-xs); font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; }
+.muted { color: var(--muted); }
+.faint { color: var(--text-faint); }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--font-mono); }
+.nowrap { white-space: nowrap; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* --- Skip link: the first stop of the Tab key. It is above the page and shows when it has the focus (main.js moves the focus to <main>). */
+
+.skip-link {
+  position: fixed; top: var(--space-8); left: var(--space-8); z-index: var(--z-toast);
+  padding: var(--space-10) var(--space-16); border: 1px solid var(--control-border); border-radius: var(--r-md);
+  background: var(--panel); color: var(--text); font-weight: var(--fw-semibold); line-height: 1; text-decoration: none;
+  transform: translateY(-300%);
+}
+.skip-link:focus-visible { transform: none; }
+/* <main> takes the focus from the skip link only: it is a region, not a control, so it shows no ring. */
+#app-main:focus { outline: none; }
+
+/* --- Focus: always visible (9.26) --------------------------------------------------------------------------------- */
+
+:focus-visible { outline: 2px solid var(--focus-ring-color); outline-offset: 2px; }
+.chartCore__overlay:focus-visible { outline-offset: -2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+/* --- Motion: no animation is longer than 200 ms; reduced motion stops all of them (9.26) ----------------------------- */
+
+* { animation-duration: 0.2s; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* --- Small screens: the header stays one row; its controls get smaller, and the narrowest steps move controls into the menu ------ */
+
+/* The header sticks at every width. A landscape phone has too little height for it: it scrolls. */
+@media (max-width: 760px) and (max-height: 600px) {
+  #app-header { position: static; }
+}
+@media (max-width: 600px) {
+  #app-notices { left: var(--page-pad); align-items: stretch; max-width: none; }
+}
+/* Up to 1280 px the version line is for assistive technology (the title of the brand has it). */
+@media (max-width: 1280px) {
+  .brand__version { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+/* Up to 640 px (STEPS.nameMax) the brand shows its mark only (the name stays for assistive technology). */
+@media (max-width: 640px) {
+  .brand__name { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+/* A narrow phone: the gaps are 4 px, the folder crumb hides, so the title keeps its room. */
+@media (max-width: 480px) {
+  #app-header { column-gap: var(--space-4); padding: 0 var(--space-8); }
+  .crumbs__item--link:not(.crumbs__item--back), .crumbs__item--link:not(.crumbs__item--back) + .crumbs__sep, .crumbs > .crumbs__sep:first-child { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+/* --- Print: a light page with no chrome. The canvas charts keep the colours of the theme at the last draw. ------------- */
+
+@media print {
+  html[data-theme] {
+    color-scheme: light;
+    --bg: #ffffff; --panel: #ffffff; --raised: #ffffff; --input-bg: #ffffff; --text: #000000; --muted: #3f4651;
+    --border: rgba(15, 18, 25, 0.25); --border-strong: rgba(15, 18, 25, 0.4); --accent-text: #1d4ed8; --header-bg: #ffffff;
+  }
+  html, body { background: #ffffff; color: #000000; }
+  #app-header, .dash-toolbar, #app-notices, .menu, .dialog, .panel__menu, .vars-bar .btn, .editbar, .editor-host { display: none !important; }
+  #app-main { padding: 0; }
+  .panel, .group { break-inside: avoid; box-shadow: none; }
+  a { color: inherit; text-decoration: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
