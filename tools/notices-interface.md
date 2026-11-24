@@ -11,6 +11,8 @@ These files are in `web/`. The binary embeds them. The page never loads them fro
 
 ### ClickHouse Dash colour tokens
 
+The copied file names the font files of IBM Plex in its `@font-face` rules. Pupitre does not ship these fonts and the page does not use them.
+
 The file `web/css/vendor/chdash/00-tokens.css` is a byte copy of the file of ClickHouse Dash that Hune also holds. Its licence text is:
 
 ```text

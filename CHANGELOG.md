@@ -2,7 +2,9 @@
 
 This file follows the layout of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and uses ASD-STE100 Simplified Technical English. The versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Before 1.0, a minor version can change a key, a route or the format of a document.
 
-Each version has a section `## <version> - <YYYY-MM-DD>`. The newest version is first. The release workflow reads the section of the version as the notes of the release. The section `## Unreleased
+Each version has a section `## <version> - <YYYY-MM-DD>`. The newest version is first. The release workflow reads the section of the version as the notes of the release. The section `## Unreleased` holds the changes that no version has yet.
+
+## Unreleased
 
 ## 0.1.0 - 2026-11-24
 
