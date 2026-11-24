@@ -3,11 +3,13 @@
 # Release of Pupitre from a local machine (8.10). The workflow release.yaml makes the same release on GitHub.
 # A maintainer runs this script when the hosted CI is blocked. It needs no hosted CI.
 #
-# Use: tools/release-local.sh VERSION [--amd64-only] [--partial-gate TEXT] [--dry-run]
+# Use: tools/release-local.sh VERSION [--amd64-only] [--partial-gate TEXT] [--also-ran TEXT] [--dry-run]
 #   VERSION            is x.y.z.
 #   --amd64-only       expects and releases the amd64 archive only (a person with no arm64 machine).
 #   --partial-gate TEXT  skips scripts/check.sh. TEXT MUST NOT be empty. It says which checks ran on the commit and
 #                      which did not. The script writes it in the release notes under "Checks".
+#   --also-ran TEXT    adds TEXT to the section "Checks" of the notes. Use it to name the checks that a person ran
+#                      by hand (for example the tests of the stores) and the checks that did not run.
 #   --dry-run          makes every step that needs no network: it checks the input and the archives, makes
 #                      dist/SHA256SUMS and target/release-notes.md, and prints each gh command. It calls neither
 #                      git ls-remote nor gh, and it publishes nothing.
@@ -39,6 +41,7 @@ version=""
 arm64=true
 partial=""
 has_partial=false
+also=""
 dry_run=false
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -50,16 +53,21 @@ while [ "$#" -gt 0 ]; do
             partial="$2"
             shift
             ;;
+        --also-ran)
+            [ "$#" -ge 2 ] || die "--also-ran needs a text"
+            also="$2"
+            shift
+            ;;
         -h | --help) usage; exit 0 ;;
         -*) die "unknown option: $1" ;;
         *)
-            [ -z "$version" ] || die "use: tools/release-local.sh VERSION [--amd64-only] [--partial-gate TEXT] [--dry-run]"
+            [ -z "$version" ] || die "use: tools/release-local.sh VERSION [--amd64-only] [--partial-gate TEXT] [--also-ran TEXT] [--dry-run]"
             version="$1"
             ;;
     esac
     shift
 done
-[ -n "$version" ] || die "use: tools/release-local.sh VERSION [--amd64-only] [--partial-gate TEXT] [--dry-run]"
+[ -n "$version" ] || die "use: tools/release-local.sh VERSION [--amd64-only] [--partial-gate TEXT] [--also-ran TEXT] [--dry-run]"
 if [ "$has_partial" = true ]; then
     [ -n "$(printf '%s' "$partial" | tr -d '[:space:]')" ] || die "--partial-gate needs a text that is not empty"
 fi
@@ -136,6 +144,9 @@ tools/changelog-section.sh "$version" CHANGELOG.md >target/release-notes.md
         printf '%s\n' "$partial"
     else
         printf 'scripts/check.sh ran on this commit and passed.\n'
+    fi
+    if [ -n "$also" ]; then
+        printf '\n%s\n' "$also"
     fi
     if [ "$arm64" = false ]; then
         printf '\nThe arm64 archive is not built (no arm64 machine).\n'
